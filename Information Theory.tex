@@ -139,7 +139,10 @@
 
 This document contains lecture notes from Harker's Advanced Topics in Mathematics class in Information Theory, Part I. These notes were taken using TeXShop and \LaTeX2$\epsilon$, and will be updated for each class.
 \section{Overview}
-\includegraphics{
+\begin{figure}
+\centering
+\includegraphics[scale=0.5]{pipeline}
+\end{figure}
 Information may be conveyed in multiple ways; for example, by a person talking, a video, or pictures. Our goal is to model this kind of information as a system with one output and no input. The information is therefore a box that emits output probabilistically, and we will therefore be spending 1-2 weeks on probability, specifically regarding distribution functions and expectation. This is illustrated in the ``information source'' box---the job of the information source is to \textbf{provide the signal}. 
 
 We will next define the compression problem; having obtained numbers as a stream, the problem is to remove the redundancy in a stream. In particular, we will discuss both lossless and lossy compression. One of the most critical ideas in this course is that of entropy, and we will define the concept (in general, a notion of how much information is originating from the source). We will also discuss the sensibility of such a definition and potentially expand upon it. An overarching concept here will be our definition of the performance of a compression algorithm via the source compression theorem and the boundedness of compression algorithms. This is illustrated in the ``transmitter'' box---the job of the transmitter is to \textbf{remove all redundancy}.
