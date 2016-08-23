@@ -1,19 +1,35 @@
 \documentclass[11pt]{article}
+
+%%% XeLaTeX Font Definitions
+
 \usepackage{titlesec}
 \usepackage{titling}
-
-%%% declare fonts and set some formats
-% fontspec to use non-latex with xetex
 \usepackage{xunicode}
-\usepackage{fontspec}
-\usepackage{xltxtra}
+\usepackage{fontspec,xltxtra,xunicode}
+
+\defaultfontfeatures{Mapping=tex-text}
+
+% Uncomment below to change default features 
+%\setromanfont[Mapping=tex-text]{Hoefler Text}
+%\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+%\setmonofont[Scale=MatchLowercase]{Andale Mono}
 
 % Specify different font for section headings
-\newfontfamily\headingfont[]{Gill Sans}
+\newfontfamily\headingfont[]{Lucida Grande Bold}
+\newfontfamily\titlefont[]{Optima}
+
 \titleformat*{\section}{\LARGE\headingfont}
 \titleformat*{\subsection}{\Large\headingfont}
 \titleformat*{\subsubsection}{\large\headingfont}
-\renewcommand{\maketitlehooka}{\headingfont}
+\renewcommand{\maketitlehooka}{\titlefont}
+
+%%% Remove the "abstract" word before the abstract
+
+\usepackage{abstract}
+\renewcommand{\abstractname}{}    % clear the title
+\renewcommand{\absnamepos}{empty} % originally center
+
+%%% Actual Preamble
 
 %\headheight=8pt
 %\topmargin=3pt
@@ -21,6 +37,7 @@
 %\textwidth=432pt
 %\oddsidemargin=18pt
 %\evensidemargin=18pt
+
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -43,7 +60,6 @@
 \usepackage{hyperref}
 
 \usepackage{listings}
-%\spacing{1.75}
 \usepackage[margin=1in]{geometry}
 \pagestyle{plain}
 \theoremstyle{definition}
@@ -120,10 +136,7 @@
 \def\QQ{\mathbb Q}\def\RR{\mathbb R}\def\SS{\mathbb S}\def\TT{\mathbb T}
 \def\UU{\mathbb U}\def\VV{\mathbb V}\def\WW{\mathbb W}\def\XX{\mathbb X}
 \def\YY{\mathbb Y}\def\ZZ{\mathbb Z}
-%%%%%%%%%%%%%%%%
-%%% Put individual commands and macros here.  Please also note in this section 
-%%% if you had to alter the above existing commands and declarations in any way.
-%%%%%%%%%%%%%%%%
+
 \newcommand{\MFGL}{\mathcal M_{\mathit{FGL}}}
 \newcommand{\calO}{{\mathcal O}}
 \newcommand{\calC}{{\mathcal C}}
@@ -132,18 +145,14 @@
 \newcommand{\spet}{\mathrm{Spec}^\mathrm{\acute{e}t}}
 \newcommand{\Z}{\mathbb Z}
 \DeclareMathOperator{\Spf}{Spf}
-%\usepackage{titlesec}
-%\titleformat{\section}[runin]{\normalfont\bfseries}{\thesection. }{0em}{}
-%\titleformat{\subsection}[runin]{\normalfont\bfseries}{\thesubsection. }{0em}{}
-%\usepackage{ebgaramond}
 
 \begin{document}
-\title{Information Theory
-}
+\title{Information Theory}
 \author{Manan Shah}
 \maketitle
-
-This document contains lecture notes from Harker's Advanced Topics in Mathematics class in Information Theory, Part I. These notes were taken using TeXShop and \LaTeX2$\epsilon$, and will be updated for each class.
+\begin{abstract}
+This document contains lecture notes from Harker's Advanced Topics in Mathematics class in Information Theory, Parts I and II. These notes were taken using TeXShop and \LaTeX2$\epsilon$ and will be updated for each class. 
+\end{abstract}
 \section{Overview}
 \begin{figure}
 \centering
