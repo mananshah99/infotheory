@@ -258,5 +258,15 @@ p & x = 1\\
 \end{cases}
 \end{equation*}
 
-\xhdr{Poisson (Discrete)} Instead of tossing a biased coin and counting the number of heads, count the number of times one must replace a biased lightbulb in a time $t$ (with the lightbulb being on or off). 
+\xhdr{Poisson (Discrete, $\sim$ Binomial)} Instead of tossing a biased coin and counting the number of heads (a binomial distribution), count the number of times one must replace a biased lightbulb in a time $t$ (with the lightbulb being on or off). This makes the poisson distribution a discrete one. Our distribution function is 
+\begin{equation*}
+p_X(x) = \frac{e^{-\lambda} \lambda^x}{x!}
+\end{equation*}
+where $\lambda$ is an arbitrary constant. The number of decay events in some radioactive element, for example, may be modeled using a Poisson distribution. Anything that involves units of time and something happening within a period of time $t$ may include a Poisson distribution. 
+
+\xhdr{Exponential (Continuous, $\sim$ Geometric)} Given a biased lightbulb, identify the amount of time until the bulb burns out. Examples of the use of this function include rates (as opposed to numbers defined with the Poisson distribution). The PDF is defined as
+\begin{equation*}
+p_X(x) = \lambda e^{-\lambda x}
+\end{equation*}
+where $\lambda$ is an arbitrary constant.
 \end{document}
