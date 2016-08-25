@@ -148,7 +148,6 @@
 \newcommand{\spet}{\mathrm{Spec}^\mathrm{\acute{e}t}}
 \newcommand{\Z}{\mathbb Z}
 \DeclareMathOperator{\Spf}{Spf}
-\setlength\parindent{0pt}
 
 \begin{document}
 \title{\headingfont{Information Theory}}
@@ -183,7 +182,7 @@ Knowing what a random variable is and what it means is important for the source 
 \notation We will represent random variables with capital letters (for example, $X, Y, Z$).
 \example[What are Random Variables?] (a) A coin is tossed ten times. Determine the number of heads obtained from the coin toss. The number of heads is the random variable in this case. (b) Given two rolls of die, identify their sum (a random variable) and the second roll raised to the fifth power (another random variable). (c) The time to transmit a message, the delay with which a message is received, and the number of errors in a message are both themselves random variables. \\
 
-Two types of random variables exist; discrete variables and continuous variables. 
+\noindent Two types of random variables exist; discrete variables and continuous variables. 
 \definition[Discrete RV] A discrete random variable is one that has a finite set of outcomes (or is countably infinite), and has a probability associated with each outcome. 
 \definition[Continuous RV] A continuous random variable is one that has a non-finite, uncountable set of outcomes. 
 
@@ -219,7 +218,7 @@ Probability density functions are functions of a continuous random variable. Def
 
 \example Edgar's driving time to school is between 15 and 20 minutes if it is sunny and between 20 and 25 minutes if it is a rainy day. Assume a day is sunny with $2/3$ probability and rainy with $1/3$ probability. Construct the respective PDF. \\
 
-The PDF construction is quite simple; remember that $\int_{-\infty}^{\infty}p_X(x) = 1$. 
+\noindent The PDF construction is quite simple; remember that $\int_{-\infty}^{\infty}p_X(x) = 1$. 
 \begin{equation*}
 p_X(x) = \begin{cases}
 2/15 & 15 \leq x \leq 20\\
