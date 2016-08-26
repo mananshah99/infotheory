@@ -205,7 +205,7 @@ p_X(x) = \begin{cases}
 \end{cases}
 \end{equation*}
 note that $p_X(x)$ is clearly a discrete function that takes on values $x \in \{0, 1, 2 \}$ with respective output probabilities. 
-\subsubsection{Probability Densify Function (pdf)}
+\subsubsection{Probability Density Function (pdf)}
 %\begin{figure*}[h]
 %\centering
 %    \begin{tikzpicture}
@@ -243,7 +243,7 @@ p & x = 1\\
 p_X(x) = \begin{cases}
 (1-p)^{10} & x = 0\\
 {10 \choose 2}p^2(1-p)^8 & x = 2 \\
-\dots & $other values of $ x \in [0, 10] \cup \mathbb{N}
+\dots & $other values of $ x \in [0, 10] \cap \mathbb{N}
 \end{cases}
 \end{equation*}
 
@@ -265,7 +265,97 @@ where $\lambda$ is an arbitrary constant. The number of decay events in some rad
 
 \xhdr{Exponential (Continuous, $\sim$ Geometric)} Given a biased lightbulb, identify the amount of time until the bulb burns out. Examples of the use of this function include rates (as opposed to numbers defined with the Poisson distribution). The PDF is defined as
 \begin{equation*}
-p_X(x) = \lambda e^{-\lambda x}
+p_X(x) = \begin{cases}
+\lambda e^{-\lambda x} & x \geq 0 \\
+0 & $otherwise$
+\end{cases}
 \end{equation*}
 where $\lambda$ is an arbitrary constant.
+
+\xhdr{Gaussian (Continuous)} If one does enough experiments of a binomial random variable, the distribution will end up looking like a Gaussian. The PDF is
+\begin{equation*}
+p_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{\frac{-(x - \mu)^2}{2\sigma^2}}
+\end{equation*}
+where $\mu$ and $\sigma$ are parameters that can be treated as constants. 
+\section{August 26, 2016}
+\subsection{Properties of Random Variables}
+We will be defining expectation and variance, and deriving equations regarding these properties of random variables. 
+\subsubsection{Expectation (Mean) of a Random Variable}
+
+\xhdr{Discrete} The notation is $E[X]$, where $X$ is the random variable. We have $$E[X] = \mu = \sum_x x_i p(x_i)$$For example, the expected value of rolling a die is 3.5. 
+
+\xhdr{Continuous} The notation is again $E[X]$, where $X$ is the random variable. We have $$E[X] = \mu = \int_{-\infty}^\infty x p(x) dx$$
+
+\noindent In fact, it is possible to find the expected value of any function of a random variable. For example, $$E[X^2] = \sum_x x_i^2 p(x_i)$$ $E[X]$ is called the ``first moment'' of a variable, and $E[X^2]$ is called the ``second moment.''
+
+\subsubsection{Variance of a Random Variable}
+
+We will denote the variance of a random variable as $V[X]$ (in class, this is denoted $Var[X]$). The variance depends on the expectation, and is written as $$V[X] = E[(X - E[X])^2]$$It is possible to expand this condensed form in both discrete and continuous forms. 
+
+\xhdr{Discrete} $V[X] = \sum_x(x_i - \mu)^2p(x_i)$
+\xhdr{Continuous} $V[X] = \int_{-\infty}^\infty (x_i - \mu)^2 p(x_i)dx$
+
+\noindent The variance is always a positive quantity, and the standard deviation $\sigma = \sqrt{V[X]}$.
+
+\subsubsection{The Mean and Variance of a Bernoulli Distribution}
+Recall the definition of a Bernoulli random variable, 
+\begin{equation*}
+p_X(x) = \begin{cases}
+p & x = 1\\
+(1-p) & x = 0
+\end{cases}
+\end{equation*}
+We can write 
+\begin{align*}
+E[X] &= \sum_x x_i p(x_i) \\
+&= 1(p) + 0(1-p) \\
+&= p
+\end{align*} 
+The variance is defined as $E[(x-\mu)^2]$, so we have
+\begin{align*}
+V[X] &= \sum_x (x_i - p)^2 p(x_i) \\
+&= (1-p)^2 p + (0-p)^2 (1-p) \\
+&= p(1-p)
+\end{align*}
+
+\subsubsection{The Mean and Variance of a Geometric Distribution}
+Recall the definition of a geometric random variable,
+\begin{equation*}
+p_X(x) = \begin{cases}
+p & x = 1\\
+(1-p)p & x = 2 \\ 
+(1-p)^2p & x = 3 \\
+\dots & $other values of $ x
+\end{cases}
+\end{equation*}
+We can write (todo: clean this up)
+\begin{align*}
+E[X] &= p(1-p)^0 + 2p(1-p)^1 + \dots \\
+&= p(1-p)^0 + p(1-p)^1 + p(1-p)^2 + \dots = 1 \\
+&=\dots +  p(1-p)^1 + p(1-p)^2 + \dots = 1-p \\
+&= \dots + \dots + p(1-p)^2 + \dots = (1-p)^2
+\end{align*}
+The critical insight here is that $2p(1-p)$ can be written as $p(1-p) + p(1-p)$, and $3p(1-p)^2$ can be written the same way, with each sub-series forming a geometric series. We then sum the resulting geometric series $1 + (1-p) + (1-p)^2 + \dots$, yielding $\frac{1}{p}$.
+
+\subsubsection{The Mean and Variance of a Binomial Distribution}
+Recall the definition of a binomial random variable,
+\begin{equation*}
+p_X(x) = \begin{cases}
+(1-p)^{10} & x = 0\\
+{10 \choose 2}p^2(1-p)^8 & x = 2 \\
+\dots & $other values of $ x \in [0, 10] \cap \mathbb{N}
+\end{cases}
+\end{equation*}
+We can write
+\begin{align*}
+E[X] &= \sum_x x_i p(x_i) \\
+&= 0p(0) + 1p(1) + 2p(2) + \dots \\
+&= 1\left(p(1-p)^{n-1} {n \choose 1}\right) + 2 \left(p^2(1-p)^{n-2} {n \choose 2} \right) + \dots \\
+&=  np \left({n-1 \choose 0} (1-p)^{n-1} + {n-1 \choose 1} p(1-p)^{n-2} + {n-1 \choose n-1}p^{n-1}\right) \\
+&= np((p+1)-p)^{n-1} \\
+&= np
+\end{align*}
+
+\noindent Note that a binomial random variable is really just a bunch of binomial random variables added up. So we can sum the variances to obtain $V[X] = np(1-p)$. In retrospect, we could have done the same for $E[X]$.
+
 \end{document}
