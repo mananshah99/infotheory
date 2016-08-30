@@ -396,4 +396,15 @@ This statement is the same as $$\sum_x \sum_y (x + y)p(X = x, Y = y)$$where the 
 
 \example{Let $Y = aX + b$}. We have $E[Y] = aE[X] + b$. The linear shift does not affect variance, and so our resulting variance is $V[Y] = a^2V[X]$. 
 
+\example{You have an urn with three types of balls: 8 blue, 4 white, and 2 orange. Choose two balls at random. You win two dollars for every blue ball, lose one dollar for every white ball, and are not changed by an orange ball. Determine all values of $X$, your winnings, the probability of $X$, and $E[X]$.} \\
+
+\noindent A listing of possible winnings is as follows: 4, 2, 1, 0, -1, -2. $P(4) = \binom{8}{2}/\binom{14}{2}$. $P(2) = \binom{8}{1} \binom{2}{1} / \binom{14}{2}$. $P(1) = \binom{8}{1} \binom{4}{1} / \binom{14}{2}$. $P(0) = \binom{2}{2} / \binom{14}{2}$. $P(-1) = \binom{2}{1} \binom{4}{1} / \binom{14}{2}$. $P(-2) = \binom{4}{2} / \binom{14}{2}$. Multiply each value with its probability to obtain $E[X] = 12/7 \approx 1.71$.
+
+\example One of the numbers $(1-10)$ is randomly chosen. You are to try to guess the number by asking yes or no questions. Compute the expected number of questions if (a) your ith question is ``is it $i$?'', and (b) with each question, you try to eliminate $1/2$ of the remaining as nearly as possible. \\
+
+\noindent (a) The expected value is $$E[X] = \frac{1}{10} \cdot 1 + \frac{1}{10} \cdot 2 + \frac{1}{10} \cdot 3 + \cdots = 5.5$$ 
+
+\noindent (b) Draw a decision tree (for example, first split has left branch $1,2,3,4,5$ and left branch has $6,7,8,9,10$). Count the probability for each number of moves and obtain $$E[X] = 4 \cdot \frac{4}{10} + 3 \cdot \frac{6}{10} = 3.4$$
+
+\example Suppose that the average numbers of cars abandoned in a week on a certain highway is 2.2. Approximate the probability that there will be (a) no abandoned cars this week and (b) at least two abandoned cars in the next week.
 \end{document}
