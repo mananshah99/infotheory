@@ -406,5 +406,9 @@ This statement is the same as $$\sum_x \sum_y (x + y)p(X = x, Y = y)$$where the 
 
 \noindent (b) Draw a decision tree (for example, first split has left branch $1,2,3,4,5$ and left branch has $6,7,8,9,10$). Count the probability for each number of moves and obtain $$E[X] = 4 \cdot \frac{4}{10} + 3 \cdot \frac{6}{10} = 3.4$$
 
-\example Suppose that the average numbers of cars abandoned in a week on a certain highway is 2.2. Approximate the probability that there will be (a) no abandoned cars this week and (b) at least two abandoned cars in the next week.
+\example Suppose that the average numbers of cars abandoned in a week on a certain highway is 2.2. Approximate the probability that there will be (a) no abandoned cars this week and (b) at least two abandoned cars in the next week. \\
+
+\noindent (a) Use a Poisson distribution. $E[X] = \lambda = e^{-2.2}$. \\
+
+\noindent (b) This is expressed as $1 - p_X(x = 1) - p_X(x = 0)$ which equals $1 - 2.2e^{-2.2} - e^{-2.2}$. 
 \end{document}
