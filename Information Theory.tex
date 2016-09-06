@@ -6,7 +6,7 @@
 \usepackage{titling}
 \usepackage{xunicode}
 \usepackage{fontspec,xltxtra,xunicode}
-
+\usepackage[table,xcdraw]{xcolor}
 \defaultfontfeatures{Mapping=tex-text}
 
 % Uncomment below to change default features 
@@ -418,4 +418,64 @@ This statement is the same as $$\sum_x \sum_y (x + y)p(X = x, Y = y)$$where the 
 \noindent (a) Use a Poisson distribution. $E[X] = \lambda = e^{-2.2}$. \\
 
 \noindent (b) This is expressed as $1 - p_X(x = 1) - p_X(x = 0)$ which equals $1 - 2.2e^{-2.2} - e^{-2.2}$. 
+
+\section{September 1, 2016}
+This class was primarily reviewing Problemset 2. 
+\theorem[Bayes] $P(A|B) \cdot P(B) = P(A \& B) = P(A \cap B) = P(B|A) \cdot P(A)$.
+
+\section{September 6, 2016}
+We will first go over some problems, and then talk more about information sources and whether it makes sense to model them as random variables. 
+\subsection{Review Problems}
+\example$X$ is a random variable with probability with probability distribution function. Let 
+\begin{equation*}
+f(x) = \begin{cases}
+c(1-x^2) & -1 < x < 1\\
+0 & x = $anything else$ \\
+\end{cases}
+\end{equation*}
+(a) What is $c$? $\int f(x) dx = 1$, so we have $(cx - \frac{cx^3}{3}|_{-1}^1 = 1$, and $c = 3/4$. \\
+(b) Recall the definition of $E[X] = \int xf(x) dx$. So, we have $E[X] = \int_{-1}^1 x (3/4) (1-x^2)dx = 0$. 
+
+\example The PDF of lifetime of a certain type of electronic device is
+\begin{equation*}
+f(x) = \begin{cases}
+10/x^2&  x > 10 \\
+0 & x \leq 10 \\
+\end{cases}
+\end{equation*}
+(a) What is $P(X > 20)$? Integrate from 20 to infinity and solve to obtain $1/2$. \\
+(b) What is the probability that, of 6 such types of devices, at least three will function at least 15 hours? State assumptions. Assume that each case is independent. We have $P(X > 15) = 2/3$. So our expression for exactly 3 is $$1 - P(0) - P(1) - P(2)$$which equals $$1 - \binom{6}{0}(1/3)^6 - \binom{6}{1}(1/3)^5 (2/3) - \binom{6}{2} (1/3)^4 (2/3)^2$$
+
+\example Find $E[X]$ of the following \\
+(a) \begin{equation*}
+f(x) = \begin{cases}
+5/x^2&  x > 5 \\
+0 & x \leq 5 \\
+\end{cases}
+\end{equation*}
+(b) \begin{equation*}
+f(x) = \begin{cases}
+(x/4)e^{-x/2}&  x > 0 \\
+0 & $otherwise$ \\
+\end{cases}
+\end{equation*}
+(a) is 0, (b) is 4 (integrate by parts twice)
+
+\subsection{Information Sources}
+
+Can these sources be modeled as a system with no input and one output and output emits symbols probabilistically?
+
+\begin{table}[h]
+\centering
+\label{my-label}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\rowcolor[HTML]{EFEFEF} 
+Type      & \begin{tabular}[c]{@{}l@{}}Source\\ (Black Box)\end{tabular} & Data                                                       & Characteristics of PDF                                                                   & Can you send less?                                                    \\ \hline
+e-mail    & computer                                                     & text                                                       & frequency of letters, greetings, formatting                                              & Possible                                                              \\ \hline
+telephone & receiver                                                     & sound                                                      & \begin{tabular}[c]{@{}l@{}}decibel range, tone, background noise, \\ pauses\end{tabular} & \begin{tabular}[c]{@{}l@{}}Possible\\ (similar to email)\end{tabular} \\ \hline
+images    & camera                                                       & pixels                                                     & \begin{tabular}[c]{@{}l@{}}background, same pixel values for large\\ areas\end{tabular}  & Possible                                                              \\ \hline
+video     & camera                                                       & \begin{tabular}[c]{@{}l@{}}series of\\ images\end{tabular} & stationary objects in video                                                              & Possible                                                              \\ \hline
+\end{tabular}
+\end{table}
 \end{document}
