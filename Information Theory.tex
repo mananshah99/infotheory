@@ -493,5 +493,24 @@ ON IE ANTSOUTINYS ARE T INCTORE ST BE S DEAMY ACAIW D ILONONASIVE\\
 
 \subsection{Shannon's Assumptions about Sources}
 Shannon assumed that all sources are {\bf ergodic}. Ergodic sources are those whose distributions do not change with time. While this may not hold true universally, it is a reasonable approximation for most practical applications of his work. 
-
+\subsection{Review Problems}
+\example The time (in hours) required to repair a machine is an exponentially distributed random variable with $\lambda = \frac{1}{2}$.\\
+\noindent (a) What is P(repair time > 2hrs)? $P(X > 2) = 1 - \int_{0}^{2} \frac{1}{2} e^{-\frac{1}{2} x} dx$\\
+\noindent (b) What is P(repair time > 10 | repair time > 9)? P(X > 10 | X > 9) = $\frac{P(X > 10)}{P(X > 9)}$ = $\frac{e^{-5}}{e^{-4.5}}$
+\subsection{Memoryless Property}
+A random variable is said to be {\bf memoryless} if information about the past does not have an impact on future results. For instance, in the case of Example 17 (b), the probability of waiting 10 hours given that you've waited 9 hours is equivalent to the probability of waiting for 1 hour. The exponential distribution is the only continuous random variable and geometric is the only discrete one. Formally stated:\\
+$$P(X > m + n | X > n) = P(X > m)$$
+\example Say that two people, Ms. Jones and Mr. Brown, are being serviced by two mail attendants whose time to completion is an exponential random variable. Mr. Smith is standing behind both. What is the probability that he will be the last person to leave the post office? 0.5 because the distribution is memoryless. 
+\example The speed of a particle can be modeled with \begin{equation*} f(X) =	 \begin{cases}
+								a x^2 e^{-b x^2} & x >= 0\\
+								0 & x < 0
+							\end{cases}
+		\end{equation*}
+		Where $b = \frac{m}{2kT}$. What value of a satisfies this pdf?\\
+		$\int_{0}^{\infty} a x^2 e^{-b x^2} dx = \frac{\sqrt{\pi } a}{4 b^{3/2}} $\\
+		$\frac{\sqrt{\pi } a}{4 b^{3/2}} = 1$\\
+		$a = \frac{4 b^{3/2}}{\sqrt{\pi }}$
+\example Given that $Z \sim N(0,1)$, and $g(x)$ is differentiable, prove that
+$$E[g'(Z)] = E[Z * g(Z)]$$
+		
 \end{document}
