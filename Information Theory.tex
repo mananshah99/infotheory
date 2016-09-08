@@ -480,7 +480,18 @@ video     & camera                                                       & \begi
 \end{table}
 
 \section{September 8, 2016}
+\subsection{Modeling English Probabilistically}
 Today, we will go through the same thought experiment that Claude Shannon performed. Looking at English text, Shannon first analyzed whether it could be modeled probabilistically. \\
 
-\xhdr{Idea 1} A simplistic zeroth order approximation involves assuming uniform distribution across all letters. This may be conducted by rolling a 27 sided die. 
+\xhdr{Zeroth Order} A simplistic zeroth order approximation involves assuming uniform distribution across all letters. This may be conducted by rolling a 27 sided die. A sample output might look like: \\
+XFOML RXKHRJFFJUJ ZLPWCFWKCYJ FFJEYVKCDSGHYD QPAAMKBZAACCIBZLHJQD\\
+\xhdr{First Order} A first order approximation leverages the probabilities of certain letters. For example, $P_{X}(E) \approx 0.13$ and $P_{X}W \approx 0.02$. A sample output might look like: \\
+OCRO HLI RGWR NMIELWIS EU LL NBNESBEYA THEEI \\
+\xhdr{Second Order} A second order approximation utilizes the probability of a letter appearing given the preceding letter. A sample output might look like: \\
+ON IE ANTSOUTINYS ARE T INCTORE ST BE S DEAMY ACAIW D ILONONASIVE\\
+\xhdr{nth Order} We can extend this out to an $n$th order approximation, which uses information about the preceding $n-1$ letters to predict the value of the $n$th character. The larger the value of $n$, the more like English the model's output becomes. 
+
+\subsection{Shannon's Assumptions about Sources}
+Shannon assumed that all sources are {\bf ergodic}. Ergodic sources are those whose distributions do not change with time. While this may not hold true universally, it is a reasonable approximation for most practical applications of his work. 
+
 \end{document}
