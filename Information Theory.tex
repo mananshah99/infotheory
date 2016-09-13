@@ -554,4 +554,21 @@ H(X) &= \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \\
 As expected, this represents a parabola with $\frac{d H(X)}{dx} = 0$ at $x = 0.5$. One may plot this distribution on Mathematica with the command \texttt{Plot[-p Log[2, p] - (1 - p) Log[2, 1 - p], {p, 0, 1}]}.
 
 \remark If all symbols occur with equal probability, $H(X)$ will simply be $\log m$ bits where $m$ is the number of possible values. Equivalently, $2^{H(X)} = m$ equally probable values. So, transmitting information only requires $m$ bits for each value $X$. 
+
+\example $X$ is a binomial R.V. with expected value 6 and variance 2.4. Find P\{X=5\}.
+\example Suppose 2 4-sided dice with sides numbered 1-4. Let $X$ denote the sum of the dice. Find all values of $X$, the pmf of $X$, and $E[X]$.
+\example $X$ is a R.V. having possible values of 0 \& 1. Such that P(X=0) = 2P(X=1). Find the pmf, E, and Var of $X$. 
+\example Local soccer team has 5 more games to play. If it wins, they will play its final 4 games in upper bracket \& wins each game in this bracket is 0.4. If it plays in lower bracket, probability of winning is 0.7. Probability that it wins the game this weekend is 0.5, what is the probability that it wins at least 3 of final 4 games?
+\example Let pdf of $X$ be
+\begin{equation*} f(X) =	 \begin{cases}
+								a + b x^2 & 0 \leq x \leq 1\\
+								0 & o/w
+							\end{cases}
+\end{equation*}
+
+If $E[X] = \frac{3}{5}$, find a \& b.
+
+\section*{Quotes}
+"What's $p$, entropy?" -Shaya Zarkesh, 9/13/2016\\[1em]
+"Oh my god you made a section for quotes I hate you" -Manan Shah, 9/13/2016
 \end{document}
