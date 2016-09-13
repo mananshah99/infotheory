@@ -513,4 +513,45 @@ $$P(X > m + n | X > n) = P(X > m)$$
 \example Given that $Z \sim N(0,1)$, and $g(x)$ is differentiable, prove that
 $$E[g'(Z)] = E[Z * g(Z)]$$
 We'll finish this example next time. 
+
+\section{September 13, 2016}
+
+Quick review of Bayes' theorem---we always have
+\begin{align*}
+P(A|B) &= \frac{P(A \& B)}{P(B)} \\
+P(B|A) &= \frac{P(B \& A)}{P(A)} 
+\end{align*}
+If $A$ and $B$ are independent, $P(A \& B) = P(A) P(B)$, as $P(B | A) = P(B)$ and $P(A | B) = P(A)$. 
+
+\subsection{Definition of Information} 
+Our goal is to motivate the definition of a quantity called entropy. Consider a large stream of output. We are already convinced that this stream can be modeled as a random variable. Now, we will determine how much information is in the stream. 
+
+\example[Motivation] Consider the letter ``q''. We are asked to guess the next letter; an obvious guess is ``u''. If we are told the letter is indeed ``u'', there is not much information gain (we are not very surprised). If, however, the letter is ``w'', significantly more information is revealed (and we are surprised as a result). We would therefore like to identify a function that can represent this idea. \\
+
+\noindent In line with this idea, let's try different functions. $f(p) = 1/p$ and $f(p) = 1-p$ are both monotonically decreasing functions of $p$ that represent an increasing value with a decreasing probability. For a stream of letters, however, this becomes a problem. Additionally, we would like to think about this idea in terms of information (is there more or less information?). To resolve this issue, we will consider the concept of entropy.
+
+\subsection{Entropy}
+
+\definition[Entropy] Let $X$ be a random variable. $$H(X) = \sum_x p(x) \log \left( \frac{1}{p(x)} \right)$$ The entropy $H(X)$ represents the average amount of information of variable $X$. From this definition, it is easy to see that we have $f(p) = \log (1/p(x))$ which is actually quite similar to our initial discussion. Note that this is equivalent to $$E \left[ \log \frac{1}{p(x)} \right]$$which is why we refer to entropy as ``average information''. In both cases, the logarithm is base 2 as we refer to information in bits. 
+
+\example What is the entropy of a fair coin?
+\begin{align*}
+H(X) &= \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \\
+&= \frac{1}{2} \log \frac{1}{1/2} + \frac{1}{2} \log \frac{1}{1/2} \\
+&= 1
+\end{align*}
+\example What is the entropy of a biased coin? Note that we expect $H(X)$ to be smaller in this case as per our previous discussion. Let the coin have probability of heads $0.9$. 
+\begin{align*}
+H(X) &= \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \\
+&= \frac{1}{10} \log \frac{1}{1/10} + \frac{9}{10} \log \frac{1}{9/10} \\
+&= 0.47
+\end{align*}
+\example What is the entropy of a biased coin with probability $p$? Note that we expect $H(X)$ to be smaller in this case as per our previous discussion. Let the coin have probability of heads $p$. 
+\begin{align*}
+H(X) &= \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \\
+&= p \log \frac{1}{p} + (1-p) \log \frac{1}{1-p} 
+\end{align*}
+As expected, this represents a parabola with $\frac{d H(X)}{dx} = 0$ at $x = 0.5$. One may plot this distribution on Mathematica with the command \texttt{Plot[-p Log[2, p] - (1 - p) Log[2, 1 - p], {p, 0, 1}]}.
+
+\remark If all symbols occur with equal probability, $H(X)$ will simply be $\log m$ bits where $m$ is the number of possible values. Equivalently, $2^{H(X)} = m$ equally probable values. So, transmitting information only requires $m$ bits for each value $X$. 
 \end{document}
