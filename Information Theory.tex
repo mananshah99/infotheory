@@ -605,7 +605,7 @@ The solution is straight from the definition of entropy , using the identities d
 
 By the memoryless property, it is equally likely that your guess will be correct or incorrect (if you say ``is $X$ 1'', the chance is $1/2$, and the chance of the rest is $1/2$. Similarly, if you say ``is $X$ 2?'', the chance is again $1/2$--there is no way to optimize this method). The expected number of questions $E[\text{Questions}] = \sum(\text{question \#})P(\text{question \#})$. So, we have $1(1/2) + 2(1/4) + 3(1/8) + \cdots$. We can follow the ``sum of sums'' approach delineated previously in the proof of the mean and variance of a geometric distribution to obtain $2$. As $2$ is also the entropy of such a geometric random variable, we are sure that this is the best method; this follows from $E[X] \geq H(X)$. 
 
-\theorem[Jensen's Inequality] If $f$ is a concave up function and $a+b = 1$, we have $$af(x_1) + b f(x_2) \geq f(ax_1 + bx_2)$$Flip the inequality if $f$ is concave down. A more general form of this is $$\sum c_i f(x_i) \geq f(\sum c_i x_i)$$where $\sum c_i = 1$. Again, flip the inequality if $f$ is concave down. 
+\theorem[Jensen's Inequality] If $f$ is a concave up function ($f'' > 0$) on a given region and $a+b = 1$, we have $$af(x_1) + b f(x_2) \geq f(ax_1 + bx_2)$$Flip the inequality if $f$ is concave down ($f'' < 0$). A more general form of this is $$\sum c_i f(x_i) \geq f(\sum c_i x_i)$$where $\sum c_i = 1$. Again, flip the inequality if $f$ is concave down. 
 
 \theorem Let $X$ assume values $\{x_1, x_2, x_3, x_4, \dots, x_r \}$. We may also denote this as ``let the PMF of $X$ be an $r$-dimensional vector $<p_1, p_2, \dots, p_r >$''. We have that (a) $0 \leq H(X) \leq \log r$, (b) $H(X) = 0$ if and only if $p_i = 1$ for some $i$, and (c) $H(X) = \log r$ if and only if $p_i = 1/r$ for all $i$. 
 
@@ -614,7 +614,10 @@ By the memoryless property, it is equally likely that your guess will be correct
 \begin{align*}
 H(X) = \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \leq \log \sum p_i (1/p_i) = \log r
 \end{align*}
-(b) If $p_i = 1$, all of the other probabilities must be zero. \\
+(b) If $p_i = 1$, all of the other probabilities must be zero. Therefore, $H(X) = \log 1 = 0.$
+     To prove the inverted statement, use the idea that $p(x) \log{\frac{1}{p}}$ can never be negative. In fact, $p(x) \log{\frac{1}{p}}$ is only
+     ever zero when $p=1$. Since every other p would produce a positive value for entropy, the only vector $p$ that will satisfy $H(X) = 0$ is 
+     where one $p_i$ is 1 and the rest are 0. \\
 (c) For the first part of the if and only if, $p_i = 1/r$, the operand of the sum can be taken out of the sum, simply leaving $\log r$. We can also write $2^{H(X)} = r$ which implies that there are $r$ equally likely outcomes. This necessitates that each outcome has probability $p_i = 1/r$. 
 \end{proof}
 
