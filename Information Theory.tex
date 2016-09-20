@@ -627,22 +627,58 @@ H(X) = \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \leq \log \sum p_i (1/p_i)
 
 We will discuss how to define entropy for continuous random variables. 
 
-Imagine with had an RV, $X^{\Delta}$, with a pmf that has bins of arbitrary size, $\Delta x$. If we define $x_i$ to be the event that $X$ is in bin $i$, we could write the entropy of $X^{\Delta}$ as 
+\theorem The differential entropy $h(x) = H_{\mathrm{diff}}(X) = h(f) = \int f(x) \log (1/f(x)) dx$. 
 
-$$H(X^{\Delta}) = \sum_i P(x_i) \Delta x \log{\frac{1}{P(x_i) \Delta x}} $$ 
-$$H(X^{\Delta}) = \sum_i P(x_i) \Delta x \log{\frac{1}{P(x_i)} } +  P(x_i) \Delta x \log{\frac{1}{\Delta x} }$$
-$$H(X^{\Delta}) = \sum_i P(x_i) \log{\frac{1}{P(x_i)} } \Delta x +  \sum_i P(x_i) \Delta x \log{\frac{1}{\Delta x} }$$
+\begin{proof}
 
+Define a random variable $X^{\Delta}$ with a pmf that has bins of arbitrary size, $\Delta x$. If we define $x_i$ to be the event that $X$ is in bin $i$, we could write the entropy of $X^{\Delta}$ as 
+
+\begin{align*}
+H(X^{\Delta}) &= \sum_i P(x_i) \Delta x \log{\frac{1}{P(x_i) \Delta x}}  \\
+H(X^{\Delta}) &= \sum_i P(x_i) \Delta x \log{\frac{1}{P(x_i)} } +  P(x_i) \Delta x \log{\frac{1}{\Delta x} } \\
+H(X^{\Delta}) &= \sum_i P(x_i) \log{\frac{1}{P(x_i)} } \Delta x +  \sum_i P(x_i) \Delta x \log{\frac{1}{\Delta x} }
+\end{align*}
 Let $\Delta x \to 0$:
-	$$H(X^{\Delta}) = \int f(x) \log{\frac{1}{f(x)}} dx + \infty$$
+	$$H(X^{\Delta}) = \boxed{ \int f(x) \log{\frac{1}{f(x)}} dx} + \infty$$
 	
-We define the quantity $\int f(x) \log{\frac{1}{f(x)}} dx$ to be the {\bf differential entropy} of the pmf $f$. The quantity $\infty$ is referred to as the precision factor. From this, we determine that the total entropy of the variable increases as the measurements of the variable become more precise. 
+\end{proof}
+\noindent We define the quantity $\int f(x) \log{\frac{1}{f(x)}} dx$ to be the differential entropy of the pmf $f$. The quantity $\infty$ is referred to as the precision factor. From this, we determine that the total entropy of the variable increases as the measurements of the variable become more precise. 
 
-We write the differential entropy as either $h(X)$, $H_{\mathrm{diff}}(X)$, or $h(f)$. 
+\notation We write the differential entropy as either $h(X)$, $H_{\mathrm{diff}}(X)$, or $h(f)$. 
 \subsection{Properties of Differential Entropy}
 \theorem{If $Y = X + c$, $h(Y) = h(X)$}
 \theorem{If $Y = cX$, $h(Y) = h(X)$ + $ \log{|c|}$}
-\theorem{If $X \sim U(0,  a)$, $h(X) = \log{a}$}
+
+\remark Note that, although Theorem 40 seems to indicate that more information is encoded with a simple multiplication by a constant factor, it turns out that the multiplication increases the number of bins, resulting in precision error. 
+
+\subsubsection{Entropy of a Uniform Distribution}
+\theorem{If $X \sim \mathcal{U}(0,  a)$, $h(X) = \log{a}$}
+
+\begin{proof}
+We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log(a)$$
+\end{proof}
+
+\noindent Note that, given a fixed lower bound and upper bound, no pdf can have a larger entropy than a uniform distribution. In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
+\begin{itemize}
+\item if $a = 1, h(x) = 0$
+\item if $a = 2, h(x) = 1$ (it takes one more bit than $\mathcal{U}(0, 1)$)
+\item if $a = 1/2, h(x) = -1$ (it takes one less bit than $\mathcal{U}(0, 1)$)
+\end{itemize}
+
+\subsubsection{Entropy of an Exponential Distribution}
+
+\example Find $h(X)$ for the function 
+\begin{equation*} f(x) =	 \begin{cases}
+								\lambda e^{-\lambda x} & x \geq 0\\
+								0 & x < 0 
+							\end{cases}
+\end{equation*}
+
+\noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda}$$
+
+\theorem Given a random variable with mean $\mu$ and unconstrained otherwise, the exponential distribution achieves maximum entropy. Recall that the expected value for an exponential distribution is $1/\lambda$. 
+\proof Left to the reader. 
+
 %\section*{Quotes}
 %"What's $p$, entropy?" -Shaya Zarkesh, 9/13/2016\\[1em]
 %"Oh my god you made a section for quotes I hate you" -Manan Shah, 9/13/2016
