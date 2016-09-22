@@ -8,7 +8,7 @@
 \usepackage{fontspec,xltxtra,xunicode}
 \usepackage[table,xcdraw]{xcolor}
 \defaultfontfeatures{Mapping=tex-text}
-
+\usepackage{bigints}
 % Uncomment below to change default features 
 %\setromanfont[Mapping=tex-text]{Hoefler Text}
 %\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
@@ -658,7 +658,7 @@ Let $\Delta x \to 0$:
 We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log(a)$$
 \end{proof}
 
-\noindent Note that, given a fixed lower bound and upper bound, no pdf can have a larger entropy than a uniform distribution. In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
+\theorem Given a fixed lower bound and upper bound, no ODF can have a larger entropy than a uniform distribution. In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
 \begin{itemize}
 \item if $a = 1, h(x) = 0$
 \item if $a = 2, h(x) = 1$ (it takes one more bit than $\mathcal{U}(0, 1)$)
@@ -674,11 +674,35 @@ We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simpl
 							\end{cases}
 \end{equation*}
 
-\noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda}$$
+\noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda} = \log \frac{e}{\lambda} \text{bits} $$
 
 \theorem Given a random variable with mean $\mu$ and unconstrained otherwise, the exponential distribution achieves maximum entropy. Recall that the expected value for an exponential distribution is $1/\lambda$. 
 \proof Left to the reader. 
 
+\section{September 22, 2016}
+
+As a review, we defined differential entropy as $$h(X) = \int f(x) \log \frac{1}{f(x)} dx$$and we discussed two distributions: the uniform distribution $\mathcal{U}(0, a)$ which has a differential entropy of $\log a$ bits and the exponential distribution which has a differential entropy $h(X) = \log (\frac{e}{\lambda})$. 
+
+\subsection{Entropy of a Gaussian Distribution}
+
+\theorem $h(X)$ for the function 
+\begin{equation*}
+p_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{\frac{-(x - \mu)^2}{2\sigma^2}}
+\end{equation*}
+where $\mu$ and $\sigma$ are parameters that can be treated as constants is $\frac{1}{2} \log 2 \pi e \sigma^2$.
+
+\begin{proof}
+We will start with the definition of entropy 
+\begin{align*}
+h(X) &= \frac{1}{\sigma \sqrt{2\pi}} \bigintss e^{\frac{-(x - \mu)^2}{2 \sigma^2}} \log \left( \frac{1}{\frac{1}{\sigma \sqrt{2 \pi}} e^{\frac{-(x - \mu)^2}{2 \sigma^2}}} \right) dx \\
+ &=   \frac{-1}{\sigma \sqrt{2\pi}} \bigintss e^{\frac{-(x - \mu)^2}{2 \sigma^2}} \left[ \log \frac{1}{\sigma \sqrt{2\pi}} + \log e^{\frac{-(x - \mu)^2}{2 \sigma^2}} \right] dx
+\end{align*}
+The first additive term of the integral resolves to $\log \sigma \sqrt{2\pi}$ as it is simply the PDF (which integrates to 1). The second term is written as
+\begin{align*}
+\frac{1}{\sigma \sqrt{2\pi}} \bigintss e^{\frac{-(x - \mu)^2}{2 \sigma^2}} \cdot \frac{(x-\mu)^2}{2\sigma^2} dx
+\end{align*}
+which can be shown to resolve to the variance of $(x-\mu)$. Some algebra resolves this to $1/2$ in nats or $1/2\ln 2$ in bits. The overall entropy is therefore $\frac{1}{2} \log 2 \pi e \sigma^2$. 
+\end{proof}
 %\section*{Quotes}
 %"What's $p$, entropy?" -Shaya Zarkesh, 9/13/2016\\[1em]
 %"Oh my god you made a section for quotes I hate you" -Manan Shah, 9/13/2016
