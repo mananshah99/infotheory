@@ -618,7 +618,8 @@ H(X) = \sum_x p(x) \log \left( \frac{1}{p(x)} \right) \leq \log \sum p_i (1/p_i)
      To prove the inverted statement, use the idea that $p(x) \log{\frac{1}{p}}$ can never be negative. In fact, $p(x) \log{\frac{1}{p}}$ is only
      ever zero when $p=1$. Since every other p would produce a positive value for entropy, the only vector $p$ that will satisfy $H(X) = 0$ is 
      where one $p_i$ is 1 and the rest are 0. \\
-(c) For the first part of the if and only if, $p_i = 1/r$, the operand of the sum can be taken out of the sum, simply leaving $\log r$. We can also write $2^{H(X)} = r$ which implies that there are $r$ equally likely outcomes. This necessitates that each outcome has probability $p_i = 1/r$. 
+     
+\noindent (c) For the first part of the if and only if, $p_i = 1/r$, the operand of the sum can be taken out of the sum, simply leaving $\log r$. We can also write $2^{H(X)} = r$ which implies that there are $r$ equally likely outcomes. This necessitates that each outcome has probability $p_i = 1/r$. 
 \end{proof}
 
 \section{September 20, 2016}
@@ -652,13 +653,32 @@ Let $\Delta x \to 0$:
 \remark Note that, although Theorem 40 seems to indicate that more information is encoded with a simple multiplication by a constant factor, it turns out that the multiplication increases the number of bins, resulting in precision error. 
 
 \subsubsection{Entropy of a Uniform Distribution}
-\theorem{If $X \sim \mathcal{U}(0,  a)$, $h(X) = \log{a}$}
+\theorem{If $X \sim \mathcal{U}(0,  a)$, then the differential entropy $h(X) = \log{a}$}
 
 \begin{proof}
-We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log(a)$$
+We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log a$$
 \end{proof}
 
-\theorem Given a fixed lower bound and upper bound, no ODF can have a larger entropy than a uniform distribution. In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
+\theorem Given a fixed lower bound and upper bound, no PDF can have a larger entropy than a uniform distribution. 
+
+\begin{proof}
+Heuristically, the probability density function on $\{x_1, x_2,..,.x_n\}$ with maximum entropy turns out to be the one that corresponds to the least amount of knowledge of $\{x_1, x_2,..,.x_n\}$, in other words the uniform distribution. For a more formal proof consider the following:
+
+A probability density function on $\{x_1, x_2,..,.x_n\}$  is a set of nonnegative real numbers $p_1,...,p_n$ that add up to 1. Entropy is a continuous function of the $n$-tuples $(p_1,...,p_n)$, and these points lie in a compact subset of $\mathbb{R}^n$, so there is an $n$-tuple where entropy is maximized. We want to show this occurs at $(1/n,...,1/n)$ and nowhere else.
+
+Suppose the $p_j$ are not all equal, say $p_1 < p_2$. (Clearly $n\neq 1$.) We will find a new probability density with higher entropy. It then follows, since entropy is maximized at
+some $n$-tuple, that entropy is uniquely maximized at the $n$-tuple with $p_i = 1/n$ for all $i$. Since $p_1 < p_2$, for small positive $\varepsilon$ we have $p_1 + \varepsilon < p_2 -\varepsilon$. The entropy of $\{p_1 + \varepsilon, p_2 -\varepsilon,p_3,...,p_n\}$ minus the entropy of $\{p_1,p_2,p_3,...,p_n\}$ equals
+
+$$-p_1\log\left(\frac{p_1+\varepsilon}{p_1}\right)-\varepsilon\log(p_1+\varepsilon)-p_2\log\left(\frac{p_2-\varepsilon}{p_2}\right)+\varepsilon\log(p_2-\varepsilon)$$
+To complete the proof, we want to show this is positive for small enough $\varepsilon$. Rewrite the above equation as
+$$-p_1\log\left(1+\frac{\varepsilon}{p_1}\right)-\varepsilon\left(\log p_1+\log\left(1+\frac{\varepsilon}{p_1}\right)\right)-p_2\log\left(1-\frac{\varepsilon}{p_2}\right)+\varepsilon\left(\log p_2+\log\left(1-\frac{\varepsilon}{p_2}\right)\right)$$
+
+\noindent Recalling that $\log(1 + x) = x + O(x^2)$ for small $x$, the above equation is
+$$-\varepsilon-\varepsilon\log p_1 + \varepsilon + \varepsilon \log p_2 + O(\varepsilon^2) = \varepsilon\log(p_2/p_1) + O(\varepsilon^2)$$
+which is positive when $\varepsilon$ is small enough since $p_1 < p_2$.
+
+\end{proof}
+\noindent In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
 \begin{itemize}
 \item if $a = 1, h(x) = 0$
 \item if $a = 2, h(x) = 1$ (it takes one more bit than $\mathcal{U}(0, 1)$)
@@ -674,11 +694,11 @@ We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simpl
 							\end{cases}
 \end{equation*}
 
-\noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda} = \log \frac{e}{\lambda} \text{bits} $$
+\noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda} = \log \frac{e}{\lambda} \text{ bits} $$
+
+\remark One ``nat'' (using the natural logarithm) is equivalent to $1/\ln 2$ bits. 
 
 \theorem Given a random variable with mean $\mu$ and unconstrained otherwise, the exponential distribution achieves maximum entropy. Recall that the expected value for an exponential distribution is $1/\lambda$. 
-\proof Left to the reader. 
-
 \section{September 22, 2016}
 
 As a review, we defined differential entropy as $$h(X) = \int f(x) \log \frac{1}{f(x)} dx$$and we discussed two distributions: the uniform distribution $\mathcal{U}(0, a)$ which has a differential entropy of $\log a$ bits and the exponential distribution which has a differential entropy $h(X) = \log (\frac{e}{\lambda})$. 
