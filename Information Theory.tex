@@ -589,19 +589,21 @@ We have so far defined the term ``entropy'' and done problems on fair and biased
 From our previous discussion, we have the following properties for $H(X)$
 \begin{itemize}
 \item $H(X) \geq 0$
-\item $H_b(X) = (\log_b a) H_a(X)$
+\item $H_b(X) = (\log_b a) H_a(X)$, where $H_q(X)$ is $H(X)$ using a logarithm of base $q$ 
 \item $H(X)$ does not depend on outcome, only on $p$'s
 \item $E[X] \geq H(X)$
 \end{itemize}
+
+\noindent Note that ``nat'' (using the natural logarithm) is equivalent to $1/\ln 2$ bits. 
 
 \example Let $X$ be a geometric random variable with $p = 1/2$. It is useful to know that
 \begin{align*}
 \sum_{n=1}^\infty r^n &= \frac{r}{1-r} \\
 \sum_{n=1}^\infty nr^n &= \frac{r}{(1-r)^2}
 \end{align*}
-The solution is straight from the definition of entropy , using the identities defined above; it is left to the reader. The answer is $H(X) = 2$, which is useful in the next example.  
+The solution is straight from the definition of entropy; the reader can confirm $H(X) = 2$.
 
-\example Ask ``efficient'' questions of the form ``Is $X$ in the set $\mathcal{S}$'' to identify what the element $X$ is (think binary search), where $X$ is a geometric random variable with $p = 1/2$. Determine what your questions will look like, the expected number of questions, and the expected number of questions of $H(X)$. Note that this problem is not nearly as simple as the binary search question because $\mathcal{S}$ is unbounded. 
+\example Ask ``efficient'' questions of the form ``Is $X$ in the set $\mathcal{S}$'' to identify what the element $X$ is (think binary search), where $X$ is a geometric random variable with $p = 1/2$. Determine what your questions will look like, the expected number of questions, and the expected number of questions of $H(X)$.
 
 By the memoryless property, it is equally likely that your guess will be correct or incorrect (if you say ``is $X$ 1'', the chance is $1/2$, and the chance of the rest is $1/2$. Similarly, if you say ``is $X$ 2?'', the chance is again $1/2$--there is no way to optimize this method). The expected number of questions $E[\text{Questions}] = \sum(\text{question \#})P(\text{question \#})$. So, we have $1(1/2) + 2(1/4) + 3(1/8) + \cdots$. We can follow the ``sum of sums'' approach delineated previously in the proof of the mean and variance of a geometric distribution to obtain $2$. As $2$ is also the entropy of such a geometric random variable, we are sure that this is the best method; this follows from $E[X] \geq H(X)$. 
 
@@ -632,7 +634,7 @@ We will discuss how to define entropy for continuous random variables.
 
 \begin{proof}
 
-Define a random variable $X^{\Delta}$ with a pmf that has bins of arbitrary size, $\Delta x$. If we define $x_i$ to be the event that $X$ is in bin $i$, we could write the entropy of $X^{\Delta}$ as 
+Define a random variable $X^{\Delta}$ with a pmf that has bins of arbitrary size $\Delta x$. If we define $x_i$ to be the event that $X$ is in bin $i$, we could write the entropy of $X^{\Delta}$ as 
 
 \begin{align*}
 H(X^{\Delta}) &= \sum_i P(x_i) \Delta x \log{\frac{1}{P(x_i) \Delta x}}  \\
@@ -648,9 +650,13 @@ Let $\Delta x \to 0$:
 \notation We write the differential entropy as either $h(X)$, $H_{\mathrm{diff}}(X)$, or $h(f)$. 
 \subsection{Properties of Differential Entropy}
 \theorem{If $Y = X + c$, $h(Y) = h(X)$}
+\proof Left to the reader. 
 \theorem{If $Y = cX$, $h(Y) = h(X)$ + $ \log{|c|}$}
+\begin{proof}
+Let $f$ be the distribution of $X$ and $g$ be the distribution of $Y$. Then $$h(Y) = \int g(y) \log \frac{1}{g(y)} dy$$With $y = cx$ and $dy = dx$, we can write the integral as $$h(Y) = \int c \: g(x) \log \frac{1}{g(cx)} dx$$But, since we have $g(cx) = f(x)/c$, this resolves to $$h(Y) = \int f(x) \log \frac{c}{f(x)} dx$$which is simply $h(X) + \log |c|$.
+\end{proof}
 
-\remark Note that, although Theorem 40 seems to indicate that more information is encoded with a simple multiplication by a constant factor, it turns out that the multiplication increases the number of bins, resulting in precision error. 
+\remark Note that, although Theorem 7 seems to indicate that more information is encoded with a simple multiplication by a constant factor, it turns out that the multiplication increases the number of bins, resulting in precision error. 
 
 \subsubsection{Entropy of a Uniform Distribution}
 \theorem{If $X \sim \mathcal{U}(0,  a)$, then the differential entropy $h(X) = \log{a}$}
@@ -658,6 +664,12 @@ Let $\Delta x \to 0$:
 \begin{proof}
 We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log a$$
 \end{proof}
+\remark In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
+\begin{itemize}
+\item if $a = 1, h(x) = 0$
+\item if $a = 2, h(x) = 1$ (it takes one more bit than $\mathcal{U}(0, 1)$)
+\item if $a = 1/2, h(x) = -1$ (it takes one less bit than $\mathcal{U}(0, 1)$)
+\end{itemize}
 
 \theorem Given a fixed lower bound and upper bound, no PDF can have a larger entropy than a uniform distribution. 
 
@@ -678,13 +690,6 @@ $$-\varepsilon-\varepsilon\log p_1 + \varepsilon + \varepsilon \log p_2 + O(\var
 which is positive when $\varepsilon$ is small enough since $p_1 < p_2$.
 
 \end{proof}
-\noindent In the discrete case, if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
-\begin{itemize}
-\item if $a = 1, h(x) = 0$
-\item if $a = 2, h(x) = 1$ (it takes one more bit than $\mathcal{U}(0, 1)$)
-\item if $a = 1/2, h(x) = -1$ (it takes one less bit than $\mathcal{U}(0, 1)$)
-\end{itemize}
-
 \subsubsection{Entropy of an Exponential Distribution}
 
 \example Find $h(X)$ for the function 
@@ -696,12 +701,10 @@ which is positive when $\varepsilon$ is small enough since $p_1 < p_2$.
 
 \noindent It is easier to replace the $\log$ with a $\ln$ in the definition of entropy. Integrating by parts, we obtain $$h(X) = 1 + \ln \frac{1}{\lambda} = \ln \frac{e}{\lambda} = \log \frac{e}{\lambda} \text{ bits} $$
 
-\remark One ``nat'' (using the natural logarithm) is equivalent to $1/\ln 2$ bits. 
-
 \theorem Given a random variable with mean $\mu$ and unconstrained otherwise, the exponential distribution achieves maximum entropy. Recall that the expected value for an exponential distribution is $1/\lambda$. 
 \section{September 22, 2016}
 
-As a review, we defined differential entropy as $$h(X) = \int f(x) \log \frac{1}{f(x)} dx$$and we discussed two distributions: the uniform distribution $\mathcal{U}(0, a)$ which has a differential entropy of $\log a$ bits and the exponential distribution which has a differential entropy $h(X) = \log (\frac{e}{\lambda})$. 
+As a review, we defined differential entropy as $$h(X) = \int f(x) \log \frac{1}{f(x)} dx$$and we discussed two distributions: the uniform distribution $\mathcal{U}(0, a)$ which has a differential entropy of $\log a$ bits and the exponential distribution which has a differential entropy $h	(X) = \log (\frac{e}{\lambda})$. 
 
 \subsection{Entropy of a Gaussian Distribution}
 
