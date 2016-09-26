@@ -662,7 +662,7 @@ Let $f$ be the distribution of $X$ and $g$ be the distribution of $Y$. Then $$h(
 \theorem{If $X \sim \mathcal{U}(0,  a)$, then the differential entropy $h(X) = \log{a}$}
 
 \begin{proof}
-We have $$h(X) = \int x \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log a$$
+We have $$h(X) = \int f(x) \log \left(\frac{1}{f(x)} \right) dx$$which can be simplified to $$\int_0^a \frac{1}{a} \log(a) dx = \log a$$
 \end{proof}
 \remark In the discrete case (and with $a \rightarrow 2a$ in the uniform distribution), if the number of outcomes is doubled, the entropy $H$ goes up by one bit. Note also that the entropy can be 0 or negative.
 \begin{itemize}
@@ -751,13 +751,15 @@ We will be discussing source coding. Our goal is to remove redundancy from the s
 \hline
 X & Pr[X=$x$] & E[X] & Var[X] & H[X] \\
 \hline
-Bernoulli & NA & $p$ & $p(1-p)$ & $-p\log{p} - (1-p)\log{1-p}$ \\
+Bernoulli & NA & $p$ & $p(1-p)$ & $-p\log{p} - (1-p)\log{(1-p)}$ \\
 \hline
 Binomial & $\binom{n}{k}p^{k}(1-p)^{n-k}$ & $np$ & $np(1-p)$ & NA \\
 \hline
-Geometric & $p(1 - p )^{k - 1}$ & $\frac{1}{p}$ & $\frac{1 - p}{p^2}$ & $\frac{-p\log{p} - (1-p)\log{1-p}}{p}$ \\
+Geometric & $p(1 - p )^{k - 1}$ & $\frac{1}{p}$ & $\frac{1 - p}{p^2}$ & $\frac{-p\log{p} - (1-p)\log{(1-p)}}{p}$ \\
 \hline
 Poisson & $\frac{\lambda^k e^{-\lambda}}{k!}$ & $\lambda$ & $\lambda$ & NA \\
+\hline
+Uniform & $\frac{1}{b - a}$ & $\frac{1}{2}(a + b)$ & $\frac{1}{12}(b - a)^2$ & $\log{(b - a)}$\\
 \hline
 Exponential & $\lambda e^{-\lambda x}$ & $\frac{1}{\lambda}$ & $\frac{1}{\lambda^2}$   & $\log{\frac{e}{\lambda}}$ \\
 \hline
