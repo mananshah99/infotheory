@@ -739,6 +739,8 @@ Bernoulli & NA & $p$ & $p(1-p)$ & $\log{p}$ \\
 \hline
 Binomial & $\binom{n}{k}p^{k}(1-p)^{n-k}$ & $np$ & $np(1-p)$ & NA \\
 \hline
+Geometric & $p(1 - p )^{k - 1}$ & $\frac{1}{p}$ & $\frac{1 - p}{p^2}$ & $\frac{-p\log{p} - (1-p)\log{1-p}}{p}$ \\
+\hline
 Poisson & $\frac{\lambda^k e^{-\lambda}}{k!}$ & $\lambda$ & $\lambda$ & $\log{\frac{e}{\lambda}}$ \\
 \hline
 Exponential & $\lambda e^{-\lambda x}$ & $\frac{1}{\lambda}$ & $\frac{1}{\lambda^2}$   & $1 - \ln{\lambda}$ \\
