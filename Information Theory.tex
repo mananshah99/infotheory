@@ -728,6 +728,8 @@ which can be shown to resolve to the variance of $(x-\mu)$. Some algebra resolve
 \end{proof}
 \section{September 26, 2016}
 
+\subsection{Source Coding} 
+
 We will be discussing source coding. Our goal is to remove redundancy from the source and code it ``efficiently'' and ``losslessly''. For the purposes of our discussion today, we will be using the English alphabet. 
 
 \example Given the 26 letters of the English alphabet and their probabilities (assume letters are independent), find a way to encode the distribution (convert it into 0s and 1s) and decode the distribution (return it to the original state). If we decide to use 5 bits for each letter, it is easy to cover the entire alphabet (there are 32 combinations). 
@@ -742,6 +744,43 @@ We will be discussing source coding. Our goal is to remove redundancy from the s
 \remark A code is a prefix code if and only if it can be visualized with a tree. 
 
 \example Consider the code mapping E $\rightarrow$ 0, T $\rightarrow$ 10, A $\rightarrow$ 110, and O $\rightarrow$ 111. This can certainly represented by a tree with binary splits, and therefore works with these four letters. 
+
+\section{September 28, 2016}
+
+\subsection{Huffman Coding}
+
+As we discussed previously, our coding mechanism relies on two principles: frequent symbols have shorter code words and that our compression achieved is as close to the maximum entropy close to the entropy of the source (within 1 bit). \\
+
+\noindent The Huffman coding algorithm can be written as follows.
+\begin{itemize}
+\item Find the two least probable symbols
+\item Combine these symbols to make an imaginary composite symbol
+\item Replace the two least probable symbols with the probability as the sum of the components
+\item Repeat the process until you have 1 symbol left
+\end{itemize}
+\noindent The decoding process is written as 
+\begin{itemize}
+\item The code for each symbol is obtained by concatenating binary numbers that lead to a symbol
+\item Each time two symbols are combined, two paths are labelled with a 1 (upper) and 0 (lower)
+\item Wash, rinse, repeat. 
+\end{itemize}
+%\example 
+
+\example The following details a sample Huffman encoding for letters A-E in a toy alphabet. 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{huffman.png}
+\end{figure}
+
+\example Given a list $X \in \{1,2,3,4,5\}$ with probabilities $\{0.25, 0.25, 0.2, 0.15, 0.15\}$. Identify the expected value of the length and the entropy $H(X)$. With the optimal Huffman code, $E[\text{Length}] = 2.3$ bits and $H(X) = 2.29$ bits. 
+
+\example The Huffman code works for $n$-ary trees. In particular, the same example above with a ternary division yields $E[\text{Length}] = 1.5$ ternary digits. 
+
+\example Which of these cannot be Huffman codes for any probability assignment? (a) $\{0, 10, 11\}$, (b) $\{00, 01, 10, 110\}$, (c) $\{01, 10\}$. (b) and (c) cannot be codes. 
+
+\subsection{Huffman and 20 Questions}
+
+Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. 
 
 \newpage
 \section*{Appendix A - Random Variables}
@@ -767,7 +806,9 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \hline
 \end{tabular}
 \end{table}
+
 %\section*{Quotes}
 %"What's $p$, entropy?" -Shaya Zarkesh, 9/13/2016\\[1em]
 %"Oh my god you made a section for quotes I hate you" -Manan Shah, 9/13/2016
+%"I can't do the math" - Swapnil Garg, 9/28/2016
 \end{document}
