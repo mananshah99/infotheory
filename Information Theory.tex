@@ -782,6 +782,23 @@ As we discussed previously, our coding mechanism relies on two principles: frequ
 
 Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. 
 
+\section{October 3, 2016}
+
+\subsection{Lagrange Optimization}
+Given a $f(x, y)$ or $f(x, y, z)$, we would like to determine the maximum and minimum of $f$ subject to a constraint $g(x, y)$ or $g(x, y, z)$.  We can write $$\mathcal{L}(x, y, z) = f - \lambda g$$of which we can find the critical points of $\mathcal{L}$ and determine whether those points are minima or maxima. (We'll discuss the intuition behind this later.) These critical points would be found by taking $\partial \mathcal{L} / \partial x, \partial \mathcal{L} / \partial y, \partial \mathcal{L} / \partial z, \partial \mathcal{L} / \partial \lambda$ and setting them equal to 0.   
+
+\example[Lagrange]{Find the min and max values of $f(x, y, z) = x^2y^2z^2$ constrained by $x^2+y^2+z^2 = 1$.} We have 
+\begin{align*}
+f_x &= 2xy^2z^2 \\
+f_y &= 2yx^2z^2 \\
+f_z &= 2zx^2y^2
+\end{align*}
+and similarly $g_x = 2x$, $g_y = 2y$, and $g_z = 2z$. So, we have $f_x = \lambda g_x \implies 2xy^2z^2 = \lambda 2z$. We also have $f_y = \lambda g_y \implies 2yx^2z^2 = \lambda 2y$ and $f_z = \lambda 2z \implies 2zx^2y^2 = \lambda 2z$. Solving for lambda in each equation yields $\lambda = y^2z^2, \lambda = x^2z^2$, and $\lambda = y^2x^2$. These equations may be combined into the constraint (noting that $x^2 = y^2 = z^2$) so we have $3z^2 = 1$. So $z = \pm 1/\sqrt{3} = x = y$ for the maximum (where $f(x,y,z) = 1/27$). The minimum is obtained by setting one of $x, y$, or $z$ to 0 and the other two to fit the constraint (in which case $f(x, y,z) = 0$).  
+
+\example $f(x,y) = xy^2$ on the circle $x^2 + y^2 = 1$. The solution is $x = \pm 1/\sqrt{3}$ and $y = \pm \sqrt{2}/\sqrt{3}$. These coordinates must be evaluated in $f$ to obtain minima and maxima. 
+
+\example $f(x,y) = 3x + y$ constrained on $x^2 + y^2 = 10$. The solution is $x = \pm 3$ and $y = \pm 1$. Again, these coordinates must be evaluated to in $f$ to determine minima and maxima.
+
 \newpage
 \section*{Appendix A - Random Variables}
 \begin{table}[h]
@@ -806,6 +823,7 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \hline
 \end{tabular}
 \end{table}
+
 
 %\section*{Quotes}
 %"What's $p$, entropy?" -Shaya Zarkesh, 9/13/2016\\[1em]
