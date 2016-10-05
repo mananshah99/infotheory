@@ -807,7 +807,7 @@ and similarly $g_x = 2x$, $g_y = 2y$, and $g_z = 2z$. So, we have $f_x = \lambda
 Consider $X$ with PMF $\{1/21, 2/21, 3/21, 4/21, 5/21, 6/21\}$. Find the (a) binary and (b) ternary Huffman coding, and determine the lengths of each. (a) and (b) are left to the reader; the binary expected length is 2.42 and the ternary expected length is 1.62.
 
 \section{October 5, 2016}
-
+\subsection{Proof of Source Coding Theorem: Part 1}
 We will show that the expected length of an optimal prefix encoding $n$-ary tree is between $H[X]$ and $H[X] + 1$ (it has a lower bound of the entropy and the upper bound of (entropy + 1)).\footnote{Our proof will discuss binary trees, but it can be shown that it generalizes to an $n$-ary tree.} 
 
 \lemma[Kraft Inequality] For any prefix code, the code word lengths $l_1, l_2, \dots, l_m$ must satisfy $$\sum_i 2^{-l_i}  < 1$$Conversely, given a set of code word lengths with this property, then there is a code with these lengths. 
