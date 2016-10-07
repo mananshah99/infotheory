@@ -870,7 +870,13 @@ The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$
 
 \subsection{Huffman and 20 Questions}
 
-Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. (b) 
+\example Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. (b) Assuming worst case (that the longest sequence of questions is required), what is your last question? (c) Give a good upper bound on the expected number of questions required. 
+
+(a) Treat each $X$ as a Bernoulli variable. Because each $X$ is independent, one can write the total entropy as the sum of the individual entropies. So, we have $H[X] = \sum_i H[X_i]$, where $H[X_i] = -[p_i \log p_i + (1-p_i) \log (1-p_i)]$. The good lower bound is this $H[X]$.
+
+(b) ``Is $X_i$ defective for all $i$''
+
+(c) The upper bound is just $H[X] + 1$. 
 
 %---------------------------------------------------------------------------------------------------
 \newpage
