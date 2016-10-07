@@ -807,7 +807,7 @@ and similarly $g_x = 2x$, $g_y = 2y$, and $g_z = 2z$. So, we have $f_x = \lambda
 Consider $X$ with PMF $\{1/21, 2/21, 3/21, 4/21, 5/21, 6/21\}$. Find the (a) binary and (b) ternary Huffman coding, and determine the lengths of each. (a) and (b) are left to the reader; the binary expected length is 2.42 and the ternary expected length is 1.62.
 
 \section{October 5, 2016}
-\subsection{Proof of Source Coding Theorem: Part 1}
+\subsection{Proof of Source Coding Theorem: Part 1 (LB: $H[X]$, UB: $H[X] + 1$)}
 We will show that the expected length of an optimal prefix encoding $n$-ary tree is between $H[X]$ and $H[X] + 1$ (it has a lower bound of the entropy and the upper bound of (entropy + 1)).\footnote{Our proof will discuss binary trees, but it can be shown that it generalizes to an $n$-ary tree.} 
 
 \lemma[Kraft Inequality] For any prefix code, the code word lengths $l_1, l_2, \dots, l_m$ must satisfy $$\sum_i 2^{-l_i}  < 1$$Conversely, given a set of code word lengths with this property, then there is a code with these lengths. 
@@ -822,6 +822,21 @@ Taking the partial with respect to $l_i$, we have $$\frac{\partial J}{\partial l
 \lambda &= \frac{1}{\ln 2}
 \end{align*} 
 We may then substitute this back into our original equation to obtain $p_i = 2^{- \l_i}$, so $l_i^* = -\log_2 p_i$. The optimal code (denoted with a $*$) is therefore $$L^* = \sum p_i l_i^* = -\sum p_i \log_2 p_i = H[X]$$In reality, $L^* \geq H[X]$. We have therefore proved the expected length $L^*$ is bounded below.  Since $\log_2 \frac{1}{p_i}$ may not be an integer, let $l_i = \ceil{\log_2 \frac{1}{p_i}}$. These lengths will still satsify Kraft since $$\sum 2^{-\ceil{\log_2 \frac{1}{p_i}}} \leq 2^{-\log \frac{1}{p_i}} = \sum p_i = 1$$This choice of code word lengths satisfies $\log_2 \frac{1}{p_i} \leq l_i \leq \log_2 \frac{1}{p_i} + 1$ due to the property of the ceiling. Multiplying by $p_i$ and summing over $i$, we get $$\sum p_i \log_2 \frac{1}{p_i} \leq p_i l_i < \sum \left[p_i \log_2 \frac{1}{p_i}\right] + \sum p_i$$Analogously, $H[X] \leq L < H[X] + 1$. Since $L \geq L^*$, $H[X] \leq L^* < H[X] + 1$. 
+
+\section{October 7, 2016}
+
+There are certainly many optimal codes, of which we will prove Huffman is one. 
+
+\subsection{Proof of Source Coding Theorem: Part 2 (Optimality of Huffman)}
+
+Before we can show that Huffman is optimal, we must prove some properties of a particular optimal code. 
+
+\lemma For any distribution, there exists an optimal prefix code with a minimum expected length that satisfies the following
+\begin{itemize}
+\item If $p_j > p_k$, then $l_j \leq l_k$ ($p$ denotes probability, $l$ denotes length)
+\item Two largest code words code words have the same length
+\item 
+\end{itemize} 
 
 %---------------------------------------------------------------------------------------------------
 \newpage
@@ -856,5 +871,9 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``I still don't get it'' (Swapnil)
 \item ``Swapnil---remember when, in 8th grade, I made JMO and you didn't?'' (Shaya) \\``I made USAMO.'' (Swapnil)
 \item ``I'm just happy I'm not on the quotes page" (Neymika Jain)
+\item ``How many fingers has a Martian?'' (Text)
+\item ``2, 4, 6, 8, who do we appreciate? Not info theory!'' (Neymika)
+\item ``I don't want to have as many [quotes] as Shaya...'' (Neymika)
+\item ``So the entropy is bounded by $H[X]$ and $H[X] + 1$, right?'' (Manan Shah)
 \end{itemize}
 \end{document}
