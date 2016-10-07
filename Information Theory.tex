@@ -831,12 +831,24 @@ There are certainly many optimal codes, of which we will prove Huffman is one.
 
 Before we can show that Huffman is optimal, we must prove some properties of a particular optimal code. 
 
-\lemma For any distribution, there exists an optimal prefix code with a minimum expected length that satisfies the following
+\lemma For any distribution, there exists an optimal prefix code with a minimum expected length that satisfies the following:
 \begin{itemize}
 \item If $p_j > p_k$, then $l_j \leq l_k$ ($p$ denotes probability, $l$ denotes length)
 \item Two largest code words code words have the same length
-\item 
+\item Two longest code words differ only in the last bit and correspond to the least likely symbols
 \end{itemize} 
+
+\begin{proof}
+The proof really amounts to swapping, trimming, and rearranging code words. Consider an optimal code $C_m$ with $m$ symbols. Assume that $p_1 \geq p_2 \geq p_3 \geq \dots \geq p_m$. As the code is optimal, $\sum_i p_i l_i$ is minimal (as close to $H[X]$ as possible, but certainly within the bounds $H[X]$ and $H[X] + 1$).
+
+Consider a new code $C_m'$ with code words $j$ and $k$ of $C_m$ interchanged. The difference between the expected lengths of both code words $L(C_m') - L(C_m) = \sum p_i l_i' - \sum p_i l_i$ reduces to  $p_jl_k p_kl_j - p_jl_j - p_k l_k$, which equates to $(p_j - p_k)(l_k - l_j)$. By hypothesis, $(p_j - p_k) \geq 0$. Since this code is the ``best'' optimal code (as defined by the sum $\sum_i p_i l_i$ as minimal),  $L(C_m') - L(C_m) \geq 0$, and $l_k \geq l_i$. 
+
+Next, if the 2 longest code words are not of the same length, then one can delete the last bit of the longest one and still satisfy the prefix property. 
+
+Finally, if there is a maximum length code word without a sibling (a code that differs in the last bit), then we can delete the last bit of the code word and still satisfy the prefix property (similar to (b)). This reduces the expected length, contradicting the hypothesis that the prefix code has ``minimum expected length'' ($\sum p_i l_i$ is minimal). So, the two longest code words must differ only in the last bit---every maximum length code word in any optimal code has a sibling. 
+\end{proof}
+
+Given a code tree, we can (a) trim it, (b) change the order so that the word lengths are in increasing order (the shorter ones are on the top), and (c) swap the probabilities to lower expected length. 
 
 %---------------------------------------------------------------------------------------------------
 \newpage
@@ -875,5 +887,9 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``2, 4, 6, 8, who do we appreciate? Not info theory!'' (Neymika)
 \item ``I don't want to have as many [quotes] as Shaya...'' (Neymika)
 \item ``So the entropy is bounded by $H[X]$ and $H[X] + 1$, right?'' (Manan Shah)
+\item ``Isn't swapping kind of like gargling? Like you can put the code words in your mouth and gargle them...'' (Rose Guan)
+\item ``Couldn't we make a pun with swapping and Swapnil?'' (Neymika)
+\item ``This is Cauchy-Schwartz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwartz. Not related.'' (Dr. Aiyer)
+\item ``I would be confused too if I actually understood what was happening'' (Neymika)
 \end{itemize}
 \end{document}
