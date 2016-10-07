@@ -848,7 +848,15 @@ Next, if the 2 longest code words are not of the same length, then one can delet
 Finally, if there is a maximum length code word without a sibling (a code that differs in the last bit), then we can delete the last bit of the code word and still satisfy the prefix property (similar to (b)). This reduces the expected length, contradicting the hypothesis that the prefix code has ``minimum expected length'' ($\sum p_i l_i$ is minimal). So, the two longest code words must differ only in the last bit---every maximum length code word in any optimal code has a sibling. 
 \end{proof}
 
-Given a code tree, we can (a) trim it, (b) change the order so that the word lengths are in increasing order (the shorter ones are on the top), and (c) swap the probabilities to lower expected length. 
+Given a code tree, we can (a) trim it, (b) change the order so that the word lengths are in increasing order (the shorter ones are on the top), and (c) swap the probabilities to lower expected length. The final state is known as the ``canonical form.'' Any tree can be converted to a canonical form by following this series of steps. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width = \textwidth]{canonicalform.jpg}
+\end{figure}
+\theorem The Huffman encoding is a best optimal code (there exist other codes that achieve the same minimum length, but there is no better code). 
+\begin{proof} We will show by induction that, if there is an optimal code at every level of the tree, then the tree is optimal. Define $C_m$ as the code for $\{p_1, p_2, \dots, p_m \}$ such that $p_1 \geq p_2 \geq \dots \geq p_m$. Define a merged code $C_{m-1}$ as a code obtained by taking the two longest code words and alloting them to a symbol with probability $p_{m-1} + p_m$. The original expected length of our tree is $$L(C_m) = \sum_{i = 1}^m p_i l_i$$This is equivalent to $$L(C_m) = \sum_{i-1}^{m-2} p_i l_i' + p_{m-1}(l'_{m-1} + 1) + p_m (l'_{m-1} + 1)$$where $l'$ is the length of the tree without the last two elements. By pulling $p_xl_x$ terms into the sum, we can write this as $$\sum_{i = 1}^{m - 1}p_i l_i' + p_{m-1} + p_m$$The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$$Therefore, minimizing $L(C_m)$ is equivalent to minimizing $L(C_{m-1})$. We have reduced the problem to 
+\end{proof}
 
 %---------------------------------------------------------------------------------------------------
 \newpage
@@ -891,5 +899,6 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``Couldn't we make a pun with swapping and Swapnil?'' (Neymika)
 \item ``This is Cauchy-Schwartz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwartz. Not related.'' (Dr. Aiyer)
 \item ``I would be confused too if I actually understood what was happening'' (Neymika)
+\item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu it was yours!'' (Shaya)
 \end{itemize}
 \end{document}
