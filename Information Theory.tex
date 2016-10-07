@@ -781,10 +781,6 @@ As we discussed previously, our coding mechanism relies on two principles: frequ
 
 \example Which of these cannot be Huffman codes for any probability assignment? (a) $\{0, 10, 11\}$, (b) $\{00, 01, 10, 110\}$, (c) $\{01, 10\}$. (b) and (c) cannot be codes. 
 
-\subsection{Huffman and 20 Questions}
-
-Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. 
-
 \section{October 3, 2016}
 
 \subsection{Lagrange Optimization}
@@ -855,7 +851,7 @@ Given a code tree, we can (a) trim it, (b) change the order so that the word len
 \includegraphics[width = \textwidth]{canonicalform.jpg}
 \end{figure}
 \theorem The Huffman encoding is a best optimal code (there exist other codes that achieve the same minimum length, but there is no better code). More precisely, if $C^*$ is Huffman coding and $C'$ is any other code, $L(C^*) \leq L(C')$. 
-\begin{proof} We will show by induction that, if there is an optimal code at every level of the tree, then the tree is optimal. Define $C_m$ as the code for $\{p_1, p_2, \dots, p_m \}$ such that $p_1 \geq p_2 \geq \dots \geq p_m$. Define a merged code $C_{m-1}$ as a code obtained by taking the two longest code words and alloting them to a symbol with probability $p_{m-1} + p_m$. The original expected length of our tree is $$L(C_m) = \sum_{i = 1}^m p_i l_i$$This is equivalent to $$L(C_m) = \sum_{i-1}^{m-2} p_i l_i' + p_{m-1}(l'_{m-1} + 1) + p_m (l'_{m-1} + 1)$$where $l'$ is the length of the tree without the last two elements. The sum of the terms $p_{m-1}l'_{m-1}$ and $p_m l'_{m-1}$ are equivalent to $l'_{m-1}(p_{m-1} + p_m)$. This is just the merged code; we will define the last probability on the tree as $(p_{m-1} + p_m)$. We can write the resulting sum as $$\sum_{i = 1}^{m - 1}p_i' l_i' + p_{m-1} + p_m$$where $p'$ terms are the terms from the previous expected length with the last term as $(p_{m-1} + p_m$). More precisely, we have 
+\begin{proof} We will show by induction that, if there is an optimal code at every level of the tree, then the tree is optimal. Define $C_m$ as the code for $\{p_1, p_2, \dots, p_m \}$ such that $p_1 \geq p_2 \geq \dots \geq p_m$. Define a merged code $C_{m-1}$ as a code obtained by taking the two longest code words and alloting them to a symbol with probability $p_{m-1} + p_m$. The original expected length of our tree is $$L(C_m) = \sum_{i = 1}^m p_i l_i$$This is equivalent to $$L(C_m) = \sum_{i-1}^{m-2} p_i l_i' + p_{m-1}(l'_{m-1} + 1) + p_m (l'_{m-1} + 1)$$where $l'$ is the length of the tree without the last two elements. The sum of the terms $p_{m-1}l'_{m-1}$ and $p_m l'_{m-1}$ are equivalent to $l'_{m-1}(p_{m-1} + p_m)$. This is just the merged code; we will define the last probability on the tree as $(p_{m-1} + p_m)$. We can write the resulting sum as $$\sum_{i = 1}^{m - 1}p_i' l_i' + p_{m-1} + p_m$$where we have the following definitions:
 
 \begin{equation*}
 l_i' = \begin{cases}
@@ -871,6 +867,10 @@ p_{m-1} + p_{m}& i = m-1\\
 \end{equation*}
 The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$$So, minimizing $L(C_m)$ is equivalent to minimizing $L(C_{m-1})$. We have reduced the problem to one with $(m-1)$ symbols and a PMF $\{p_1, p_2, p_3, \dots, p_{m-2}, p_{m-1} + p_m \}$. We will now look for a code that satisfies the previous lemma and repeat the process until we have two symbols for which the solution is obvious. We have maintained optimality at every step of the tree, and since each level has been optimized, the entire tree has also been optimized. 
 \end{proof}
+
+\subsection{Huffman and 20 Questions}
+
+Let $X_i = 1$ or $0$ if $i$-th object is good or defective, respectively. Let $X_i, X_2, \dots, X_n$ be independent with $\text{Pr} \{X_i = 1\} = p_i$. Also note that $p_1 > p_2 > \dots > p_n > 1/2$. The goal is to determine the set of all defective objects.  (a) Give a good lower bound on the minimum average number of questions. (b) 
 
 %---------------------------------------------------------------------------------------------------
 \newpage
@@ -914,5 +914,6 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``This is Cauchy-Schwartz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwartz. Not related.'' (Dr. Aiyer)
 \item ``I would be confused too if I actually understood what was happening'' (Neymika)
 \item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu (I knew) it was yours!'' (Shaya)
+\item ``Time flies when you're... proving things'' (Manan)
 \end{itemize}
 \end{document}
