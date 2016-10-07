@@ -854,8 +854,22 @@ Given a code tree, we can (a) trim it, (b) change the order so that the word len
 \centering
 \includegraphics[width = \textwidth]{canonicalform.jpg}
 \end{figure}
-\theorem The Huffman encoding is a best optimal code (there exist other codes that achieve the same minimum length, but there is no better code). 
-\begin{proof} We will show by induction that, if there is an optimal code at every level of the tree, then the tree is optimal. Define $C_m$ as the code for $\{p_1, p_2, \dots, p_m \}$ such that $p_1 \geq p_2 \geq \dots \geq p_m$. Define a merged code $C_{m-1}$ as a code obtained by taking the two longest code words and alloting them to a symbol with probability $p_{m-1} + p_m$. The original expected length of our tree is $$L(C_m) = \sum_{i = 1}^m p_i l_i$$This is equivalent to $$L(C_m) = \sum_{i-1}^{m-2} p_i l_i' + p_{m-1}(l'_{m-1} + 1) + p_m (l'_{m-1} + 1)$$where $l'$ is the length of the tree without the last two elements. By pulling $p_xl_x$ terms into the sum, we can write this as $$\sum_{i = 1}^{m - 1}p_i l_i' + p_{m-1} + p_m$$The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$$Therefore, minimizing $L(C_m)$ is equivalent to minimizing $L(C_{m-1})$. We have reduced the problem to 
+\theorem The Huffman encoding is a best optimal code (there exist other codes that achieve the same minimum length, but there is no better code). More precisely, if $C^*$ is Huffman coding and $C'$ is any other code, $L(C^*) \leq L(C')$. 
+\begin{proof} We will show by induction that, if there is an optimal code at every level of the tree, then the tree is optimal. Define $C_m$ as the code for $\{p_1, p_2, \dots, p_m \}$ such that $p_1 \geq p_2 \geq \dots \geq p_m$. Define a merged code $C_{m-1}$ as a code obtained by taking the two longest code words and alloting them to a symbol with probability $p_{m-1} + p_m$. The original expected length of our tree is $$L(C_m) = \sum_{i = 1}^m p_i l_i$$This is equivalent to $$L(C_m) = \sum_{i-1}^{m-2} p_i l_i' + p_{m-1}(l'_{m-1} + 1) + p_m (l'_{m-1} + 1)$$where $l'$ is the length of the tree without the last two elements. The sum of the terms $p_{m-1}l'_{m-1}$ and $p_m l'_{m-1}$ are equivalent to $l'_{m-1}(p_{m-1} + p_m)$. This is just the merged code; we will define the last probability on the tree as $(p_{m-1} + p_m)$. We can write the resulting sum as $$\sum_{i = 1}^{m - 1}p_i' l_i' + p_{m-1} + p_m$$where $p'$ terms are the terms from the previous expected length with the last term as $(p_{m-1} + p_m$). More precisely, we have 
+
+\begin{equation*}
+l_i' = \begin{cases}
+l_i &i \leq m-2\\
+l_{m-1} & i = m-1\\
+\end{cases}
+\end{equation*} 
+\begin{equation*}
+p_i' = \begin{cases}
+p_i &i \leq m-2\\
+p_{m-1} + p_{m}& i = m-1\\
+\end{cases}
+\end{equation*}
+The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$$So, minimizing $L(C_m)$ is equivalent to minimizing $L(C_{m-1})$. We have reduced the problem to one with $(m-1)$ symbols and a PMF $\{p_1, p_2, p_3, \dots, p_{m-2}, p_{m-1} + p_m \}$. We will now look for a code that satisfies the previous lemma and repeat the process until we have two symbols for which the solution is obvious. We have maintained optimality at every step of the tree, and since each level has been optimized, the entire tree has also been optimized. 
 \end{proof}
 
 %---------------------------------------------------------------------------------------------------
@@ -899,6 +913,6 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``Couldn't we make a pun with swapping and Swapnil?'' (Neymika)
 \item ``This is Cauchy-Schwartz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwartz. Not related.'' (Dr. Aiyer)
 \item ``I would be confused too if I actually understood what was happening'' (Neymika)
-\item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu it was yours!'' (Shaya)
+\item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu (I knew) it was yours!'' (Shaya)
 \end{itemize}
 \end{document}
