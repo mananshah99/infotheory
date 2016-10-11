@@ -880,16 +880,19 @@ The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$
 
 \section{October 11, 2016}
 
-\subsection{Final Source Coding Examples}
+\subsection{Source Coding Examples}
 
 
-\example[Huffman Codes with Costs] This is problem 17 from the text; the solution is in the image (for now). 
+\example[Huffman Codes with Costs] Words like Run! Help! and Fire! are short, not because they are frequently used, but perhaps because time is precious in the situations in which these words are required. Suppose that $X = i$ with probability $p_i$, $i = 1, 2, \dots, m$. Let $l_i$ be the number of binary symbols in the codeword associated with $X = i$, and let $c_i$ denote the cost per letter of the codeword when $X = i$. Thus the average cost $C$ of the description of $X$ is $C = \sum_{i=1}^m p_i c_i l_i$. 
+(a) Minimize $C$ over all $l_1, l_2, \dots, l_m$ such that $\sum 2^{-l_i} \leq 1$. Ignore any implied integer constraints on $l_i$. Exhibit the minimizing $l_1^*,l_2^*, \dots, l_m^*$ and the associated minimum value $C^*$.(b) How would you use the Huffman code procedure to minimize $C$ over all uniquely decodable codes? Let $C_{\text{Huffman}}$ denote this minimum.(c) Show that $$C^* \leq C_{\text{Huffman}} \leq C^* + \sum_{i = 1}^m p_i c_i$$
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=\textwidth]{weightedcoding.jpeg}
-\end{figure}
-
+\noindent Define $\sum_i p_i c_i$ as $K$. Our goal is to minimize $\sum_i p_i c_i l_i$ constrained by $\sum_i 2^{-l_i} \leq 1$. The Lagrange function is $\mathcal{L} = \sum_i p_i c_i l_i - \lambda(\sum 2^{-l_i} - 1)$. Differentiating $\mathcal{L}$ yields $\frac{\partial \mathcal{L}}{\partial l_i} = p_i c_i + \lambda 2^{-l_i} \ln 2$. We can then write 
+\begin{align*}
+p_ic_i &= -\lambda 2^{-l_i} \ln 2 \\
+2^{-l_i} &= -\frac{p_i c_i}{\lambda \ln 2} \\
+\sum_i 2^{-l_i} &= -\sum_i \frac{p_i c_i}{\lambda \ln 2} = -\frac{K}{\lambda \ln 2} \leq 1
+\end{align*} 
+Assuming the ideal case, we have $-\frac{K}{\lambda \ln 2} = 1$ so $\lambda = -\frac{K}{\ln 2}$. Then, $2^{-l_i} = \frac{p_i c_i}{\lambda \ln 2} = \frac{p_i c_i}{\frac{K}{\ln 2} \ln 2}$. Finally, we conclude that $l_i = -\log \left( \frac{p_ic_i}{K} \right)$. Our $C^* = \sum p_i c_i l_i$. Substituting the obtained value for $l_i$, we get $-\sum p_i c_i \log \left( \frac{p_i c_i}{K} \right)$. Noting that this equation looks quite similar to the form of entropy, we can multiply and divide by $K$ to obtain $$C^* = K \left( -\sum \frac{p_i c_i}{K} \log \left( \frac{p_i c_i}{K} \right) \right) = K H\left(\frac{p_i c_i}{K} \right)$$In the non-optimal case where $\log \left( \frac{p_i c_i}{K} \right) \neq \ceil{\log \left( \frac{p_i c_i}{K} \right)}$, we have $$\sum 2^{\ceil{\log \left( \frac{p_i c_i}{K} \right)}} \leq \sum 2^{\log \left( \frac{p_i c_i}{K} \right)} = 1$$by the property of the ceiling. This implies that $$\log \frac{p_i c_i}{K} \leq l_i \leq \log \frac{p_i c_i}{K} + 1$$which we may rewrite as $$\sum p_ic_i \log \frac{p_i c_i}{K} \leq \sum p_ic_i l_i \leq \sum p_ic_i \log \frac{p_i c_i}{K} + \sum p_ic_i$$So, we have $KH\left(\frac{p_ic_i}{K} \right) \leq C \leq KH\left(\frac{p_ic_i}{K} \right) + K$, and $$C^* \leq C \leq C^* + \sum_i p_i c_i$$
 
 \example Random variable $X$ takes on six values $\{A, B, C, D, E, F\}$ with probabilities \\$\{0.5, 0.25, 0.1, 0.05, 0.05, 0.05\}$. (a) Construct a Huffman code for the random variable and find the expected length. (b) Construct a quaternary code and find its expected length. (c) One way to construct a binary code is to start with a quaternary code and then convert to binary (such that $a \rightarrow 00, b \rightarrow 01, c \rightarrow 10, d \rightarrow 11$). Find its average length. (d) Show that $\L_H \leq L_{QB} < L_H + 2$ where ``QB'' stands for quaternary-binary. 
 
