@@ -881,7 +881,16 @@ The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$
 \section{October 11, 2016}
 
 \example Random variable $X$ takes on six values $\{A, B, C, D, E, F\}$ with probabilities \\$\{0.5, 0.25, 0.1, 0.05, 0.05, 0.05\}$. (a) Construct a Huffman code for the random variable and find the expected length. (b) Construct a quaternary code and find its expected length. (c) One way to construct a binary code is to start with a quaternary code and then convert to binary (such that $a \rightarrow 00, b \rightarrow 01, c \rightarrow 10, d \rightarrow 11$). Find its average length. (d) Show that $\L_H \leq L_{QB} < L_H + 2$ where ``QB'' stands for quaternary-binary. 
- 
+
+%\section{October 13, 2016}
+%\example Imagine a party where everyone puts their hat into the center. Then, each person randomly takes a hat from the pool. What is the %probability that (a) there are no matches and (b) that there are exactly k matches. 
+
+%We can represent the order in which the hats are drawn as a set of numbers, e.g. 4, 3, 2, 1 would mean that the first person draws hat four, the %second hat three, and so on. Observe the following pattern: 2, 1, 3, etc. Person 1 draws hat 2 and person 2 draws hat 1 forming a closed loop. %We refer to each such loop as a {\bf derangement} and call the total number of these derangements as $d_n$. 
+%For instance, the probability of a $d_2$ derangement is equal to the probability that the first person does not draw their own hat times the %probability that the person whose hat is selected draws the first person's hat:
+%$$d_2 = \frac{n - 1}{n} \times \frac{1}{n-1} = \frac{1}{n}$$
+%Similar logic applies to 
+%$$d_3 = \frac{n - 1}{n} \times \frac{n-2}{n-1} \times \frac{1}{n-2} = \frac{1}{n}$$. 
+%
 %---------------------------------------------------------------------------------------------------
 \newpage
 \section*{Appendix A - Random Variables}
