@@ -880,7 +880,32 @@ The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$
 
 \section{October 11, 2016}
 
+\subsection{Source Coding Examples}
+
+
+\example[Huffman Codes with Costs] Words like Run! Help! and Fire! are short, not because they are frequently used, but perhaps because time is precious in the situations in which these words are required. Suppose that $X = i$ with probability $p_i$, $i = 1, 2, \dots, m$. Let $l_i$ be the number of binary symbols in the codeword associated with $X = i$, and let $c_i$ denote the cost per letter of the codeword when $X = i$. Thus the average cost $C$ of the description of $X$ is $C = \sum_{i=1}^m p_i c_i l_i$. 
+(a) Minimize $C$ over all $l_1, l_2, \dots, l_m$ such that $\sum 2^{-l_i} \leq 1$. Ignore any implied integer constraints on $l_i$. Exhibit the minimizing $l_1^*,l_2^*, \dots, l_m^*$ and the associated minimum value $C^*$.
+(b) How would you use the Huffman code procedure to minimize $C$ over all uniquely decodable codes? Let $C_{\text{Huffman}}$ denote this minimum.
+(c) Show that $$C^* \leq C_{\text{Huffman}} \leq C^* + \sum_{i = 1}^m p_i c_i$$
+
+\noindent Define $\sum_i p_i c_i$ as $K$. Our goal is to minimize $\sum_i p_i c_i l_i$ constrained by $\sum_i 2^{-l_i} \leq 1$. The Lagrange function is $\mathcal{L} = \sum_i p_i c_i l_i - \lambda(\sum 2^{-l_i} - 1)$. Differentiating $\mathcal{L}$ yields $\frac{\partial \mathcal{L}}{\partial l_i} = p_i c_i + \lambda 2^{-l_i} \ln 2$. We can then write 
+\begin{align*}
+p_ic_i &= -\lambda 2^{-l_i} \ln 2 \\
+2^{-l_i} &= -\frac{p_i c_i}{\lambda \ln 2} \\
+\sum_i 2^{-l_i} &= -\sum_i \frac{p_i c_i}{\lambda \ln 2} = -\frac{K}{\lambda \ln 2} \leq 1
+\end{align*} 
+Assuming the ideal case, we have $-\frac{K}{\lambda \ln 2} = 1$ so $\lambda = -\frac{K}{\ln 2}$. Then, $2^{-l_i} = \frac{p_i c_i}{\lambda \ln 2} = \frac{p_i c_i}{\frac{K}{\ln 2} \ln 2}$. Finally, we conclude that $l_i = -\log \left( \frac{p_ic_i}{K} \right)$. Our $C^* = \sum p_i c_i l_i$. Substituting the obtained value for $l_i$, we get $-\sum p_i c_i \log \left( \frac{p_i c_i}{K} \right)$. Noting that this equation looks quite similar to the form of entropy, we can multiply and divide by $K$ to obtain $$C^* = K \left( -\sum \frac{p_i c_i}{K} \log \left( \frac{p_i c_i}{K} \right) \right) = K H\left(\frac{p_i c_i}{K} \right)$$In the non-optimal case where $\log \left( \frac{p_i c_i}{K} \right) \neq \ceil{\log \left( \frac{p_i c_i}{K} \right)}$, we have $$\sum 2^{\ceil{\log \left( \frac{p_i c_i}{K} \right)}} \leq \sum 2^{\log \left( \frac{p_i c_i}{K} \right)} = 1$$by the property of the ceiling. This implies that $$\log \frac{p_i c_i}{K} \leq l_i \leq \log \frac{p_i c_i}{K} + 1$$which we may rewrite as $$\sum p_ic_i \log \frac{p_i c_i}{K} \leq \sum p_ic_i l_i \leq \sum p_ic_i \log \frac{p_i c_i}{K} + \sum p_ic_i$$So, we have $KH\left(\frac{p_ic_i}{K} \right) \leq C \leq KH\left(\frac{p_ic_i}{K} \right) + K$, and $$C^* \leq C \leq C^* + \sum_i p_i c_i$$
+
 \example Random variable $X$ takes on six values $\{A, B, C, D, E, F\}$ with probabilities \\$\{0.5, 0.25, 0.1, 0.05, 0.05, 0.05\}$. (a) Construct a Huffman code for the random variable and find the expected length. (b) Construct a quaternary code and find its expected length. (c) One way to construct a binary code is to start with a quaternary code and then convert to binary (such that $a \rightarrow 00, b \rightarrow 01, c \rightarrow 10, d \rightarrow 11$). Find its average length. (d) Show that $\L_H \leq L_{QB} < L_H + 2$ where ``QB'' stands for quaternary-binary. 
+
+Parts (a)--(c) are left to the reader. For part (d), $L_{QB} = 2L_{Q}$, and we know that $L_Q \leq H(X)_Q + 1$. $H(X)_Q = \sum_x \log_4 p(x) p(x) = \sum_x \frac{\log_2p(x)}{2} p(x)$. This evaluates to $0.5 \sum_x \log_2 p(x) p(x) = H(X)/2$. Therefore, $H(X)/2 \leq L_Q \leq H(X)/2 + 1$. So, $L_{QB} \leq H(X) + 2$, and $L_H \leq L_{QB}$ since $L_H$ is optimal. Since $H(X) \leq L_H$, $L_{QB} \leq L_H + 2$. 
+
+\subsection{On Channels}
+So far, we've looked at the source, which can be modeled as a random variable, and we showed that in order to code the source the best one can do is bounded by the entropy $H(X)$. (This is how much ``compression'' one can get out of a source.) We will now discuss the channel, which will morph the source output in some way. This morphing will also be modeled as a random variable but is conditioned on $X$, the random variable from the source. 
+
+\subsection{Conditional Probability}
+
+Problems are in the handout on Athena; this document will be updated once I can Ctrl+C, Ctrl+V
 
 %\section{October 13, 2016}
 %\example Imagine a party where everyone puts their hat into the center. Then, each person randomly takes a hat from the pool. What is the %probability that (a) there are no matches and (b) that there are exactly k matches. 
@@ -892,6 +917,52 @@ The expected length is therefore equal to $$L(C_m) = L(C_{m-1}) + p_m + p_{m-1}$
 %$$d_3 = \frac{n - 1}{n} \times \frac{n-2}{n-1} \times \frac{1}{n-2} = \frac{1}{n}$$. 
 %
 %---------------------------------------------------------------------------------------------------
+\section{October 17, 2016}
+\subsection{Conditional Distributions}
+We can make a conceptual mapping of standard distribution concepts onto conditional distribution concepts consider: \\
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Function & Standard & Conditional\\
+\hline
+pmf & $P(X = x_0)$ & $P(Y|X = x_0)$\\
+\hline
+pdf & $f_X(x)$ & $f_{Y|X=x_0}(y|X=x_0)$\\
+\hline
+\end{tabular}
+\end{table}
+\example We have two R.V. $X$ and $Y$ such that $X\sim \mathrm{Poisson}(\lambda_1)$ and $Y\sim \mathrm{Poisson}(\lambda_2)$. What will the distribution of $X + Y$ be? It will a new poisson distribution. This property is NOT true in general of two independent RVs of the same distribution. It will hold for Poisson, Gaussian. 
+
+\proof 	Assume that $P(X = k) = \frac{e^{-\lambda_1} \lambda_1^k}{k!}$ and $P(Y = n) = \frac{e^{-\lambda_2} \lambda_2^n}{n!}$\\[2em]
+		\begin{align*}
+		P(X + Y = m)	&= \sum_{k=0}^m P(X=k) P(Y=m-k)\\
+					&= \sum_{k=0}^m  \frac{e^{-\lambda_1} \lambda_1^k}{k!} \frac{e^{-\lambda_2} \lambda_2^n}{n!}\\
+					&= e^{-(\lambda_1+\lambda_2)} \frac{1}{m!}\sum_{k=0}^m  \frac{m!}{k!(m-k)!}\lambda_1^k \lambda_2^{m-k}\\
+					&= e^{-(\lambda_1+\lambda_2)} \frac{(\lambda_1 + \lambda_2)^m}{m!}
+		\end{align*}
+\example If you have a continuous random variable $Z$ composed of two variables with pmf $f(x,y)$ such that 
+		\begin{equation*}
+			f(x,y) = \begin{cases}
+					\frac{12}{5} x (2 - x - y) & 0 < x < 1, 0 < y < 1\\
+					0 & \mathrm{o/w}\\
+				\end{cases}
+		\end{equation*} 
+		what is $f(x|Y=y_0)$?
+		Using Bayes Theorem:
+			$$f(x|Y=y_0) = \frac{f(x, y_0)}{f_Y(y_0)}$$
+		We define $f_Y$ as the distribution of $Z$ exclusively with respect to $Y$. In otherwords, 
+			\begin{align*}
+			f_Y(y) &= \int_{-\infty}^{\infty}f(x,y)dx\\
+				  &= \int_{0}^{1}\frac{12}{5} x (2 - x - y)dx\\
+				  &= \frac{2}{5}(4 - 3 y)
+			\end{align*}
+		Substituting this value into our original equation we have that
+			\begin{align*}
+			f(x|Y=y_0) &= \frac{\frac{12}{5} x (2 - x - y_0)}{\frac{2}{5}(4 - 3 y_0)}\\
+					 &= \frac{6x (2 - x - y_0)}{4-3y_0}
+			\end{align*}
+
 \newpage
 \section*{Appendix A - Random Variables}
 \begin{table}[h]
@@ -934,10 +1005,14 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``I would be confused too if I actually understood what was happening'' (Neymika)
 \item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu (I knew) it was yours!'' (Shaya)
 \item ``Time flies when you're... proving things'' (Manan)
-\item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn'��t phrase it in the form of a question.'' (Dr. Aiyer)
+\item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn't phrase it in the form of a question.'' (Dr. Aiyer)
 \item ``Um, Dr. Aiyer, are we going to go over the PSAT math thing in class?'' (Rose)
 \item ``So what's 0.85 + 0.3?'' (Neymika)
 \item ``What are we supposed to be doing right now?'' (Swapnil)
 \item ``So are you going to talk through it or do it?'' (Dr. Aiyer) \\ ``Oh, I don't really know how to do it...'' (Swapnil)
+\item ``So how does stuff start cancelling out'' (Justin)
+\item ``No, you can't be clever, that’s not allowed in this class.'' (Dr. Aiyer)
+\item ``We could actually get this with algebra if we were clever enough, but we’re not clever enough.'' (Rajiv Movva)
+\item ``So how long did the homework take you?" (Shaya) \\ ``About fifty minutes" (Swapnil) \\ ``Yeah it took me about fifty minutes too" (Shaya) \\ ``It took you \textit{fifty} minutes?" (Swapnil) \\ ``It took you fifty minutes too..." (Shaya) \\ ``No but, it took \textit{you} fifty minutes" (Swapnil).
 \end{itemize}
 \end{document}
