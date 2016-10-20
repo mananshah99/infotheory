@@ -9,6 +9,8 @@
 \usepackage[table,xcdraw]{xcolor}
 \defaultfontfeatures{Mapping=tex-text}
 \usepackage{bigints}
+\usepackage{booktabs}
+
 % Uncomment below to change default features 
 %\setromanfont[Mapping=tex-text]{Hoefler Text}
 %\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
@@ -903,9 +905,9 @@ Parts (a)--(c) are left to the reader. For part (d), $L_{QB} = 2L_{Q}$, and we k
 \subsection{On Channels}
 So far, we've looked at the source, which can be modeled as a random variable, and we showed that in order to code the source the best one can do is bounded by the entropy $H(X)$. (This is how much ``compression'' one can get out of a source.) We will now discuss the channel, which will morph the source output in some way. This morphing will also be modeled as a random variable but is conditioned on $X$, the random variable from the source. 
 
-\subsection{Conditional Probability}
+%\subsection{Conditional Probability}
 
-Problems are in the handout on Athena; this document will be updated once I can Ctrl+C, Ctrl+V
+%Problems are in the handout on Athena; this document will be updated once I can Ctrl+C, Ctrl+V
 
 %\section{October 13, 2016}
 %\example Imagine a party where everyone puts their hat into the center. Then, each person randomly takes a hat from the pool. What is the %probability that (a) there are no matches and (b) that there are exactly k matches. 
@@ -917,9 +919,9 @@ Problems are in the handout on Athena; this document will be updated once I can 
 %$$d_3 = \frac{n - 1}{n} \times \frac{n-2}{n-1} \times \frac{1}{n-2} = \frac{1}{n}$$. 
 %
 %---------------------------------------------------------------------------------------------------
-\section{October 17, 2016}
+\section{October 17, 2016 (Andrew)}
 \subsection{Conditional Distributions}
-We can make a conceptual mapping of standard distribution concepts onto conditional distribution concepts consider: \\
+We can make a conceptual mapping of standard distribution concepts onto conditional distribution concepts consider:
 \begin{table}[h]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -934,24 +936,24 @@ pdf & $f_X(x)$ & $f_{Y|X=x_0}(y|X=x_0)$\\
 \end{table}
 \example We have two R.V. $X$ and $Y$ such that $X\sim \mathrm{Poisson}(\lambda_1)$ and $Y\sim \mathrm{Poisson}(\lambda_2)$. What will the distribution of $X + Y$ be? It will a new poisson distribution. This property is NOT true in general of two independent RVs of the same distribution. It will hold for Poisson, Gaussian. 
 
-\proof 	Assume that $P(X = k) = \frac{e^{-\lambda_1} \lambda_1^k}{k!}$ and $P(Y = n) = \frac{e^{-\lambda_2} \lambda_2^n}{n!}$\\[2em]
+\begin{proof}	Assume that $P(X = k) = \frac{e^{-\lambda_1} \lambda_1^k}{k!}$ and $P(Y = n) = \frac{e^{-\lambda_2} \lambda_2^n}{n!}$
 		\begin{align*}
 		P(X + Y = m)	&= \sum_{k=0}^m P(X=k) P(Y=m-k)\\
 					&= \sum_{k=0}^m  \frac{e^{-\lambda_1} \lambda_1^k}{k!} \frac{e^{-\lambda_2} \lambda_2^n}{n!}\\
 					&= e^{-(\lambda_1+\lambda_2)} \frac{1}{m!}\sum_{k=0}^m  \frac{m!}{k!(m-k)!}\lambda_1^k \lambda_2^{m-k}\\
 					&= e^{-(\lambda_1+\lambda_2)} \frac{(\lambda_1 + \lambda_2)^m}{m!}
-		\end{align*}
-\example If you have a continuous random variable $Z$ composed of two variables with pmf $f(x,y)$ such that 
-		\begin{equation*}
-			f(x,y) = \begin{cases}
-					\frac{12}{5} x (2 - x - y) & 0 < x < 1, 0 < y < 1\\
-					0 & \mathrm{o/w}\\
-				\end{cases}
-		\end{equation*} 
+		\end{align*}\end{proof}
+\example Given a continuous random variable $Z$ composed of two variables with pmf $f(x,y)$ such that 
+\begin{equation*}
+f(x,y) = \begin{cases}
+\frac{12}{5} x(2-x-y) & 0 < x < 1, 0 < y < 1\\
+0 & \text{otherwise}
+\end{cases}
+\end{equation*}
 		what is $f(x|Y=y_0)$?
-		Using Bayes Theorem:
-			$$f(x|Y=y_0) = \frac{f(x, y_0)}{f_Y(y_0)}$$
-		We define $f_Y$ as the distribution of $Z$ exclusively with respect to $Y$. In otherwords, 
+		Using an analogy of Bayes' Theorem:
+			$$f_{x|Y=y_0}(x|Y=y_0) = \frac{f(x, y_0)}{f_Y(y_0)}$$
+		We define $f_Y$ as the distribution of $Z$ exclusively with respect to $Y$. In other words, 
 			\begin{align*}
 			f_Y(y) &= \int_{-\infty}^{\infty}f(x,y)dx\\
 				  &= \int_{0}^{1}\frac{12}{5} x (2 - x - y)dx\\
@@ -959,10 +961,57 @@ pdf & $f_X(x)$ & $f_{Y|X=x_0}(y|X=x_0)$\\
 			\end{align*}
 		Substituting this value into our original equation we have that
 			\begin{align*}
-			f(x|Y=y_0) &= \frac{\frac{12}{5} x (2 - x - y_0)}{\frac{2}{5}(4 - 3 y_0)}\\
+			f_{x|Y=y_0}(x|Y=y_0) &= \frac{\frac{12}{5} x (2 - x - y_0)}{\frac{2}{5}(4 - 3 y_0)}\\
 					 &= \frac{6x (2 - x - y_0)}{4-3y_0}
 			\end{align*}
+This works because we are conditioning on \textit{one} instance of the variable $Y = y_0$.
+\section{October 20, 2016}
 
+\subsection{Continuing Conditional Distributions}
+
+\example Suppose 3 balls are chosen without replacement from an urn consisting of 5 white and 8 red balls. Let $Y_i = 1$ if the $i$th white ball is drawn on the $i$th draw and $Y_i = 0$ otherwise. The $W$ balls are numbered. Find $P(Y_1, Y_2)$; this is easily done by drawing a table as follows:
+
+% Please add the following required packages to your document preamble:
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+$Y_1$ & $Y_2$ & Probability                                                  \\ \midrule
+0     & 0     & $\frac{1}{13} \times 1 + \frac{11}{13} \times \frac{11}{12}$ \\
+0     & 1     & $\frac{11}{13} \times \frac{1}{12}$                          \\
+1     & 0     & $\frac{1}{13} \times \frac{11}{12}$                          \\
+1     & 1     & $\frac{1}{13} \times \frac{1}{12}$                           \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\noindent To find $P(Y_1 | Y_2 = 0)$, our sample space is constricted to the cases where $Y_2 = 0$. Our new distribution is $\frac{P(Y_1 = 0, Y_0 = 0)}{P(Y_2 = 0)}$ and $\frac{P(Y_1 = 1, Y_0 = 0)}{P(Y_2 = 0)}$ 
+
+\example Verify that the following is indeed a joint pdf, and identify the difference between $f_{x|Y=y_0}(x|Y=y_0)$ and $f_x$, the density function of $X$.  \begin{equation*}
+f(x,y) = \begin{cases}
+\frac{6}{7} (x^2 + \frac{xy}{2}) & 0 < x < 1, 0 < y < 2\\
+0 & \text{otherwise}
+\end{cases}
+\end{equation*}
+(a) Evaluate the double integral $$\int_0^1 \int_0^2 \frac{6}{7} \left(x^2 + \frac{xy}{2}\right) \: dy \: dx = 1$$(b) $f_{x|Y=y_0}(x|Y=y_0) = \frac{f(x, y=y_0)}{\int_0^1 f(x, y=y_0) dx}$ and $f_x = \int f(x, y) dy$
+
+\example $X$ and $Y$ are geometric random variables (independent) with the same parameter $p$. What do you think is $P(X = i | X + Y = n)$? Solution left to the reader. 
+
+\subsection{Conditional Expectation} 
+
+$E[X | Y = y_0]  = \sum_x x P(x | Y = y_0)$. Analogously, $\int x f_{X | Y = y_0} dx$. To compute expectation by conditioning, note that we can write \begin{align*} E[X] &= E_y[E[X | Y = y_0]] \\ &= \sum_y E[X | Y = y_0] P(Y = y_0) \end{align*}
+
+\example Define \begin{equation*}
+f(x,y) = \begin{cases}
+\frac{e^{-x/y} e^{-y}}{y} & 0 < x < \infty, 0 < y < \infty \\
+0 & \text{otherwise}
+\end{cases}
+\end{equation*}
+Find $E[X | Y = y_0]$. The solution is $y_0$; details are left to the reader.  
+
+\example Let the number of people who enter a store be a random variable with $\mu = 50$. The amount of money spent by each customer are independent random variables with $\mu = 8$. Suppose that the amount of money spent by each customer is independent of the total amount of money spent by all other customers who enter. Find the expected amount of money that the store makes in a day. 
+Clearly the answer is 400, but we're going to write this formally. Let $N$ = the number of customers and $X_i$ = the amount spent by customer $i$. We wish to find $E[\sum X_i]$ which resolves to $E[E[\sum_{i = 1}^N X_i | N]]$. We will finish this next time. 
+
+%----------
 \newpage
 \section*{Appendix A - Random Variables}
 \begin{table}[h]
@@ -1001,11 +1050,11 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``So the entropy is bounded by $H[X]$ and $H[X] + 1$, right?'' (Manan Shah)
 \item ``Isn't swapping kind of like gargling? Like you can put the code words in your mouth and gargle them...'' (Rose Guan)
 \item ``Couldn't we make a pun with swapping and Swapnil?'' (Neymika)
-\item ``This is Cauchy-Schwartz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwartz. Not related.'' (Dr. Aiyer)
+\item ``This is Cauchy-Schwarz'' (Shaya) \\``No, it's just factoring'' (Kai Siang-Ang)\\``No, it's Cauchy'' (Shaya)\\``No, Shaya---No Cauchy, No Schwarz. Not related.'' (Dr. Aiyer)
 \item ``I would be confused too if I actually understood what was happening'' (Neymika)
 \item (Phone ringing) ``I guess it was mine'' (Dr. Aiyer) \\ ``Anu (I knew) it was yours!'' (Shaya)
 \item ``Time flies when you're... proving things'' (Manan)
-\item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn't phrase it in the form of a question.'' (Dr. Aiyer)
+\item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn't phrase it in the form of a question.'' (Dr. Aiyer)
 \item ``Um, Dr. Aiyer, are we going to go over the PSAT math thing in class?'' (Rose)
 \item ``So what's 0.85 + 0.3?'' (Neymika)
 \item ``What are we supposed to be doing right now?'' (Swapnil)
@@ -1013,6 +1062,9 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``So how does stuff start cancelling out'' (Justin)
 \item ``No, you can't be clever, that’s not allowed in this class.'' (Dr. Aiyer)
 \item ``We could actually get this with algebra if we were clever enough, but we’re not clever enough.'' (Rajiv Movva)
-\item ``So how long did the homework take you?" (Shaya) \\ ``About fifty minutes" (Swapnil) \\ ``Yeah it took me about fifty minutes too" (Shaya) \\ ``It took you \textit{fifty} minutes?" (Swapnil) \\ ``It took you fifty minutes too..." (Shaya) \\ ``No but, it took \textit{you} fifty minutes" (Swapnil).
+\item ``So how long did the homework take you?" (Shaya) \\ ``About fifty minutes" (Swapnil) \\ ``Yeah it took me about fifty minutes too" (Shaya) \\ ``It took you \textit{fifty} minutes?" (Swapnil) \\ ``It took you fifty minutes too..." (Shaya) \\ ``No, but it took \textit{you} fifty minutes" (Swapnil)
+\item ``Prepare to have your mind blown...'' \\ ``Wait, shit.'' (Shaya)
+\item ``He's going to include the s-h-i-t word'' (Neymika)
+\item ``Wait, what do you mean no computation? Do you \textit{suppress} all computation?'' (Swapnil) \\ (5 minutes later) ``I don't know how to intuit this...'' (Shaya) \\ ``Yeah, I accidentally computed.'' (Swapnil)
 \end{itemize}
 \end{document}
