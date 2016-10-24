@@ -1011,6 +1011,26 @@ Find $E[X | Y = y_0]$. The solution is $y_0$; details are left to the reader.
 \example Let the number of people who enter a store be a random variable with $\mu = 50$. The amount of money spent by each customer are independent random variables with $\mu = 8$. Suppose that the amount of money spent by each customer is independent of the total amount of money spent by all other customers who enter. Find the expected amount of money that the store makes in a day. 
 Clearly the answer is 400, but we're going to write this formally. Let $N$ = the number of customers and $X_i$ = the amount spent by customer $i$. We wish to find $E[\sum X_i]$ which resolves to $E[E[\sum_{i = 1}^N X_i | N]]$. We will finish this next time. 
 
+\section{October 24, 2016}
+
+\subsection{Introduction and Examples of Channels}
+
+Examples of channels include air, copper, fiber, and free space (satellites). The output sends a signal in as few bits as possible. The goal of the channel is to add redundancy in a smart way so one can efficiently decode the input. The channel recovers from the loss due to the input as best as possible. 
+
+Consider a pipe with one end as the input and the other end as the output. Electron ``jiggling'' at one end results in (after a time delay) electron ``jiggling'' at the other end. Properties of the input include amplitude, frequency, and phase. When you get to the other side, the frequency remains the same, a delay exists (out of phase), and the amplitude decreases (in a phenomenon called attenuation). The attenuation and phase are characteristics of the medium. ``Jiggling'' the input with different frequencies has an unpredictable (nonlinear) relationship with the attenuation and phase, so these properties complicate the decoding process. 
+
+From our initial terms, fiber tends to do the best with a minimal deviation in attenuation and phase given $\Delta$frequency. Another problem exists, however, with the consideration of \textit{noise}; that is, the superposition of outside mediums and the changing states of other jiggling molecules affect each molecule's jiggling. We claim (without proof) that noise is not predictable in any way, and at best one can come up with a probabilistic model (at worst, we can't do anything). 
+
+\subsection{Modulation and De-modulation} 
+
+Modulation is defined as the process of transforming binary digits to patterns. For example, 0 $\rightarrow$ send one pattern to analog signal  and 1 $\rightarrow$ send another pattern to analog signal. Each of these patterns is a signal of different frequency. Modulation is a ``perfect process''; it is always possible to convert these binary digits to signals. 
+
+De-modulation (converting these signals into binary digits) is certainly not a perfect process due to the inclusion of noise (which might alter the modulated attenuation, phase, and frequency). 
+
+This leads us to an input $X_1$ being transformed to an output $Y_1$ (we use different notation because $Y_1 \neq X_1$). We are hopeful that the output is truly $Y_1 = f(X_1)$ (some constant function of $X_1$), but it may be $Y_{2,3,\dots}$. This is where conditional probability is useful; given $X_1$, we are to determine $P(Y|X = x_1)$. Essentially, think of a channel as specifying $Y$ given each $X_i$. There exists a family of histograms/pdfs/pmfs, with one for each $X_i$. 
+
+In investigating this concept, we will refine our definition of entropy and define the mutual information of two variables. 
+
 %----------
 \newpage
 \section*{Appendix A - Random Variables}
@@ -1063,8 +1083,10 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``No, you can't be clever, that’s not allowed in this class.'' (Dr. Aiyer)
 \item ``We could actually get this with algebra if we were clever enough, but we’re not clever enough.'' (Rajiv Movva)
 \item ``So how long did the homework take you?" (Shaya) \\ ``About fifty minutes" (Swapnil) \\ ``Yeah it took me about fifty minutes too" (Shaya) \\ ``It took you \textit{fifty} minutes?" (Swapnil) \\ ``It took you fifty minutes too..." (Shaya) \\ ``No, but it took \textit{you} fifty minutes" (Swapnil)
-\item ``Prepare to have your mind blown...'' \\ ``Wait, shit.'' (Shaya)
+\item ``Prepare to have your mind blown...'' \\ ``...wait, shit.'' (Shaya)
 \item ``He's going to include the s-h-i-t word'' (Neymika)
 \item ``Wait, what do you mean no computation? Do you \textit{suppress} all computation?'' (Swapnil) \\ (5 minutes later) ``I don't know how to intuit this...'' (Shaya) \\ ``Yeah, I accidentally computed.'' (Swapnil)
+\item ``We have to de-jiggle the input'' (Andrew Tierno) 
+\item ``This will all make sense, right?'' (Neymika) 
 \end{itemize}
 \end{document}
