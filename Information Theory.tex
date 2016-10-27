@@ -27,6 +27,8 @@
 
 %%% Remove the "abstract" word before the abstract
 
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
 \usepackage{abstract}
 \renewcommand{\abstractname}{}    % clear the title
 \renewcommand{\absnamepos}{empty} % originally center
@@ -1031,6 +1033,37 @@ This leads us to an input $X_1$ being transformed to an output $Y_1$ (we use dif
 
 In investigating this concept, we will refine our definition of entropy and define the mutual information of two variables. 
 
+\section{October 26, 2016}
+
+\subsection{Mutual Information}
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.35]{sourcechannel}
+\end{figure}
+
+The source is defined as $H(X)$ which passes information to the channel. The output of the channel is $Y$ that changes based on the input to the channel, so we will model it as a conditional distribution. We will call this $C(Y | X)$ as it is conditioned on the input ($X$) and the output ($Y$). 
+
+Let's look at this pipeline end-to-end. For a particular instance $Y_i$, the ``surprise value'' as we defined before in our discussion of entropy is $\log \frac{1}{P(Y_i)}$. Two factors contribute to this output: the input contribution and the noise contribution. The noise contribution can be written as $\log \frac{1}{P(Y_i | X_j)}$ ($i$ is the index of the particular output, and $j$ is the index of the particular input). The contribution due to the input is therefore $\log \frac{1}{P(Y_i)} - \log \frac{1}{P(Y_i | X_j)}$. For the overall contribution, we must average over all input/output pairs $x_j$ and $y_i$. This yields the mutual information of two random variables $X$ and $Y$. 
+
+\definition[Mutual Information] $$I(X ; Y) = \sum_{x_i} \sum_{y_j} P(x_i, y_j) \log \frac{P(y_j | x_i)}{P(y_i)}$$
+Note that $P(x_i, y_j)$ is a joint probability (the probability of seeing both $x_i$ and $y_j$). $I$ is the information contribution from the source to the channel. Our overall $$C(Y | X) = \text{max}_{\forall \text{sources}} I(X ; Y)$$that is, we seek to find the best source (that optimizes the mutual information). 
+
+\subsection{Intuition of $C(Y | X)$, Part 1}
+
+Given a fixed channel, what is the best source we can attach to this channel? 
+
+\definition[Distortion] The distortion $d(x_i, y_j) \geq 0$ with equality when $x_i = y_j$. Distortion characterizes how close or far the input is from the output. The average distortion is defined as $\overbar{d} = E_{X,Y}[d(x_i, y_i)]$
+
+We will next define an algorithm to identify the input contribution of the source to the output. 
+\definition We'd like to pick an optimized channel and define the source contribution of the output. Define this quantity as $H(X, \delta)$: 
+\begin{itemize}
+\item Pick an arbitrary average distortion $\delta$
+\item Cannot tolerate a distortion of more than $\delta$, so only look at those channels where $\overbar{d} \leq \delta$
+\item Of those channels, pick one of minimum $I(X;Y)$. (We're looking at the worst possible case.) 
+\item That value of $I(X;Y) = H(X,\delta)$. 
+\end{itemize}
+
 %----------
 \newpage
 \section*{Appendix A - Random Variables}
@@ -1077,10 +1110,10 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn't phrase it in the form of a question.'' (Dr. Aiyer)
 \item ``Um, Dr. Aiyer, are we going to go over the PSAT math thing in class?'' (Rose)
 \item ``So what's 0.85 + 0.3?'' (Neymika)
-\item ``What are we supposed to be doing right now?'' (Swapnil)
+\item ``What are we supposed to be doing right now?'' (Swapnil) (x4)
 \item ``So are you going to talk through it or do it?'' (Dr. Aiyer) \\ ``Oh, I don't really know how to do it...'' (Swapnil)
 \item ``So how does stuff start cancelling out'' (Justin)
-\item ``No, you can't be clever, that’s not allowed in this class.'' (Dr. Aiyer)
+\item ``No, you can't be clever, that's not allowed in this class.'' (Dr. Aiyer)
 \item ``We could actually get this with algebra if we were clever enough, but we’re not clever enough.'' (Rajiv Movva)
 \item ``So how long did the homework take you?" (Shaya) \\ ``About fifty minutes" (Swapnil) \\ ``Yeah it took me about fifty minutes too" (Shaya) \\ ``It took you \textit{fifty} minutes?" (Swapnil) \\ ``It took you fifty minutes too..." (Shaya) \\ ``No, but it took \textit{you} fifty minutes" (Swapnil)
 \item ``Prepare to have your mind blown...'' \\ ``...wait, shit.'' (Shaya)
@@ -1088,5 +1121,8 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``Wait, what do you mean no computation? Do you \textit{suppress} all computation?'' (Swapnil) \\ (5 minutes later) ``I don't know how to intuit this...'' (Shaya) \\ ``Yeah, I accidentally computed.'' (Swapnil)
 \item ``We have to de-jiggle the input'' (Andrew Tierno) 
 \item ``This will all make sense, right?'' (Neymika) 
+\item ``Randy, just do it on the board and I'll correct you.'' (Swapnil)
+\item ``2 times 3 is 6 times 4 is 8'' (Shaya)
+\item ``Oxford English Dictionary...there has to be something wrong with that right from the name.''
 \end{itemize}
 \end{document}
