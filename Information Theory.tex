@@ -1064,7 +1064,29 @@ We will next define an algorithm to identify the input contribution of the sourc
 \item That value of $I(X;Y) = H(X,\delta)$. 
 \end{itemize}
 
-%----------
+\section{November 2, 2016}
+
+\subsection{Guest Lecture: Joy Thomas}
+We'll discuss practical data compression algorithms. Let $X \sim p(x)$ and $P(x = i) = p_i$. Then $H(X) = -\sum p_i \log p_i$. It turns out that $H$ is indeed related to the thermodynamic notion of entropy, but these relationships are not immediately obvious. If you have a code for $X$ called $C(X)$ that maps $X \rightarrow \text{some binary sequence}$, $E[L(X)] \geq H(X)$ and $E[L(X)] \leq H(X) + 1$. 
+
+Real world data isn't independent or identically distributed. Assuming that the characters are independent is an approximation that isn't valid in practice; we can do better if we used blocks (compressing words as opposed to individual letters using an indexed dictionary). The notion of using a dictionary to compress has certainly been around for a while. 
+
+\xhdr{Backwards Lookahead} Imagine the sequence $ABCAABBC \: | \: CAAB$. For every new character (between the two C's) we represent the characters by the offset since the last character seen. so in this case we would write the second set as 1, 5, 1, 5. We can represent this sequence in a unary code structure where the ceiling of log i  is 10. We can write 1110 for four bits  and then $i$ after that. The expected number of characters required to see a character is $1/p$ for that character. 
+
+If we use this approach to compress the sequence, the expected length of the code is $\sum p(x) \log 1/p(x) + \sum p(x) \log \log 1/PM$. Another method is to construct the Huffman code for a distribution and use that to compress; however, this require two passes as opposed to the original one pass.   
+
+\xhdr{LZ77} This is also known as the sliding window approach. Here, we transform the sequence $ABABABBBBAAABBB$ to $A, B, ABAB, BBB, A, AA, BBB$ (basically phrases that you've seen in the past). This becomes $(0, A), (0, B), (1, 2, 4), (1, 1, 3)$. It was proposed that LZ77 was the best possible by any finite state compressor (asymptotically). 
+
+\xhdr{Find the Longest Match: LZ78} This requires a similar decoding as LZ77 with an expected length $\log p + \log A$. This algorithm achieved an optimal compression and is currently in use.
+
+\subsection{Channels Review (Picking the Channel from the Source)}
+
+The mutual information $I(X; Y) = \sum_{x_i} \sum_{y_j} P(x_i, y_j) \log \frac{P(y_j | x_i)}{P(y_i)}$. We are looking at the output of a channel as comprised of two parts: the noise part and the input contribution to the information we see in the output. We then discussed channel capacity, which is written as $C(Y|X) = \text{max over all sources} \: I(X;Y)$. We then revisited $H(X)$ to tie in this $I$ with our older definition of $H$. We defined the distortion $d(x_0, y_0) \geq 0$ with zero when $x_0 = y_0$. (Note that the average distortion $\bar{d} = E_{x,y}[d(x,y)]$.) We then picked an arbitrary distortion $\delta$ and only looked at channels that that have $\bar{d} \leq \delta$. Of those channels, pick the one with minimal $I(X;Y)$ that will allow for reconstruction with the distortion $\bar{d}_i \leq \delta$. That value of $I(X;Y)$ is $H(X)$ at that particular $\delta$. In particular, at $\delta = 0$, $\min I(X;Y) = I(X ; X) = H(X)$. With a greater distortion $\delta$ that is willing to be tolerated, $\min I(X;Y)$ (the amount of information that needs to be conveyed) decreases rapidly. 
+
+\subsection{Revisiting $C(Y|X)$ on the Other Side (Picking the Source from the Channel)}
+
+Now that we've covered the input to the channel, we will now consider the output side of the channel. Define a cost for sending information through the channel (limited bandwith for example). Let's call this cost function $b(x_0, y_0) \geq 0$. Pick an arbitrary cost $\beta$ that you're willing to tolerate. We can't tolerate a cost greater than that $\beta$, so only look at sources where the average cost is less than or equal to that $\beta$. 
+ %----------
 \newpage
 \section*{Appendix A - Random Variables}
 \begin{table}[h]
