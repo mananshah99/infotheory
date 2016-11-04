@@ -1046,10 +1046,10 @@ The source is defined as $H(X)$ which passes information to the channel. The out
 
 Let's look at this pipeline end-to-end. For a particular instance $Y_i$, the ``surprise value'' as we defined before in our discussion of entropy is $\log \frac{1}{P(Y_i)}$. Two factors contribute to this output: the input contribution and the noise contribution. The noise contribution can be written as $\log \frac{1}{P(Y_i | X_j)}$ ($i$ is the index of the particular output, and $j$ is the index of the particular input). The contribution due to the input is therefore $\log \frac{1}{P(Y_i)} - \log \frac{1}{P(Y_i | X_j)}$. For the overall contribution, we must average over all input/output pairs $x_j$ and $y_i$. This yields the mutual information of two random variables $X$ and $Y$. 
 
-\definition[Mutual Information] $$I(X ; Y) = \sum_{x_i} \sum_{y_j} P(x_i, y_j) \log \frac{P(y_j | x_i)}{P(y_i)}$$
+\definition[Mutual Information] $$I(X ; Y) = \sum_{x_i} \sum_{y_j} p(x_i, y_j) \log \frac{p(y_j | x_i)}{p(y_i)} = \sum_{x_i} \sum_{y_j} P(x_i, y_j) \log \frac{p(x,y)}{p(x)p(y)}$$
 Note that $P(x_i, y_j)$ is a joint probability (the probability of seeing both $x_i$ and $y_j$). $I$ is the information contribution from the source to the channel. Our overall $$C(Y | X) = \text{max}_{\forall \text{sources}} I(X ; Y)$$that is, we seek to find the best source (that optimizes the mutual information). 
 
-\subsection{Intuition of $C(Y | X)$, Part 1}
+\subsection{Intuition of $C(Y | X)$, Part 1 (Picking the Channel from the Source)}
 
 Given a fixed channel, what is the best source we can attach to this channel? 
 
@@ -1079,13 +1079,36 @@ If we use this approach to compress the sequence, the expected length of the cod
 
 \xhdr{Find the Longest Match: LZ78} This requires a similar decoding as LZ77 with an expected length $\log p + \log A$. This algorithm achieved an optimal compression and is currently in use.
 
-\subsection{Channels Review (Picking the Channel from the Source)}
+\subsection{Intuition of $C(Y | X)$, Part 1 (Picking the Channel from the Source) contd.}
 
 The mutual information $I(X; Y) = \sum_{x_i} \sum_{y_j} P(x_i, y_j) \log \frac{P(y_j | x_i)}{P(y_i)}$. We are looking at the output of a channel as comprised of two parts: the noise part and the input contribution to the information we see in the output. We then discussed channel capacity, which is written as $C(Y|X) = \text{max over all sources} \: I(X;Y)$. We then revisited $H(X)$ to tie in this $I$ with our older definition of $H$. We defined the distortion $d(x_0, y_0) \geq 0$ with zero when $x_0 = y_0$. (Note that the average distortion $\bar{d} = E_{x,y}[d(x,y)]$.) We then picked an arbitrary distortion $\delta$ and only looked at channels that that have $\bar{d} \leq \delta$. Of those channels, pick the one with minimal $I(X;Y)$ that will allow for reconstruction with the distortion $\bar{d}_i \leq \delta$. That value of $I(X;Y)$ is $H(X)$ at that particular $\delta$. In particular, at $\delta = 0$, $\min I(X;Y) = I(X ; X) = H(X)$. With a greater distortion $\delta$ that is willing to be tolerated, $\min I(X;Y)$ (the amount of information that needs to be conveyed) decreases rapidly. 
 
-\subsection{Revisiting $C(Y|X)$ on the Other Side (Picking the Source from the Channel)}
+\subsection{Intuition of $C(Y|X)$, Part 2 (Picking the Source from the Channel)}
 
-Now that we've covered the input to the channel, we will now consider the output side of the channel. Define a cost for sending information through the channel (limited bandwith for example). Let's call this cost function $b(x_0, y_0) \geq 0$. Pick an arbitrary cost $\beta$ that you're willing to tolerate. We can't tolerate a cost greater than that $\beta$, so only look at sources where the average cost is less than or equal to that $\beta$. 
+Now that we've covered the input to the channel, we will now consider the output side of the channel. Define a cost for sending information through the channel (limited bandwith for example). Let's call this cost function $b(x_0) \geq 0$, where $\bar{b} = E_x(b(x))$. Pick an arbitrary cost $\beta$ that you're willing to tolerate. We can't tolerate a cost greater than that $\beta$, so only look at sources where the average cost is less than or equal to that $\beta$. 
+
+Of those channels, pick a source with maximum $I(X;Y)$. We then define $C(Y|X)$ as $$C(Y|X)_{\text{at a particular } \beta} = \max_{\forall \text{sources}} I(X;Y)$$
+With a greater $\beta$ that can be tolerated, $\max I(X;Y)$ asymptotically reaches the channel capacity. So from Part 1, we have to put up with a certain distortion, and from Part 2 we have to also consider a certain cost. 
+\section{November 3, 2016}
+
+\subsection{Mutual Information Examples}
+
+\example Noiseless binary channel with $0 \rightarrow 0$ (probability $p$) and $1 \rightarrow 1$ (probability $1-p$). We can write the channel capacity as $$p \log \frac{p}{p \times p} + (1-p) \log \frac{1-p}{(1-p) \times (1-p)}$$which is exactly the entropy!
+
+\example Noisy channel with non-overlapping outputs such that $0 \rightarrow 1$ ($p = 1/2$), $0 \rightarrow 2$ ($p = 1/2$), $1 \rightarrow 3$ ($p = 1/3$) and $1 \rightarrow 4$ ($p = 2/3$). $p(0) = p$ and $p(1) = 1-p$. The mutual information again resolves to the entropy.
+
+\example[Noisy Typewriter] The output is either received unchanged with probability 1/2 or transformed to the next letter with probability 1/2. The input has 26 symbols. We can write the mutual information as $$I(X;Y) = \frac{1}{2} p_A \log \frac{\frac{1}{2}p_A}{p_A\left(\frac{1}{2}p_A + \frac{1}{2}p_B\right)} + \dots $$This simplifies to $$\frac{1}{2}(p_A + p_B) \log \frac{1}{p_A + p_B} + \dots $$Setting $q_{AB} = \frac{p_A + p_B)}{2}$ yields $$H(q_{AB}q_{BC}q_{CD}\dots) - 1$$(do the algebra to confirm this) to obtain the maximal distribution as uniform.
+
+\example[Binary Symmetric Channel (BSC)] Left to the reader, the solution is $H(X) - 1$.
+
+\subsection{A Closer Look at $I(X;Y)$}
+
+We have 
+\begin{align*}
+I(X;Y) = \sum \sum p(x_i, y_j) \log p(y_j | x_i) + \sum_x \sum_y p(x_i, y_j) \log \frac{1}{p(y_j)}
+\end{align*}
+The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and the second is $H(Y)$. So it turns out that $I(X;Y) = H(Y) - H(Y|X)$.
+
  %----------
 \newpage
 \section*{Appendix A - Random Variables}
@@ -1132,7 +1155,7 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``So Justin, what's the answer?'' (Dr. Aiyer) \\ ``7'' (Justin Jia) \\ ``Wrong, because you didn't phrase it in the form of a question.'' (Dr. Aiyer)
 \item ``Um, Dr. Aiyer, are we going to go over the PSAT math thing in class?'' (Rose)
 \item ``So what's 0.85 + 0.3?'' (Neymika)
-\item ``What are we supposed to be doing right now?'' (Swapnil) (x4)
+\item ``What are we supposed to be doing right now?'' (Swapnil) (x6)
 \item ``So are you going to talk through it or do it?'' (Dr. Aiyer) \\ ``Oh, I don't really know how to do it...'' (Swapnil)
 \item ``So how does stuff start cancelling out'' (Justin)
 \item ``No, you can't be clever, that's not allowed in this class.'' (Dr. Aiyer)
@@ -1145,7 +1168,8 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``This will all make sense, right?'' (Neymika) 
 \item ``Randy, just do it on the board and I'll correct you.'' (Swapnil)
 \item ``2 times 3 is 6 times 4 is 8'' (Shaya)
-\item ``Oxford English Dictionary...there has to be something wrong with that right from the name.''
+\item ``Oxford English Dictionary...there has to be something wrong with that right from the name.'' (Dr. Aiyer)
 \item ``What does the noise look like?'' (Steven Cao) \\ ``Probably Gaussian.'' (Rajiv)
+\item ``Capacity sounds like rate'' (Shaya) \\ ``Why?'' (Everyone) \\ ``They both have `A's'' (Shaya)
 \end{itemize}
 \end{document}
