@@ -1097,7 +1097,7 @@ With a greater $\beta$ that can be tolerated, $\max I(X;Y)$ asymptotically reach
 
 \example Noisy channel with non-overlapping outputs such that $0 \rightarrow 1$ ($p = 1/2$), $0 \rightarrow 2$ ($p = 1/2$), $1 \rightarrow 3$ ($p = 1/3$) and $1 \rightarrow 4$ ($p = 2/3$). $p(0) = p$ and $p(1) = 1-p$. The mutual information again resolves to the entropy.
 
-\example[Noisy Typewriter] The output is either received unchanged with probability 1/2 or transformed to the next letter with probability 1/2. The input has 26 symbols. We can write the mutual information as $$I(X;Y) = \frac{1}{2} p_A \log \frac{\frac{1}{2}p_A}{p_A\left(\frac{1}{2}p_A + \frac{1}{2}p_B\right)} + \dots $$This simplifies to $$\frac{1}{2}(p_A + p_B) \log \frac{1}{p_A + p_B} + \dots $$Setting $q_{AB} = \frac{p_A + p_B)}{2}$ yields $$H(q_{AB}q_{BC}q_{CD}\dots) - 1$$(do the algebra to confirm this) to obtain the maximal distribution as uniform.
+\example[Noisy Typewriter] The output is either received unchanged with probability 1/2 or transformed to the next letter with probability 1/2. The input has 26 symbols. We can write the mutual information as $$I(X;Y) = \frac{1}{2} p_A \log \frac{\frac{1}{2}p_A}{p_A\left(\frac{1}{2}p_A + \frac{1}{2}p_B\right)} + \dots $$This simplifies to $$\frac{1}{2}(p_A + p_B) \log \frac{1}{p_A + p_B} + \dots $$Setting $q_{AB} = \frac{p_A + p_B}{2}$ yields $$H(q_{AB}q_{BC}q_{CD}\dots) - 1$$(do the algebra to confirm this) to obtain the maximal distribution as uniform.
 
 \example[Binary Symmetric Channel (BSC)] Left to the reader, the solution is $H(X) - 1$.
 
@@ -1108,6 +1108,27 @@ We have
 I(X;Y) = \sum \sum p(x_i, y_j) \log p(y_j | x_i) + \sum_x \sum_y p(x_i, y_j) \log \frac{1}{p(y_j)}
 \end{align*}
 The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and the second is $H(Y)$. So it turns out that $I(X;Y) = H(Y) - H(Y|X)$.
+
+\section{November 8, 2016}
+
+\example[Binary Erasure Channel] Picture, will write later.
+
+\subsection{Gaussian Channel}
+Given a channel with an input of some real number and an output of some real number + ``noise'' (which is defined as a gaussian real number distributed according to $N(0, \sigma^2)$. Assume that the input and noise are independent. We will attempt to find the best input distribution to maximize the capacity of this channel. 
+
+\subsubsection{Part 1: Gaussian Source}
+
+The output of the source is a single real number distributed according to $(\mu, \sigma_x^2)$. We are willing to tolerate a distortion $d(x,y)$ with an average distortion $\delta$. We therefore have $$h(X, \delta) = \frac{1}{2}\log(2\pi e \sigma^2) - \frac{1}{2} \log(2 \pi e \delta)$$from which the second term is obtained from the precision/distortion. 
+
+\subsubsection{Part 2: Gaussian Channel}
+
+Instead of having a distortion, here we have a cost for sending information through the channel. This cost is $\leq \beta$ and is related to the variance of the signal\footnote{This has to do with the voltage cost, which is left to the reader for further investigation}. So, we have $$\max_{\forall \text{sources}} I(X;Y) = h(Y) - (Y|X)$$Let's call the noise $\eta$, which is factored in between the source $X$ and the output $Y$. We therefore have $$h(Y|X) = h(X+\eta | X) = h(\eta | X)$$as translation does not add any additional information (knowing $\eta$ is the same as knowing $X + \eta$)We can get rid of the $X$ as $\eta$ is independent of $X$, yielding $$h(Y|X) = h(\eta) = \frac{1}{2}\log(2\pi e \sigma^2)$$So we've determined that the second term in our definition for $I(X;Y)$ is $\frac{1}{2} \log (2 \pi e \sigma^2)$. For the first term, we know that $h(Y) = h(X+\eta)$. We know from a while ago that $V[Y] = E[Y^2] - E[Y]^2$. Assuming $E[Y] = 0$\footnote{Just accept it; apparently this doesn't matter anyway, but...} we can write $V[Y] = E[Y^2] = E[(X + \eta)^2]$. We can simplify this as \begin{align*}
+E[Y^2] &= E[(X + \eta)^2] \\
+	&= E[X^2 + 2X\eta + \eta^2] \\
+	&= E[X^2] + 2E[X]E[\eta] + E[\eta^2] \\
+	&= E[X^2] + E[\eta^2]
+\end{align*}
+because the noise has a mean of 0. We therefore have $E[Y^2] \leq \beta + \sigma^2$. Because there is an upper bound on the expected value $E[Y^2]$ and therefore on $V[Y]$, $Y$ being Gaussian maximizes $h(Y)$. Therefore, the maximum $I(X;Y) = h(Y) - h(Y|X)$ is obtained when $h(Y)$ is maximized (in Part 1 we bounded $H(Y|X)$) and $h(Y)$ is maximum when $Y$ is Gaussian. So $$\max I(X;Y) = \frac{1}{2}\log(2\pi e (\beta + \sigma^2)) - \frac{1}{2} \log (2 \pi e \sigma^2)$$We can simplify this as $\frac{1}{2} \log (1 + \frac{\beta}{\sigma^2})$ with constraint $\beta$ (the power constant), which is maximized when $X$ is also Gaussian. This expression defines the \textit{capacity} of a Gaussian channel. 
 
  %----------
 \newpage
