@@ -1128,7 +1128,11 @@ E[Y^2] &= E[(X + \eta)^2] \\
 	&= E[X^2] + 2E[X]E[\eta] + E[\eta^2] \\
 	&= E[X^2] + E[\eta^2]
 \end{align*}
-because the noise has a mean of 0. We therefore have $E[Y^2] \leq \beta + \sigma^2$. Because there is an upper bound on the expected value $E[Y^2]$ and therefore on $V[Y]$, $Y$ being Gaussian maximizes $h(Y)$. Therefore, the maximum $I(X;Y) = h(Y) - h(Y|X)$ is obtained when $h(Y)$ is maximized (in Part 1 we bounded $H(Y|X)$) and $h(Y)$ is maximum when $Y$ is Gaussian. So $$\max I(X;Y) = \frac{1}{2}\log(2\pi e (\beta + \sigma^2)) - \frac{1}{2} \log (2 \pi e \sigma^2)$$We can simplify this as $\frac{1}{2} \log (1 + \frac{\beta}{\sigma^2})$ with constraint $\beta$ (the power constant), which is maximized when $X$ is also Gaussian. This expression defines the \textit{capacity} of a Gaussian channel. 
+because the noise has a mean of 0. We therefore have $E[Y^2] \leq \beta + \sigma^2$. Because there is an upper bound on the expected value $E[Y^2]$ and therefore on $V[Y]$, $Y$ being Gaussian maximizes $h(Y)$. Therefore, the maximum $I(X;Y) = h(Y) - h(Y|X)$ is obtained when $h(Y)$ is maximized (in Part 1 we bounded $H(Y|X)$) and $h(Y)$ is maximum when $Y$ is Gaussian. So $$\max I(X;Y) = \frac{1}{2}\log(2\pi e (\beta + \sigma^2)) - \frac{1}{2} \log (2 \pi e \sigma^2)$$We can simplify this as $\frac{1}{2} \log (1 + \frac{\beta}{\sigma^2})$ with constraint $\beta$ (the power constant), which is maximized when $X$ is also Gaussian. This expression defines the \textit{capacity} of a Gaussian channel. Note that this is true only because the noise is independent of the source; in particular, Gauss$_1$ + Gauss$_2$ = Gauss$_3$ if and only if Gauss$_1$ and Gauss$_2$ are independent. 
+
+\subsection{Channel Codes: an Introduction}
+
+Just as we defined entropy for the source and we talked about the entropy of various probability distributions, and then we moved onto coding entropy (notion of a tree + Huffman coding), here we will introduce channel codes (which are much more difficult than trees). Therefore, we'll be discussing circuits and digital representations next class. We'll introduce the concept of ``shift registers'' in the process. 
 
  %----------
 \newpage
