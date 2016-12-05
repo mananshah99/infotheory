@@ -1178,6 +1178,74 @@ The idea of going from $k$ bits to $n$ bits (adding redundancy to the original i
 \subsection{Introduction to Digital Circuits}
 
 notes in paper to be placed later
+
+\section{December 5, 2016}
+
+\subsection{Channel Capacity Upper Bound}
+
+Recall that $H(X)$ is a lower bound on the performance of any source encoder/decoder. 
+$$\frac{\mathrm{avg. \, bits}}{\mathrm{src \, symbol}} \geq H(X)$$
+On the channel side, 
+$$\frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} \leq C(Y|X)$$
+
+\subsection{Formulation for Proof of Upper Bound Theorem}
+This proof will show that for a fixed channel with capacity $C(Y|X)$, the maximum amount of information that can be sent through that channel is bounded at a maximum of that capacity for all encoders and decoders.
+\begin{enumerate}
+	\item Pick a fixed channel with capacity $C(Y|X)$. 
+	\item Pick any arbitrary channel encoder/decoder. 
+	\item Assume that input bits to be transmitted are i.i.d. (Independent and Identically Distributed) 
+	\item $P_{\mathrm{err}}$: Probability that a bit sent to the encoder is incorrectly read at decoder. This can be determined only with knowledge of the following:
+		\begin{enumerate}
+			\item How bits map to X
+			\item What is $P(Y|X)$
+			\item How Y maps to bits
+		\end{enumerate}
+	\item Part 1 of the Upper Bound Theorem says that $\frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} \leq \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}$
+	\item A ``Shannon family" of encoder/decoder pairs is an infinite sequence of encoder/decoder pairs $\{<E_i, D_i>|i=1,2,3,...\}$ with $P_{\mathrm{err}} \rightarrow 0$. \\That is, $\forall \epsilon > 0, \exists \, i_0 \, \mathrm{s.t.} \, \forall i \geq i_0, P_{\mathrm{err}}(<E_i,D_i>) < \epsilon$\\
+	{\bf Translated into English}: For all $\epsilon$ greater than zero, there exists an $i_0$ such that for all $i \geq i_0$, the probability of error for that encoder/decoder pair is less than $\epsilon$.\\
+	{\bf Translated into Something Understandable}: Imagine a whole set of ways to map bits to channel codes and channel codes back to bits, these are your encoder/decoder pairs, $E_i$ and $D_i$. A ``Shannon family" is an infinite sequence of these pairs where the probability that an error is made in the encoding/decoding process approaches zero. In other words, given any threshold of error $\epsilon$, there will be some index in that sequence of encoder/decoder pairs such that that pair, $i_0$ and every following pair has a error rate less than or equal to epsilon. In short, it's a sequence of encoder/decoder pairs that have decreasing error rates that approach zero.  
+	\item Take the limit of the family as $P_{\mathrm{err}} \rightarrow 0$.
+\end{enumerate}
+\subsection{Proof of Upper Bound Theorem}
+\lemma {\bf Markov Lemma}. Given input bits $U$, input channel symbols $X$, output channel symbols $Y$, and output bits $V$, $I(U;V) \leq I(X;Y)$. Concretely, in the act of transmitting information across a channel, some of that information is lost. \\
+{\bf Proof of the Lemma}: 
+If A maps to B maps to C,
+$$I(A;C) \leq I(B;C)$$
+$$I(A;C) - I(B;C) \leq 0$$
+\begin{align*}
+	I(A;C) - I(B;C) 	&= E_{AC}\left[\log \left(\frac{P(C|A)}{P(C)} \right)\right] - E_{BC}\left[\log \left(\frac{P(C|B)}{P(C)} \right)\right]\\
+				&= E_{ABC}\left[\log \left(\frac{P(C|A)}{P(C)} \right)\right] - E_{ABC}\left[\log \left(\frac{P(C|B)}{P(C)} \right)\right]\\
+				&= E_{ABC}\left[\log \left(\frac{P(C|A)}{P(C|B)}\right) \right]\\
+				&= \log \left(E_{ABC}\left[\frac{P(C|A)}{P(C|B)}\right]\right)\\
+				&= \sum_{a,b,c} P(a,b,c) \frac{P(c|a)}{P(c|b)}\\
+				&= \sum P(a) P(b|a) P(c|b)\\
+				&= \sum P(a) P(b|a) P(c|a)\\
+\end{align*}
+The remainder of the proof is left as an exercise for the reader. We can see now that: 
+$$I(A;C) \leq I(B;C)$$
+$$I(A;C) \leq I(A;B)$$
+
+\lemma {\bf Fano Lemma}. Given an input $U$ and an output $V$, 
+$$H(U|V) \leq H(P_{\mathrm{err}}) + P_{\mathrm{err}} * H(U)$$
+\\
+{\bf From Lemma 1:}
+$$I(U;V) \leq I(X;Y) \leq C(Y|X)$$
+{\bf From Lemma 2:}
+\begin{align*}
+I(U;V) 	&= H(U) - H(U|V)\\
+		&\geq H(U) - H(P_{\mathrm{err}}) + P_{\mathrm{err}} * H(U) \\
+		&= (1 - P_{\mathrm{err}})H(U) - H(P_{\mathrm{err}})
+\end{align*}
+\\
+{\bf Combining Lemmas 1 and 2:}
+$$(1 - P_{\mathrm{err}})H(U) - H(P_{\mathrm{err}}) \leq C(Y|X)$$
+$$H(U) \leq  \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}$$
+$$\frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} \leq \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}$$
+Taking the limit as $P_{\mathrm{err}}$ approaches zero:
+\begin{align*}
+	\lim_{P_{\mathrm{err}} \to 0} \frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} &= \lim_{P_{\mathrm{err}} \to 0} \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}\\
+	&= C(Y|X)
+\end{align*}
  %----------
 \newpage
 \section*{Appendix A - Random Variables}
@@ -1245,5 +1313,6 @@ Gaussian & $\frac{1}{\sqrt{2 \sigma^2 \pi}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}}$
 \item ``Our idea is better.'' (Manan) \\ ``On what grounds?'' (Dr. Aiyer) \\ ``It uses more flip-flops!'' (Rose)
 \item ``But like, how does that work with wires?'' (Shaya)
 \item ``That's just my notation, I defined it that way'' (Steven Cao)
+\item ``Woah." (Swapnil)
 \end{itemize}
 \end{document}
