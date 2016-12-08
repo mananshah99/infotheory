@@ -1201,7 +1201,7 @@ This proof will show that for a fixed channel with capacity $C(Y|X)$, the maximu
 			\item How Y maps to bits
 		\end{enumerate}
 	\item Part 1 of the Upper Bound Theorem says that $\frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} \leq \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}$
-	\item A ``Shannon family" of encoder/decoder pairs is an infinite sequence of encoder/decoder pairs $\{<E_i, D_i>|i=1,2,3,...\}$ with $P_{\mathrm{err}} \rightarrow 0$. \\That is, $\forall \epsilon > 0, \exists \, i_0 \, \mathrm{s.t.} \, \forall i \geq i_0, P_{\mathrm{err}}(<E_i,D_i>) < \epsilon$\\
+	\item A ``Shannon family" of encoder/decoder pairs is an infinite sequence of encoder/decoder pairs $\{\langle E_i, D_i \rangle |i=1,2,3,...\}$ with $P_{\mathrm{err}} \rightarrow 0$. \\That is, $\forall \epsilon > 0, \exists \, i_0 \, \mathrm{s.t.} \, \forall i \geq i_0, P_{\mathrm{err}}(\langle E_i,D_i \rangle ) < \epsilon$\\
 	{\bf Translated into English}: For all $\epsilon$ greater than zero, there exists an $i_0$ such that for all $i \geq i_0$, the probability of error for that encoder/decoder pair is less than $\epsilon$.\\
 	{\bf Translated into Something Understandable}: Imagine a whole set of ways to map bits to channel codes and channel codes back to bits, these are your encoder/decoder pairs, $E_i$ and $D_i$. A ``Shannon family" is an infinite sequence of these pairs where the probability that an error is made in the encoding/decoding process approaches zero. In other words, given any threshold of error $\epsilon$, there will be some index in that sequence of encoder/decoder pairs such that that pair, $i_0$ and every following pair has a error rate less than or equal to epsilon. In short, it's a sequence of encoder/decoder pairs that have decreasing error rates that approach zero.  
 	\item Take the limit of the family as $P_{\mathrm{err}} \rightarrow 0$.
@@ -1246,6 +1246,25 @@ Taking the limit as $P_{\mathrm{err}}$ approaches zero:
 	\lim_{P_{\mathrm{err}} \to 0} \frac{\mathrm{avg. \, bits}}{\mathrm{ch. \, symbol}} &= \lim_{P_{\mathrm{err}} \to 0} \frac{C(Y|X) + H(P_{\mathrm{err}})}{1 - P_{\mathrm{err}}}\\
 	&= C(Y|X)
 \end{align*}
+\section{December 7, 2016}
+\subsection{Putting it All Together}
+\begin{table}[h]
+	\begin{tabular}{|c|c|c|}
+		\hline
+		 Location & Theoretical Bound & Practically Possible \\
+		 \hline
+		 Source & $\frac{\mathrm{bits}}{\mathrm{src \, symbol}} \geq H(X)$ & $\frac{\mathrm{bits}}{\mathrm{src \, symbol}} \approx H(X)$ (e.g. Huffman)\\
+		 \hline
+		 Channel & $\frac{\mathrm{bits}}{\mathrm{ch \, symbol}} \leq C(Y|X)$ & $\frac{\mathrm{bits}}{\mathrm{ch \, symbol}} \approx C(Y|X)$ (no known algorithm)\\
+		 \hline
+	\end{tabular}
+\end{table}
+
+We define {\it reliable communication} as an encoder/decoder pair such that $P_{\mathrm{err}} \to 0$.
+
+\theorem {\bf Shannon's Theorem:} Given any encoder/decoder pair and a channel for a source $X$, $P_{\mathrm{err}} \to 0$ if and only if $H(X) \leq C(Y|X)$. In other words, if channel capacity is greater than or equal to entropy, reliable communication is achievable.
+
+\theorem {\bf Generalized Shannon's Theorem:} Given a source $X$ with average cost $\beta$ of sending information and a channel with average distortion $\delta$ on the received data, an encoder/decoder pair can be constructed such that $P_{\mathrm{err}} \to 0$ if and only if $H(X, \delta) \leq C(Y|X, \beta)$. In other words, if channel capacity at a given cost tolerance is greater than or equal to entropy at a given distortion tolerance, reliable communication is achievable.
  %----------
 \newpage
 \section*{Appendix A - Random Variables}
