@@ -1125,7 +1125,7 @@ The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and th
 \noindent A summary of important identities to be aware of:
 \begin{itemize}
 \item Conditional Entropy: $H(Y|X) = -\sum_x \sum_y f(x, y) \log f(y|x)$
-\item Joint Entropy: $H(X, Y) = -\sum_x \sum_y f(x, y) \log f(x, y)$
+\item Joint Entropy: $H(X, Y) = -\sum_x \sum_y f(x, y) \log f(x, y)$ (if $X$ and $Y$ are independent, $H(X, Y) = H(X) + H(Y)$)
 \item $H(Y|X) = H(X, Y) - H(X)$
 \item $I(X; Y) = H(Y) - H(Y|X) = H(X) - H(X|Y) = H(X) + H(Y) - H(X, Y)$
 \end{itemize}
@@ -1230,7 +1230,7 @@ Hamming Code & 4         &              7        &            1      \\ \bottomr
 Topics covered in digital circuits involve NOT, AND, OR, NAND, XOR, and D-FF (D-Flip Flop) gates (and their parallel counterparts), the derivation of a parallel circuit (e.g. parallel AND) from a cascade of regular ANDs, a $k$-bit adder, a cyclic counter, a comparator, and a sorter. Refer to class notes for more details. 
 
 \theorem Given $f$, $f : 2^k \rightarrow 2^l$ which can specify for any $k$-bit input an $l$-bit output which is memoryless, the function can be represented using only AND, OR, and NOT. 
-\theorem Given stream $2^k$ which is bidirectionally infinite looking at $k$ bit blocks $f$, $f: \text{stream}(2^k) \rightarrow \text{stream}(2^n)$ can be built using AND, OR, NOT, and FLIP-FLOPS if memory is finite. 
+\theorem Given stream $2^k$ which is bidirectionally infinite looking at $k$ bit blocks $f$, $f: \text{stream}(2^k) \rightarrow \text{stream}(2^k)$ can be built using AND, OR, NOT, and FLIP-FLOPS if memory is finite. 
 
 \subsection{Shift Registers}
 
