@@ -1120,7 +1120,15 @@ We have
 \begin{align*}
 I(X;Y) = \sum \sum p(x_i, y_j) \log p(y_j | x_i) + \sum_x \sum_y p(x_i, y_j) \log \frac{1}{p(y_j)}
 \end{align*}
-The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and the second is $H(Y)$. So it turns out that $I(X;Y) = H(Y) - H(Y|X)$.
+The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and the second is $H(Y)$. So it turns out that $I(X;Y) = H(Y) - H(Y|X)$. \\
+
+\noindent A summary of important identities to be aware of:
+\begin{itemize}
+\item Conditional Entropy: $H(Y|X) = -\sum_x \sum_y f(x, y) \log f(y|x)$
+\item Joint Entropy: $H(X, Y) = -\sum_x \sum_y f(x, y) \log f(x, y)$
+\item $H(Y|X) = H(X, Y) - H(X)$
+\item $I(X; Y) = H(Y) - H(Y|X) = H(X) - H(X|Y) = H(X) + H(Y) - H(X, Y)$
+\end{itemize}
 
 \section{November 8, 2016}
 \example[Binary Erasure Channel] 
