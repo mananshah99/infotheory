@@ -10,6 +10,7 @@
 \defaultfontfeatures{Mapping=tex-text}
 \usepackage{bigints}
 \usepackage{booktabs}
+\usepackage{bm}
 
 % Uncomment below to change default features 
 %\setromanfont[Mapping=tex-text]{Hoefler Text}
@@ -1097,9 +1098,21 @@ With a greater $\beta$ that can be tolerated, $\max I(X;Y)$ asymptotically reach
 
 \example Noisy channel with non-overlapping outputs such that $0 \rightarrow 1$ ($p = 1/2$), $0 \rightarrow 2$ ($p = 1/2$), $1 \rightarrow 3$ ($p = 1/3$) and $1 \rightarrow 4$ ($p = 2/3$). $p(0) = p$ and $p(1) = 1-p$. The mutual information again resolves to the entropy.
 
-\example[Noisy Typewriter] The output is either received unchanged with probability 1/2 or transformed to the next letter with probability 1/2. The input has 26 symbols. We can write the mutual information as $$I(X;Y) = \frac{1}{2} p_A \log \frac{\frac{1}{2}p_A}{p_A\left(\frac{1}{2}p_A + \frac{1}{2}p_B\right)} + \dots $$This simplifies to $$\frac{1}{2}(p_A + p_B) \log \frac{1}{p_A + p_B} + \dots $$Setting $q_{AB} = \frac{p_A + p_B}{2}$ yields $$H(q_{AB}q_{BC}q_{CD}\dots) - 1$$(do the algebra to confirm this) to obtain the maximal distribution as uniform.
+\example[Noisy Typewriter] The output is either received unchanged with probability 1/2 or transformed to the next letter with probability 1/2. The input has 26 symbols. We can write the mutual information as $$I(X;Y) = \frac{1}{2} p_A \log \frac{\frac{1}{2}p_A}{p_A\left(\frac{1}{2}p_A + \frac{1}{2}p_B\right)} + \dots $$This simplifies to $$\frac{1}{2}(p_A + p_B) \log \frac{1}{p_A + p_B} + \dots $$Setting $q_{AB} = \frac{p_A + p_B}{2}$ yields $$H(q_{AB}q_{BC}q_{CD}\dots) - 1$$to obtain the maximal distribution as uniform.
 
-\example[Binary Symmetric Channel (BSC)] Left to the reader, the solution is $H(X) - 1$.
+\example[Binary Symmetric Channel (BSC)] 
+
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.1]{binarysymmetric}
+\end{figure}
+
+For this channel, we can write
+$$ 
+I(X; Y) = 2 \times \left[ \frac{1-p}{2} \log \left( \frac{1-p}{\frac{1-p}{2} + \frac{p}{2}} \right) + 
+	      \frac{p}{2} \log \left( \frac{p}{\frac{1-p}{2} + \frac{p}{2}} \right) \right]
+$$
+which resolves to $H(p) - 1$.
 
 \subsection{A Closer Look at $I(X;Y)$}
 
@@ -1110,19 +1123,29 @@ I(X;Y) = \sum \sum p(x_i, y_j) \log p(y_j | x_i) + \sum_x \sum_y p(x_i, y_j) \lo
 The first term is defined as $-H(Y|X)$, the \textit{conditional entropy}, and the second is $H(Y)$. So it turns out that $I(X;Y) = H(Y) - H(Y|X)$.
 
 \section{November 8, 2016}
+\example[Binary Erasure Channel] 
 
-\example[Binary Erasure Channel] Picture, will write later.
+\begin{figure}[ht]
+\centering
+\includegraphics[scale=0.2]{binaryerasure}
+\end{figure}
+
+For this channel, we can write
+$$
+I(X; Y) = 2 \times \left[ \frac{1-p}{2} \log \left( \frac{1-p}{\frac{1-p}{2}} \right) \right] + 2 \times \left[ \frac{p}{2} \log \left( \frac{p}{p/2 + p/2} \right) \right]
+$$
+which resolves to $1-p$. 
 
 \subsection{Gaussian Channel}
 Given a channel with an input of some real number and an output of some real number + ``noise'' (which is defined as a gaussian real number distributed according to $N(0, \sigma^2)$. Assume that the input and noise are independent. We will attempt to find the best input distribution to maximize the capacity of this channel. 
 
 \subsubsection{Part 1: Gaussian Source}
 
-The output of the source is a single real number distributed according to $(\mu, \sigma_x^2)$. We are willing to tolerate a distortion $d(x,y)$ with an average distortion $\delta$. We therefore have $$h(X, \delta) = \frac{1}{2}\log(2\pi e \sigma^2) - \frac{1}{2} \log(2 \pi e \delta)$$from which the second term is obtained from the precision/distortion. 
+The output of the source is a single real number distributed according to $(\mu, \sigma_x^2)$. We are willing to tolerate a distortion $d(x,y)$ with an average distortion $\delta$. We therefore have $$h(X, \delta) = \frac{1}{2}\log(2\pi e \sigma^2) - \frac{1}{2} \log(2 \pi e \delta)$$in which the second term is obtained from the precision/distortion. 
 
 \subsubsection{Part 2: Gaussian Channel}
 
-Instead of having a distortion, here we have a cost for sending information through the channel. This cost is $\leq \beta$ and is related to the variance of the signal\footnote{This has to do with the voltage cost, which is left to the reader for further investigation}. So, we have $$\max_{\forall \text{sources}} I(X;Y) = h(Y) - (Y|X)$$Let's call the noise $\eta$, which is factored in between the source $X$ and the output $Y$. We therefore have $$h(Y|X) = h(X+\eta | X) = h(\eta | X)$$as translation does not add any additional information (knowing $\eta$ is the same as knowing $X + \eta$)We can get rid of the $X$ as $\eta$ is independent of $X$, yielding $$h(Y|X) = h(\eta) = \frac{1}{2}\log(2\pi e \sigma^2)$$So we've determined that the second term in our definition for $I(X;Y)$ is $\frac{1}{2} \log (2 \pi e \sigma^2)$. For the first term, we know that $h(Y) = h(X+\eta)$. We know from a while ago that $V[Y] = E[Y^2] - E[Y]^2$. Assuming $E[Y] = 0$\footnote{Just accept it; apparently this doesn't matter anyway, but...} we can write $V[Y] = E[Y^2] = E[(X + \eta)^2]$. We can simplify this as \begin{align*}
+Instead of having a distortion, here we have a cost for sending information through the channel. This cost is $\leq \beta$ and is related to the variance of the signal\footnote{This has to do with the voltage cost, which is left to the reader for further investigation}. So, we have $$\max_{\forall \text{sources}} I(X;Y) = h(Y) - h(Y|X)$$Let's call the noise $\eta$, which is factored in between the source $X$ and the output $Y$. We therefore have $$h(Y|X) = h(X+\eta | X) = h(\eta | X)$$as translation does not add any additional information (knowing $\eta$ is the same as knowing $X + \eta$)We can get rid of the $X$ as $\eta$ is independent of $X$, yielding $$h(Y|X) = h(\eta) = \frac{1}{2}\log(2\pi e \sigma^2)$$So we've determined that the second term in our definition for $I(X;Y)$ is $\frac{1}{2} \log (2 \pi e \sigma^2)$. For the first term, we know that $h(Y) = h(X+\eta)$. We know from a while ago that $V[Y] = E[Y^2] - E[Y]^2$. Assuming $E[Y] = 0$\footnote{Just accept it; apparently this doesn't matter anyway, but...} we can write $V[Y] = E[Y^2] = E[(X + \eta)^2]$. We can simplify this as \begin{align*}
 E[Y^2] &= E[(X + \eta)^2] \\
 	&= E[X^2 + 2X\eta + \eta^2] \\
 	&= E[X^2] + 2E[X]E[\eta] + E[\eta^2] \\
@@ -1142,7 +1165,7 @@ The overall process is SRC $\rightarrow$ SE $\rightarrow$ CE (``bloats up'' the 
 
 \xhdr{Channel Coder} Recall the source encoder/decoder diagram from earlier. The goal of the encoder is to eliminate all redundancy (I: source characters, O: bits). The goal of the decoder is to reconstruct the source characters (I: bits, O: reconstructed source characters). 
 
-\xhdr{Channel Encoder/Decoder} The input of the channel encoder is bits, and it outputs a channel character stream (a pattern of jiggling electrons at one end of the wire. The channel encoder is between the source encoder and the source decoder. The goal of the channel encoder is to introduce controlled redundancy. The channel decoder has as input the noisy channel characters and (hopefully) outputs the reconstructed bits. 
+\xhdr{Channel Encoder/Decoder} The input of the channel encoder is bits, and it outputs a channel character stream (a pattern of jiggling electrons at one end of the wire). The channel encoder is between the source encoder and the source decoder. The goal of the channel encoder is to introduce controlled redundancy. The channel decoder has as input the noisy channel characters and (hopefully) outputs the reconstructed bits. 
 
 \example[TDM] To convert bits in the channel encoder to a jiggling pattern, the combination of subsets of $n$ basis waveforms are applied to $k$ nonzero bits. The zero or one values in the $k$ sequence are applied as weights to the waveforms, producing a composite waveform. This entire process is known as a time division multiplier, or TDM. 
 
@@ -1150,20 +1173,20 @@ The overall process is SRC $\rightarrow$ SE $\rightarrow$ CE (``bloats up'' the 
 
 \subsection{Channel Coding}
 
-\begin{table}[]
+\begin{table}[ht]
 \centering
 \label{my-label}
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}lll@{}lll@{}}
 \toprule
-$k$       & $n$                  & $e$              \\ \midrule
-arbitrary & $3k$                 & 1 per block of 3 \\
-$k_1k_2$  & $k_1k_2 + k_1 + k_2$ & 1                \\
-$2^x - x - 1$ & $2^x - 1$ & 1 \\ 
- 4         &              7        &            1      \\ \bottomrule
+Name of Method &$k$       & $n$                  & $e$              \\ \midrule
+Repetition Code &arbitrary & $3k$                 & 1 per block of 3 \\
+Double Parity Code&$k_1k_2$  & $k_1k_2 + k_1 + k_2$\: & 1                \\
+To be Determined &$2^x - x - 1$ & $2^x - 1$ & 1 \\ 
+Hamming Code & 4         &              7        &            1      \\ \bottomrule
 \end{tabular}
 \end{table}
 
-The idea of going from $k$ bits to $n$ bits (adding redundancy to the original input). 
+\noindent Channel coding is the idea of going from $k$ bits to $n$ bits (adding redundancy to the original input). 
 
 \definition[Repetition Codes] Take the $k$ bits (011001) and make then $n = 3k$ bits (000 111 111 000 000 111). In a block of 3, one error will be corrected. In the same block, two or more errors cannot be corrected. The tradeoff of this approach is the error correction capability and bloat factor (need to keep sending more information for better probability of success).
 
@@ -1171,13 +1194,38 @@ The idea of going from $k$ bits to $n$ bits (adding redundancy to the original i
 
 \definition[Hamming Codes] $k$-length message: $C_1C_2C_3C_4$ has an associated $n$-length codeword $C_1 \dots C_7$. The three additional bits are defined as $C_5$: the parity that covers $C_1, C_2, C_3$. $C_6$ is the parity that covers $C_1, C_3, C_4$, and $C_7$ is the parity that covers $C_1, C_2, C_4$. 
 
-\example Message: 0110. Codeword: 0110011. (a) the code word on the other side (output by the decoder) is 0100011 -- the error is in the 3rd bit. (b) 0110001 -- the error is in the 6th bit. This is done with venn diagram representations; TO BE FILLED OUT LATER
+\example Message: 0110. Codeword: 0110011. (a) the code word on the other side (output by the decoder) is 0100011 -- the error is in the 3rd bit. (b) 0110001 -- the error is in the 6th bit. This is done with Venn diagram representations; in particular, the diagram below represents the order of characters in each circle. 
+\begin{figure}[ht]
+\centering
+    \begin{tikzpicture}[thick]
+        \draw (2.7,-2.54) rectangle (-1.5,1.5) node[below right] { };
+        \draw (0,0) circle (1) node[above,shift={(0,1)}] { };
+        \draw (1.2,0) circle (1) node[above,shift={(0,1)}] { };
+        \draw (.6,-1.04) circle (1) node[shift={(1.1,-.6)}] { };
 
-\section{November 14, 2016} 
+        \node at (.6,-.4) {$C_1$};
+        \node at (1.2,-.7) {$C_3$};
+        \node at (0,-.7) {$C_4$};
+        \node at (1.4,.2) {$C_5$};
+        \node at (.6,.3) {$C_2$};
+        \node at (-.2,.2) {$C_7$};
+        \node at (.5,-1.5) {$C_6$};
+\end{tikzpicture}
+\end{figure}
+
+\noindent If the sum of the numbers representing $C_{1\dots7}$ in any circle is not even, then there is an issue with the Hamming code. Of course, with codes of higher dimension (larger than $4 \rightarrow 7$), more sophisticated methods must be employed. 
+
+\section{November 14, 2016---December 5, 2016} 
 
 \subsection{Introduction to Digital Circuits}
 
-notes in paper to be placed later
+Topics covered in digital circuits involve NOT, AND, OR, NAND, XOR, and D-FF (D-Flip Flop) gates (and their parallel counterparts), the derivation of a parallel circuit (e.g. parallel AND) from a cascade of regular ANDs, a $k$-bit adder, a cyclic counter, a comparator, and a sorter. Refer to class notes for more details. 
+
+\subsection{Shift Registers}
+
+\subsubsection{Encoder Architecture}
+
+\subsubsection{Decoder Architecture}
 
 \section{December 5, 2016}
 
