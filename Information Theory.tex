@@ -1223,6 +1223,7 @@ Hamming Code & 4         &              7        &            1      \\ \bottomr
 
 \noindent If the sum of the numbers representing $C_{1\dots7}$ in any circle is not even, then there is an issue with the Hamming code. Of course, with codes of higher dimension (larger than $4 \rightarrow 7$), more sophisticated methods must be employed. 
 
+\newpage
 \section{November 14, 2016---December 5, 2016} 
 
 \subsection{Introduction to Digital Circuits}
@@ -1252,6 +1253,7 @@ In general, a Hamming code for an $(n, k, e)$ set will take a generator polynomi
 \includegraphics[width=\textwidth]{encoder2.JPG}
 \end{figure}
 
+\newpage
 \subsubsection{Decoder Architecture}
 
 For the first $n$ clock ticks, the received code word is input into the flip-flops, flushing out all previous zeros. The left input to SR (SR\_LFT) come exclusively from RCVD\_CW. For the next $n$ clock ticks, $n$ zeros are placed in the flip-flops. SR\_LFT is produced from the 101 detector output, and RCVD\_CW is output with all necessary corrections. The XOR without two inputs is--as before--simply a pass, and the 101 pattern is known as a syndrome. The decoder can be depicted by the following shift register sequence: 
