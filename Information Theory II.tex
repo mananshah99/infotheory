@@ -206,6 +206,8 @@ W(b, p) &= \sum p_i \log b_i o_i  \\
 The last term, $D$, is known as relative entropy. It has some of the same properties of entropy, one of them being that $D \geq 0$. So, we have that $W(b, p) \leq \sum p_i \log o_i - H(p)$ with equality when $p = b$. 
 \end{proof}
 
+\subsection{Kullback-Liebler Divergence}
+
 The function $D$, known as the relative entropy or Kullback-Liebler Divergence, is a measure of distance\footnote{This isn't technically a measure of distance as it doesn't satisfy the triangle inequality} between two distributions. If $p$ and $q$ are the two distributions, then $D(p || q)$ is a measure of inefficiency of assuming $q$ when the true distribution is $p$. The average code length for distribution $p$ is $H(p)$, but if we were to use the code for $q$ to encode $p$, then $H(p) + D(p||q)$ bits. 
 
 \definition The KL divergence $D(p||q)$ is expressed as $$D(p||q) = \sum_x p(x) \log \frac{p(x)}{q(x)} = E_x \left[ \log \frac{p(x)}{q(x)} \right] $$ where $0 \log 0/q = 0$ and $p \log p / 0 = \infty$. We can then write $I(X; Y) = \sum \sum p(x, y) \log \frac{p(x, y)}{p(x) p(y)}$ which is simplified to $D(p(x, y) || p(x) p(Y))$
@@ -216,10 +218,31 @@ $$D(q||p) = (1-s) \log \frac{1-s}{1-r} + s \log \frac{s}{r}$$
 
 \example Consider a case with two horses where horse 1 wins with probability $p_1$ and horse 2 wins with $p_2$. Assume even odds (2-for-1). (a) What is the optimal bet? (b) Doubling rate? (c) Resulting wealth? 
 
-(a) The optimal bet is according to the probabilities of the horses, (b) The doubling rate is $1-H(p)$, and the resulting wealth (c) is $2^{n(1-H(p)}$
+(a) The optimal bet is according to the probabilities of the horses, (b) The doubling rate is $1-H(p)$, and the resulting wealth (c) is $2^{n(1-H(p))}$
 
 We further have that $W(b, p) = \sum p \log \frac{p_i}{r_i} - \sum p \log \frac{p}{b} = D(p || r) - D(p || b)$. The doubling rate is the difference between the distance of the bookie's estimates from the truth. The gambler only makes money when $b$ is closer than $r$. When the odds are $m$-for-1, we have $$W^*(p) = D(p || 1/m)= \log m - H(p)$$and $W^*(p) + H(p) = \log m$.
+ 
+ \example Three horses run a race. A gambler offers 3-for-1 odds on each horse. Fair odds under the assumption that all horses are equally likely to win. $p = (1/2, 1/4, 1/4)$. (a) Expected wealth, (b) $b^*$, (c) $W^*$
+ 
+(a) We have that $W(b) = \sum p_i \log b_i o_i = \sum p_i \log 3b$ since $o_i = 1/3$ due to fair odds. Therefore, $W(b) = \sum p_i \log 3 + \sum p_i \log b_i = \log 3 + \sum p_i \log b_i$. (b) $b^* = p = (1/2, 1/4/, 1/4)$ and (c) $W^* = W(b^*) - \log 3 - 3/2$. Note that we can solve (c) with the identity discussed above. 
 
+\subsection{The Value of Side Information}
+
+One measure is the increase in the doubling rate based on the information. We'll connect this increase with mutual information (as we connected $W^*$ with KL divergence and entropy before). Define $X \in \{1, 2, \dots m \}$ as the horse betting space, $p(x)$ as the probabilities associated with $1 \rightarrow m$, $o(x)$ for 1 odds, and $y$ as the side information. Furthermore, we have $\sum_x b(x|y)$ as the conditional betting depending on side information $y$ and $b(x|y)$ as the proportion of wealth bet on horse $x$ when $y$ is observed. Based on these definitions, we have $$W^*(X) = \max_{b(x)} \sum_x p(x) \log b(x) o(x)$$and given our side information, $$W^*(X|Y) = \max_{b(x|y)} \sum_{x, y} p(x, y) \log b(x|y) o(x)$$so we have $$\Delta W = W^*(X|Y) - W(X)$$
+
+\theorem The increase doubling rate $\Delta W$ due to side information $Y$ for a horse race $X$ is $\Delta W = I(X; Y).$
+
+\begin{proof}
+We have that $b^*(x|y) = p(x|y)$. Since $W^*(X|Y) = \max_{b(x|y)} E(\log S)$\footnote{$S$ was defined earlier as the aggregate wealth}. This equates to $\max_{b(x|y)} \sum p(x, y) \log [o(x) b(x|y)]$. So, we have that $$W^*(X|Y) = \sum p(x,y) \log [p(x) p(x|y)] = \sum p(x) \log o(x) - H(X|Y)$$Without side information $W^* = \sum p(x) \log o(x) - H(X)$, so we have $\Delta W = \sum p(x) \log o(x) - H(X|Y) - [\sum p(x) \log o(x) - H(X)]$. Finally, we have $\Delta W = H(X) - H(X|Y) = I(X;Y)$.
+\end{proof}
+
+\example Given a three horse race $p = (1/2, 1/4, 1/4)$ with odds with respect to the false distribution $r_1, r_2, r_3 = (1/4, 1/4, 1/2)$ and $o_1, o_2, o_3 = (4, 4, 2)$\footnote{This is because $o_i = 1/r_i$ when determining the odds given the false distribution. ``Fair odds'' are defined such that $\sum 1/o_i = 1$}. Find (a) the entropy of the race and (b) $(b_1, b_2, b_3)$ such that compounded wealth $\rightarrow \infty$. 
+
+The entropy of the race is easily calculated as $3/2$. It's intuitive that $b_i = o_i p_i$ so we have $(2, 1, 1/2)$, which we re-normalize to $(4/7, 2/7, 1/7)$. Our final $W = \sum p_i \log b_i o_i$. 
+
+\example Let the distribution be $(p_1, p_2, p_3)$ with odds $o = (1, 1, 1)$ and wealth proportions $b = (b_1, b_2, b_3)$. $S_n \rightarrow 0$ exponentially. (a) Find the exponent, (b) $b^*$, and (c) What $p$ causes $S_n \rightarrow 0$ at the fastest rate. 
+
+We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p$. Furthermore, the exponent is simply the doubling rate $W = \sum p_i \log b_i o_i$, and the $P$ that causes $S_n \rightarrow 0$ most quickly is the one that maximizes $H(p)$ or $p = (1/3, 1/3, 1/3)$. 
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
