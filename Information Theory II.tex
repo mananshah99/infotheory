@@ -196,6 +196,30 @@ Functions of independent random variables are also independent, so $\log S(X_1),
 \definition The optimum doubling rate over all choices of $b_i$ is $$W^*(p) = \max_b W(b, p) = \max_{b: \: b_i \geq 0, \: \sum b_i = 1} \sum_i p_i \log b_i o_i$$We must formally maximize $W(b, p)$ such that $\sum b_i = 1$. To do this, we'll apply Lagrange optimization. We have $$J(b) = \sum p_i \log b_i o_i + \lambda \sum b_i$$Taking the partial with respect to $b_i$ and setting it equal to 0, $$\frac{\partial J}{\partial b_i} = \frac{p_i}{b_i} + \lambda$$ where $i \in \{ 1 \dots m \}$. $\sum b_i = 1$ results in $b_i = p_i$. Technically, we'd have to take the second derivative to prove that this is a maximum; this verification is left to the reader. 
 
 \theorem $W^* = \sum p_i \log o_i - H(p)$
+
+\begin{proof}
+\begin{align*}
+W(b, p) &= \sum p_i \log b_i o_i  \\
+&= p_i \log \left( \frac{b_i}{p_i} \times p_i o_i \right) \\
+&= \sum p_i \log o_i - H(p) - D(p || b)
+\end{align*}
+The last term, $D$, is known as relative entropy. It has some of the same properties of entropy, one of them being that $D \geq 0$. So, we have that $W(b, p) \leq \sum p_i \log o_i - H(p)$ with equality when $p = b$. 
+\end{proof}
+
+The function $D$, known as the relative entropy or Kullback-Liebler Divergence, is a measure of distance\footnote{This isn't technically a measure of distance as it doesn't satisfy the triangle inequality} between two distributions. If $p$ and $q$ are the two distributions, then $D(p || q)$ is a measure of inefficiency of assuming $q$ when the true distribution is $p$. The average code length for distribution $p$ is $H(p)$, but if we were to use the code for $q$ to encode $p$, then $H(p) + D(p||q)$ bits. 
+
+\definition The KL divergence $D(p||q)$ is expressed as $$D(p||q) = \sum_x p(x) \log \frac{p(x)}{q(x)} = E_x \left[ \log \frac{p(x)}{q(x)} \right] $$ where $0 \log 0/q = 0$ and $p \log p / 0 = \infty$. We can then write $I(X; Y) = \sum \sum p(x, y) \log \frac{p(x, y)}{p(x) p(y)}$ which is simplified to $D(p(x, y) || p(x) p(Y))$
+
+\example $p(0) = 1-r, q(0) = 1-s, p(1) = r, q(1) = s$
+$$D(p||q) = (1-r) \log \frac{1-r}{1-s} + r \log \frac{r}{s}$$ 
+$$D(q||p) = (1-s) \log \frac{1-s}{1-r} + s \log \frac{s}{r}$$
+
+\example Consider a case with two horses where horse 1 wins with probability $p_1$ and horse 2 wins with $p_2$. Assume even odds (2-for-1). (a) What is the optimal bet? (b) Doubling rate? (c) Resulting wealth? 
+
+(a) The optimal bet is according to the probabilities of the horses, (b) The doubling rate is $1-H(p)$, and the resulting wealth (c) is $2^{n(1-H(p)}$
+
+We further have that $W(b, p) = \sum p \log \frac{p_i}{r_i} - \sum p \log \frac{p}{b} = D(p || r) - D(p || b)$. The doubling rate is the difference between the distance of the bookie's estimates from the truth. The gambler only makes money when $b$ is closer than $r$. When the odds are $m$-for-1, we have $$W^*(p) = D(p || 1/m)= \log m - H(p)$$and $W^*(p) + H(p) = \log m$.
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
