@@ -243,6 +243,20 @@ The entropy of the race is easily calculated as $3/2$. It's intuitive that $b_i 
 \example Let the distribution be $(p_1, p_2, p_3)$ with odds $o = (1, 1, 1)$ and wealth proportions $b = (b_1, b_2, b_3)$. $S_n \rightarrow 0$ exponentially. (a) Find the exponent, (b) $b^*$, and (c) What $p$ causes $S_n \rightarrow 0$ at the fastest rate. 
 
 We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p$. Furthermore, the exponent is simply the doubling rate $W = \sum p_i \log b_i o_i$, and the $P$ that causes $S_n \rightarrow 0$ most quickly is the one that maximizes $H(p)$ or $p = (1/3, 1/3, 1/3)$. 
+
+\example Now assume you have the most common form of side information, the past performance of the horses. If the results of each successive horse race are independent, then this additional information will not reveal anything new about the race. Suppose instead that the races are dependent. How might we calculate $W^*(X_k | X_{k-1}, X_{k-2},..., X_1)$?
+
+\begin{proof}
+At the end of of $n$ races, $$S_n = \prod_i S(X_i)$$
+Therefore,
+\begin{align*}
+\frac{1}{n} \mathrm{E}\left[\log{S_n}\right] &= \frac{1}{n} \sum_{i=1}^{n} \mathrm{E}\left[\log{S(X_i)}\right]\\
+							        &= \frac{1}{n} \sum_{i=1}^{n} \left[\log{m} - H(X_i | ...)\right]\\
+							  W^*&=  \log{m} - \frac{H(X_1, X_2,...,X_n)}{n}
+\end{align*}
+The term $\frac{H(X_1, X_2,...,X_n)}{n}$ can be thought of as the average entropy across all the races. 
+\end{proof}
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -250,6 +264,6 @@ We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p
 \item ``What's $E$? Entropy?'' (David Zhu)
 \item ``So is it the strong law of weak numbers?'' (Jerry Chen)
 \item ``It's like a half life... but it's a double life'' (Steven Cao)
-\item ``Isn't this just Lagrange?''  \\ 10 minutes later.. \\ ``Wait, how do you do Lagrange again?'' (Swapnil Garg)
+\item ``Isn't this just Lagrange?''  \\ 10 minutes later... \\ ``Wait, how do you do Lagrange again?'' (Swapnil Garg)
 \end{itemize}
 \end{document}
