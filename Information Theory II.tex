@@ -50,6 +50,7 @@
 \usepackage{epsfig}
 \usepackage{psfrag}
 \usepackage{mathtools}
+
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
 %\usepackage{sseq} (if you need to draw spectral sequences, please use this package, available at http://wwwmath.uni-muenster.de/u/tbauer/)
@@ -160,6 +161,8 @@
 \setlength{\headheight}{15.2pt}
 \pagestyle{fancy}
 
+\usepackage{booktabs}
+
 \lhead{2016-17}
 \chead{Information Theory}
 \rhead{Manan Shah}
@@ -171,7 +174,7 @@
 \author{Manan Shah\\ \texttt{manan.shah.777@gmail.com} \\ The Harker School}
 \maketitle
 \begin{abstract}
-This document contains lecture notes from Harker's Advanced Topics in Mathematics class in Information Theory II, taught by Dr. Anuradha Aiyer. This course is the second part of a two part offering that explores the basic concepts of Information Theory, as initially described by Claude Elwood Shannon at Bell Labs in 1948. In Part 2 of the course, we explore other applications of Information Theory to the disciplines of Gambling, Statistics, Physics, Computer science, Economics and Philosophy. These notes were taken using TeXShop and \LaTeX2$\epsilon$ and will be updated for each class. The reader is advised to note any errata at the source control repository \texttt{https://github.com/mananshah99/infotheory}.
+This document contains lecture notes from Harker's Advanced Topics in Mathematics class in Information Theory II, taught by Dr. Anuradha Aiyer. This course is the second part of a two part offering that explores the basic concepts of Information Theory, as initially described by Claude Elwood Shannon at Bell Labs in 1948. These notes were taken using TeXShop and \LaTeX2$\epsilon$ and will be updated for each class. The reader is advised to note any errata at the source control repository \texttt{https://github.com/mananshah99/infotheory}.
 \end{abstract}
 \tableofcontents
 \newpage
@@ -193,7 +196,7 @@ Define $S_n$ as the total growth in the gambler's wealth after $n$ races. We hav
 \begin{proof}
 Functions of independent random variables are also independent, so $\log S(X_1), \dots \log S(X_n)$ are i.i.d. From our earlier definition of $S_n$ we have $$\frac{1}{n} \log S_n = \frac{1}{n} \sum \log S(X_i)$$By the weak law of large numbers\footnote{See \texttt{http://mathworld.wolfram.com/WeakLawofLargeNumbers.html} for more information.}, this equates to $E(\log S(X)) = W(b, p)$. So we can conclude that $S_n =  2^{n W(b, p)}$ and the proof is complete. So if to maximize $S_n$, we'll need to maximize $W$. 
 \end{proof}
-\definition The optimum doubling rate over all choices of $b_i$ is $$W^*(p) = \max_b W(b, p) = \max_{b: \: b_i \geq 0, \: \sum b_i = 1} \sum_i p_i \log b_i o_i$$We must formally maximize $W(b, p)$ such that $\sum b_i = 1$. To do this, we'll apply Lagrange optimization. We have $$J(b) = \sum p_i \log b_i o_i + \lambda \sum b_i$$Taking the partial with respect to $b_i$ and setting it equal to 0, $$\frac{\partial J}{\partial b_i} = \frac{p_i}{b_i} + \lambda$$ where $i \in \{ 1 \dots m \}$. $\sum b_i = 1$ results in $b_i = p_i$. Technically, we'd have to take the second derivative to prove that this is a maximum; this verification is left to the reader. 
+\definition The optimum doubling rate over all choices of $b_i$ is $$W^*(p) = \max_b W(b, p) = \max_{b: \: b_i \geq 0, \: \sum b_i = 1} \sum_i p_i \log b_i o_i$$We must formally maximize $W(b, p)$ such that $\sum b_i = 1$. To do this, we'll apply Lagrange optimization. We have $$J(b) = \sum p_i \log b_i o_i + \lambda \sum b_i$$Taking the partial with respect to $b_i$ and setting it equal to 0, $$\frac{\partial J}{\partial b_i} = \frac{p_i}{b_i} + \lambda$$ where $i \in \{ 1 \dots m \}$. Solving for $b_i$ as a function of $p_i$ and $\lambda$, substituting the resulting value into the constraint $\sum b_i = 1$, and evaluating the differential expression with  $\lambda = -1$ results in $b_i = p_i$. Technically, we'd have to take the second derivative to prove that this is a maximum; this verification is left to the reader. 
 
 \theorem $W^* = \sum p_i \log o_i - H(p)$
 
@@ -203,14 +206,14 @@ W(b, p) &= \sum p_i \log b_i o_i  \\
 &= p_i \log \left( \frac{b_i}{p_i} \times p_i o_i \right) \\
 &= \sum p_i \log o_i - H(p) - D(p || b)
 \end{align*}
-The last term, $D$, is known as relative entropy. It has some of the same properties of entropy, one of them being that $D \geq 0$. So, we have that $W(b, p) \leq \sum p_i \log o_i - H(p)$ with equality when $p = b$. 
+The last term, $D$, is known as relative entropy. It has some of the same properties of entropy, one of them being that $D \geq 0$. So,  $W(b, p) \leq \sum p_i \log o_i - H(p)$ with equality when $p = b$. 
 \end{proof}
 
 \subsection{Kullback-Liebler Divergence}
 
 The function $D$, known as the relative entropy or Kullback-Liebler Divergence, is a measure of distance\footnote{This isn't technically a measure of distance as it doesn't satisfy the triangle inequality} between two distributions. If $p$ and $q$ are the two distributions, then $D(p || q)$ is a measure of inefficiency of assuming $q$ when the true distribution is $p$. The average code length for distribution $p$ is $H(p)$, but if we were to use the code for $q$ to encode $p$, then $H(p) + D(p||q)$ bits. 
 
-\definition The KL divergence $D(p||q)$ is expressed as $$D(p||q) = \sum_x p(x) \log \frac{p(x)}{q(x)} = E_x \left[ \log \frac{p(x)}{q(x)} \right] $$ where $0 \log 0/q = 0$ and $p \log p / 0 = \infty$. We can then write $I(X; Y) = \sum \sum p(x, y) \log \frac{p(x, y)}{p(x) p(y)}$ which is simplified to $D(p(x, y) || p(x) p(Y))$
+\definition[Kullback-Liebler Divergence] The KL divergence $D(p||q)$ is expressed as $$D(p||q) = \sum_x p(x) \log \frac{p(x)}{q(x)} = E_x \left[ \log \frac{p(x)}{q(x)} \right] $$ where $0 \log 0/q = 0$ and $p \log p / 0 = \infty$. We can then write $I(X; Y) = \sum \sum p(x, y) \log \frac{p(x, y)}{p(x) p(y)}$ which is simplified to $D(p(x, y) || p(x) p(Y))$
 
 \example $p(0) = 1-r, q(0) = 1-s, p(1) = r, q(1) = s$
 $$D(p||q) = (1-r) \log \frac{1-r}{1-s} + r \log \frac{r}{s}$$ 
@@ -220,7 +223,7 @@ $$D(q||p) = (1-s) \log \frac{1-s}{1-r} + s \log \frac{s}{r}$$
 
 (a) The optimal bet is according to the probabilities of the horses, (b) The doubling rate is $1-H(p)$, and the resulting wealth (c) is $2^{n(1-H(p))}$
 
-We further have that $W(b, p) = \sum p \log \frac{p_i}{r_i} - \sum p \log \frac{p}{b} = D(p || r) - D(p || b)$. The doubling rate is the difference between the distance of the bookie's estimates from the truth. The gambler only makes money when $b$ is closer than $r$. When the odds are $m$-for-1, we have $$W^*(p) = D(p || 1/m)= \log m - H(p)$$and $W^*(p) + H(p) = \log m$.
+We further have that $W(b, p) = \sum p \log \frac{p_i}{r_i} - \sum p \log \frac{p}{b} = D(p || r) - D(p || b)$ where $r_i = 1/o_i$. The doubling rate is the difference between the distance of the bookie's estimates from the truth. The gambler only makes money when $b$ is closer than $r$. When the odds are $m$-for-1, we have $$W^*(p) = D(p || 1/m)= \log m - H(p)$$and $W^*(p) + H(p) = \log m$.
  
  \example Three horses run a race. A gambler offers 3-for-1 odds on each horse. Fair odds under the assumption that all horses are equally likely to win. $p = (1/2, 1/4, 1/4)$. (a) Expected wealth, (b) $b^*$, (c) $W^*$
  
@@ -243,6 +246,58 @@ The entropy of the race is easily calculated as $3/2$. It's intuitive that $b_i 
 \example Let the distribution be $(p_1, p_2, p_3)$ with odds $o = (1, 1, 1)$ and wealth proportions $b = (b_1, b_2, b_3)$. $S_n \rightarrow 0$ exponentially. (a) Find the exponent, (b) $b^*$, and (c) What $p$ causes $S_n \rightarrow 0$ at the fastest rate. 
 
 We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p$. Furthermore, the exponent is simply the doubling rate $W = \sum p_i \log b_i o_i$, and the $P$ that causes $S_n \rightarrow 0$ most quickly is the one that maximizes $H(p)$ or $p = (1/3, 1/3, 1/3)$. 
+\section{Unit 2: Statistics}
+
+\subsection{Introduction}
+Statistics considers two types of studies: observational and experimental. In an experimental study, treatments are assigned to subjects; this is not the case in observational studies. The first part of this topic was covered with traditional statistics worksheets involving the definition of $p$-values and statistical tests ($t$, $z$, etc.) A diagram that connects these concepts is as follows:
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+Information Theory & Statistics            & Machine Learning      \\ \midrule
+Source             & Observational Studies & Unsupervised Learning \\
+Channel            & Experimental Studies  & Supervised Learning   \\ \bottomrule
+\end{tabular}
+\end{table}
+
+We'll start by modeling the source, which has a distribution $Q$ and outputs the vector $X$. We will define a notion of $X$ as too ridiculous to have come from $Q$. It is incorrect to define the ridiculousness criterion as ``$\text{Prob}_Q(X)$ is small'' as looking at one event whose probability will almost always be small is insufficient.
+
+\definition $X$ is ``too ridiculous'' to have originated from source $Q$ if and only if probability $\text{Prob}_Q$($X$ and its entire subsequent tail) is sufficiently small\footnote{Define $\epsilon$ as in traditional proofs to quantify this}. That is to say, given $X$ we can define 
+\begin{equation*}
+S_X = \{ X' \: | \: \text{Prob}_Q (X') \leq \text{Prob}_Q(X) \}
+\end{equation*}We then have that $X$ is too ridiculous to have come from $Q$ if the probability $\text{Prob}_Q(S_X)$ is sufficiently small.
+
+\definition[Confidence Interval] Given $X$, identify all $Q$s it may have originated from. The confidence interval\footnote{It's better to write this as a confidence region as opposed to a confidence interval if we're working in spaces of higher dimensionality than $\mathbb{R}^1$} is defined as $$\{Q \: | \: X \text{ is not too ridiculous to have originated from } Q\}$$
+
+\definition[Hypothesis Test] Given hypothesis $Q$, find all $X$ that will allow for disproving $Q$. The rejection interval (or region) is defined as $$\{X \: | \: X \text{ is too ridiculous to have come from } Q \}$$
+
+\subsection{Two Significant Theorems}
+
+We'll discuss two important theorems that define the notions of $\text{Prob}_Q(X)$ and $\text{Prob}_Q(S)$.
+
+\subsubsection{$\text{Prob}_Q(X)$}
+Assume that we are given a source $Q$ that produces observed data outputs $X_1 \dots X_N$ (all abbreviated as the vector $X$) and that the values are identically and independently distributed. We will attempt to define the value $\text{Prob}_Q(X)$. If we were to histogram the vector $X$ (with the y axis representing the frequency of occurrences of $\xi$ in $X$ and the x axis representing the discrete values $\xi_1 \dots \xi_k$)\footnote{$X$ comprises of discrete values that are represented by $\xi$}, each value $\xi_i$ would have an associated frequency $N_i$. Call this histogram $P_X$ with $N_1 + N_2 + \dots + N_k = N$. We then have 
+\begin{align*}
+\text{Prob}_Q(X) &= Q(X_1) \times Q(X_2) \times \dots \times Q(X_N) \\
+	&= Q(\xi_1)^{N_1} \times Q(\xi_2)^{N_2} \times \dots \times Q(\xi_k)^{N_k} \\
+	&= 2^{-[N_1 \log \frac{1}{Q(\xi_1)} + N_2 \log \frac{1}{Q(\xi_2)} + \dots + N_k \log \frac{1}{Q(\xi_k)}]} \\
+	&= 2^{-N[P_X(\xi_1) \log \frac{1}{Q(\xi_1)} + \dots + P_X(\xi_k) \log \frac{1}{Q(\xi_k)}]} 
+\end{align*}
+where $Q(X_i)$ is the probability of seeing $X_i$ in the distribution of $Q$. We can multiply each log term by $P_X(\xi_i)$ on the numerator and denominator to express the value as a function of the KL divergence and entropy. We therefore have the following result\footnote{We've only proved the result for a discrete i.i.d distribution, but it can be shown to be applicable to continuous distributions (with differential entropy). This result cannot, however, be extended to non-i.i.d distributions because of the first step}.
+
+\theorem $\text{Prob}_Q(X) = 2^{-N[D(P_X || Q) + H(P_X)]}$
+
+\subsubsection{$\text{Prob}_Q(S)$}
+
+We can begin by writing 
+\begin{align*}
+\text{Prob}_Q(S) &= \sum_{X \in S} \text{Prob}_Q(X) \\
+	&= \sum_{X \in S} 2^{-N[D(P_X || Q) + H(P_X)]}
+\end{align*}
+With $Q$ representing the true distribution, we have a space of histograms $\{P_X \: \forall \:  X \in S\}$. We want to identify the distribution $P^*$ that is ``closest'' to $Q$. By the Pythagorean inequality (which we'll prove later), we can write the above expression as
+$$\text{Prob}_Q(S) \leq \sum_{X \in S} 2^{-N[D(P_X || P^*) + D(P^* || Q) + H(P_X)]}  = 2^{-ND(P^* || Q)} \sum_{X \in S} 2^{-N[D(P_X || P^*) + H(P_X)]}$$which can be written as $$2^{-ND(P^*||Q)} \sum_{X \in S} \text{Prob}_{P^*}(X) = 2^{-ND(P^*||Q)} \text{Prob}_{P^*}(S)$$Since the probability term is less than or equal to one, we've therefore bounded $\text{Prob}_Q(S)$.
+\theorem[Sanov's Theorem]  $\text{Prob}_Q(S) \leq 2^{-ND(P^*||Q)}$
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -251,5 +306,7 @@ We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p
 \item ``So is it the strong law of weak numbers?'' (Jerry Chen)
 \item ``It's like a half life... but it's a double life'' (Steven Cao)
 \item ``Isn't this just Lagrange?''  \\ 10 minutes later.. \\ ``Wait, how do you do Lagrange again?'' (Swapnil Garg)
+\item ``I'm just amazed that you manage to learn something'' (Dr. Aiyer)
+\item (Looking at $\Sigma$) That's a backwards $\xi$! (Steven)
 \end{itemize}
 \end{document}
