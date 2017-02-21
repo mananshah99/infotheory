@@ -313,6 +313,18 @@ With $Q$ representing the true distribution, we have a space of histograms $\{P_
 $$\text{Prob}_Q(S) \leq \sum_{X \in S} 2^{-N[D(P_X || P^*) + D(P^* || Q) + H(P_X)]}  = 2^{-ND(P^* || Q)} \sum_{X \in S} 2^{-N[D(P_X || P^*) + H(P_X)]}$$which can be written as $$2^{-ND(P^*||Q)} \sum_{X \in S} \text{Prob}_{P^*}(X) = 2^{-ND(P^*||Q)} \text{Prob}_{P^*}(S)$$Since the probability term is less than or equal to one, we've therefore bounded $\text{Prob}_Q(S)$.
 \theorem[Sanov's Theorem]  $\text{Prob}_Q(S) \leq 2^{-ND(P^*||Q)}$
 
+\subsubsection{Proof of the Pythagorean Inequality} 
+\theorem[Pythagorean Inequality] $D(P||Q) \geq D(P || P^*) + D(P^* || Q)$ where $Q$ is the true distribution and $P$ is the estimated distribution. $P^*$ is the closest distribution in terms of KL divergence.
+\begin{proof}
+Consider any $P$ in the convex vector space of histograms $S$. By the definition of a convex vector space, $$P_\lambda = \lambda P + (1 - \lambda) P^*$$If we let $\lambda = 0$, $P_\lambda = P^*$, but since we know that $P^*$ is defined to be the minimum of all $P$ in set $S$ (according to the condition $D(P^* || Q) = \min_{P \in S} D(P || Q)$), we know that it is also the minimum of $D(P_\lambda || Q)$ along the path $P^* \rightarrow P$. So, $D_\lambda = D(P_\lambda || Q) = \sum P_\lambda \log P_\lambda / Q$. Therefore, $d D_\lambda / d \lambda$ as a function of $\lambda$ is nonnegative because as $\lambda \rightarrow 0$, the divergence decreases. Specifically, $$\frac{d D_\lambda}{d \lambda} = \sum_{\text{bins}} \left[ (P - P^*) + (P - P^*) \log \frac{P_\lambda}{Q} \right]$$At $\lambda = 0$, $P_\lambda = P^*$. We also know that $\sum P(X) = \sum P^*(X) = 1$ by the property of a pdf. We can then write $$\frac{d D_\lambda}{d \lambda} \bigg|_{\lambda = 0} = \sum \left[ P(X) - P^*(X) \right] \log \frac{P^*}{Q}$$This simplifies to $\sum P \log \frac{P^*}{Q} - \sum P^* \log \frac{P^*}{Q} \geq 0$. The first term can be written as $\sum P \log \frac{P^*}{P} \frac{P}{Q} - \sum P^* \log \frac{P^*}{Q}$ which completes the proof (as the initial point $\lambda = 0 \geq 0$ so the remainder of the function is).
+\end{proof} 
+
+\subsection{Connections to Statistics}
+
+\subsubsection{KL Divergence Between 2 Binomials} 
+
+From the definition of KL divergence, we can write $D[\text{Bernoulli}(p_1) || \text{Bernoulli}(p_2)]$ as $$p_1 \log \frac{p_1}{p_2} + (1-p_1) \log \frac{1-p_1}{1-p_2}$$which is equivalent to\footnote{Converting log to ln} $$\frac{1}{\ln 2} \left[ p_1 \ln \frac{p_1}{p_2} + (1-p_1) \ln \frac{1-p_1}{1-p_2} \right] $$ A second order approximation of $\ln (1 / 1-\epsilon) \approx \epsilon + \epsilon^2 / 2$ allows us to write $$\frac{1}{\ln 2} \left[ p_1 \left( \left( 1 - \frac{p_2}{p_1} \right) + \frac{1}{2} \left( 1 - \frac{p_1}{p_2} \right)^2 \right) + (1-p_1) \left( \left( 1 - \frac{1-p_2}{1-p_1} \right) - \frac{1}{2} \left( 1 - \frac{1 - p_2}{1 - p_1} \right)^2 \right) \right]$$which simplifies to $$ \left( -\frac{1}{2 \ln 2} \right) \frac{(p_1 - p_2)^2}{p_1(1-p_1)}$$What we've just obtained is an approximation to the KL divergence between two binomials. 
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -323,5 +335,7 @@ $$\text{Prob}_Q(S) \leq \sum_{X \in S} 2^{-N[D(P_X || P^*) + D(P^* || Q) + H(P_X
 \item ``Isn't this just Lagrange?''  \\ 10 minutes later.. \\ ``Wait, how do you do Lagrange again?'' (Swapnil Garg)
 \item ``I'm just amazed that you manage to learn something'' (Dr. Aiyer)
 \item (Looking at $\Sigma$) That's a backwards $\xi$! (Steven)
+\item ``What's a binomial distribution?'' (Dr. Aiyer) \\ ``$a + bx$'' (Shaya)
+\item ``An approximation of $\ln(1-x)$ is $1 + x + x^2 + x^3 + \dots$'' (Misha Ivkov)
 \end{itemize}
 \end{document}
