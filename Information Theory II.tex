@@ -247,10 +247,9 @@ The entropy of the race is easily calculated as $3/2$. It's intuitive that $b_i 
 
 We always have that $b_i = \frac{p_i o_i}{\sum_i b_i}$, so we can write $b^* = p$. Furthermore, the exponent is simply the doubling rate $W = \sum p_i \log b_i o_i$, and the $P$ that causes $S_n \rightarrow 0$ most quickly is the one that maximizes $H(p)$ or $p = (1/3, 1/3, 1/3)$. 
 
-\example Now assume you have the most common form of side information, the past performance of the horses. If the results of each successive horse race are independent, then this additional information will not reveal anything new about the race. Suppose instead that the races are dependent. How might we calculate $W^*(X_k | X_{k-1}, X_{k-2},..., X_1)$?
+\example Now assume you have the most common form of side information, the past performance of the horses. If the results of each successive horse race are independent, then this additional information will not reveal anything new about the race. Suppose instead that the races are dependent. How might we calculate $W^*(X_k | X_{k-1}, X_{k-2},..., X_1)$?\\
 
-\begin{proof}
-At the end of of $n$ races, $$S_n = \prod_i S(X_i)$$
+\noindent At the end of of $n$ races, $$S_n = \prod_i S(X_i)$$
 Therefore,
 \begin{align*}
 \frac{1}{n} \mathrm{E}\left[\log{S_n}\right] &= \frac{1}{n} \sum_{i=1}^{n} \mathrm{E}\left[\log{S(X_i)}\right]\\
@@ -258,7 +257,6 @@ Therefore,
 							  W^*&=  \log{m} - \frac{H(X_1, X_2,...,X_n)}{n}
 \end{align*}
 The term $\frac{H(X_1, X_2,...,X_n)}{n}$ can be thought of as the average entropy across all the races. 
-\end{proof}
 
 \section{Unit 2: Statistics}
 
@@ -316,14 +314,18 @@ $$\text{Prob}_Q(S) \leq \sum_{X \in S} 2^{-N[D(P_X || P^*) + D(P^* || Q) + H(P_X
 \subsubsection{Proof of the Pythagorean Inequality} 
 \theorem[Pythagorean Inequality] $D(P||Q) \geq D(P || P^*) + D(P^* || Q)$ where $Q$ is the true distribution and $P$ is the estimated distribution. $P^*$ is the closest distribution in terms of KL divergence.
 \begin{proof}
-Consider any $P$ in the convex vector space of histograms $S$. By the definition of a convex vector space, $$P_\lambda = \lambda P + (1 - \lambda) P^*$$If we let $\lambda = 0$, $P_\lambda = P^*$, but since we know that $P^*$ is defined to be the minimum of all $P$ in set $S$ (according to the condition $D(P^* || Q) = \min_{P \in S} D(P || Q)$), we know that it is also the minimum of $D(P_\lambda || Q)$ along the path $P^* \rightarrow P$. So, $D_\lambda = D(P_\lambda || Q) = \sum P_\lambda \log P_\lambda / Q$. Therefore, $d D_\lambda / d \lambda$ as a function of $\lambda$ is nonnegative because as $\lambda \rightarrow 0$, the divergence decreases. Specifically, $$\frac{d D_\lambda}{d \lambda} = \sum_{\text{bins}} \left[ (P - P^*) + (P - P^*) \log \frac{P_\lambda}{Q} \right]$$At $\lambda = 0$, $P_\lambda = P^*$. We also know that $\sum P(X) = \sum P^*(X) = 1$ by the property of a pdf. We can then write $$\frac{d D_\lambda}{d \lambda} \bigg|_{\lambda = 0} = \sum \left[ P(X) - P^*(X) \right] \log \frac{P^*}{Q}$$This simplifies to $\sum P \log \frac{P^*}{Q} - \sum P^* \log \frac{P^*}{Q} \geq 0$. The first term can be written as $\sum P \log \frac{P^*}{P} \frac{P}{Q} - \sum P^* \log \frac{P^*}{Q}$ which completes the proof (as the initial point $\lambda = 0 \geq 0$ so the remainder of the function is).
+Consider any $P$ in the convex vector space of histograms $S$. By the definition of a convex vector space, $$P_\lambda = \lambda P + (1 - \lambda) P^*$$If we let $\lambda = 0$, $P_\lambda = P^*$, but since we know that $P^*$ is defined to be the minimum of all $P$ in set $S$ (according to the condition $D(P^* || Q) = \min_{P \in S} D(P || Q)$), we know that it is also the minimum of $D(P_\lambda || Q)$ along the path $P^* \rightarrow P$. So, $D_\lambda = D(P_\lambda || Q) = \sum P_\lambda \log P_\lambda / Q$. Therefore, $d D_\lambda / d \lambda$ as a function of $\lambda$ is nonnegative at $\lambda = 0$ because as $\lambda \rightarrow 0$, the divergence decreases. Specifically, $$\frac{d D_\lambda}{d \lambda} = \sum_{\text{bins}} \left[ (P - P^*) + (P - P^*) \log \frac{P_\lambda}{Q} \right]$$At $\lambda = 0$, $P_\lambda = P^*$. We also know that $\sum P(X) = \sum P^*(X) = 1$ by the property of a pdf. We can then write $$\frac{d D_\lambda}{d \lambda} \bigg|_{\lambda = 0} = \sum \left[ P(X) - P^*(X) \right] \log \frac{P^*}{Q}$$This simplifies to $\sum P \log \frac{P^*}{Q} - \sum P^* \log \frac{P^*}{Q} \geq 0$. The first term can be written as $\sum P \log \frac{P^*}{P} \frac{P}{Q} - \sum P^* \log \frac{P^*}{Q}$ which completes the proof (as the initial point $\lambda = 0 \geq 0$ so the remainder of the function is).
 \end{proof} 
 
 \subsection{Connections to Statistics}
 
-\subsubsection{KL Divergence Between 2 Binomials} 
+From the definition of KL divergence, we can write $D[\text{Bernoulli}(p_1) || \text{Bernoulli}(p_2)]$ as $$p_1 \log \frac{p_1}{p_2} + (1-p_1) \log \frac{1-p_1}{1-p_2}$$which is equivalent to\footnote{Converting log to ln} $$\frac{1}{\ln 2} \left[ p_1 \ln \frac{p_1}{p_2} + (1-p_1) \ln \frac{1-p_1}{1-p_2} \right] $$ A second order approximation of $\ln (1 / 1-\epsilon) \approx \epsilon + \epsilon^2 / 2$ allows us to write $$\frac{1}{\ln 2} \left[ p_1 \left( \left( 1 - \frac{p_2}{p_1} \right) + \frac{1}{2} \left( 1 - \frac{p_1}{p_2} \right)^2 \right) + (1-p_1) \left( \left( 1 - \frac{1-p_2}{1-p_1} \right) - \frac{1}{2} \left( 1 - \frac{1 - p_2}{1 - p_1} \right)^2 \right) \right]$$which simplifies to $$ \left( -\frac{1}{2 \ln 2} \right) \frac{(p_1 - p_2)^2}{p_1(1-p_1)}$$What we've just obtained is an approximation to the KL divergence between two binomials. Note for future reference that $$D(f || q) = \int_x f \log \frac{f}{q} dx$$
 
-From the definition of KL divergence, we can write $D[\text{Bernoulli}(p_1) || \text{Bernoulli}(p_2)]$ as $$p_1 \log \frac{p_1}{p_2} + (1-p_1) \log \frac{1-p_1}{1-p_2}$$which is equivalent to\footnote{Converting log to ln} $$\frac{1}{\ln 2} \left[ p_1 \ln \frac{p_1}{p_2} + (1-p_1) \ln \frac{1-p_1}{1-p_2} \right] $$ A second order approximation of $\ln (1 / 1-\epsilon) \approx \epsilon + \epsilon^2 / 2$ allows us to write $$\frac{1}{\ln 2} \left[ p_1 \left( \left( 1 - \frac{p_2}{p_1} \right) + \frac{1}{2} \left( 1 - \frac{p_1}{p_2} \right)^2 \right) + (1-p_1) \left( \left( 1 - \frac{1-p_2}{1-p_1} \right) - \frac{1}{2} \left( 1 - \frac{1 - p_2}{1 - p_1} \right)^2 \right) \right]$$which simplifies to $$ \left( -\frac{1}{2 \ln 2} \right) \frac{(p_1 - p_2)^2}{p_1(1-p_1)}$$What we've just obtained is an approximation to the KL divergence between two binomials. 
+\subsubsection{Connection 1: Observation Studies for Proportion}
+
+Consider a binomial distribution with probability $p$ originating from source $Q$ (that outputs values $x_1, x_2, \dots, x_N$). We've defined $X$ is too ridiculous to have come from $Q$ as $2^{-ND(P^*||Q)} < \epsilon$\ (by extension of Sanov's theorem). But since $P^*$ (our best guess of the distribution) is equivalent to Binomial($\hat{p}$)\footnote{That is, we make our best guess given the observed probability distribution}, we can write $$2^{-N \left[ \frac{1}{2 \ln 2} \frac{(\hat{p} - p)^2}{\hat{p}(1 - \hat{p})} \right]} < \epsilon$$Which is equivalent to $$ \frac{1}{2 \ln 2} \frac{(\hat{p} - p)^2}{(\hat{p}(1 - \hat{p}))/N} > \log \frac{1}{\epsilon}$$ We can rewrite this as $$\frac{(\hat{p} - p)^2}{(\hat{p}(1 - \hat{p}))/N} > \ln \frac{1}{\epsilon^2}$$ Taking the square root of both sides, we have $$\frac{|\hat{p} - p|}{ \sqrt{\frac{\hat{p}(1 - \hat{p})}{N}}} > \underbrace{\sqrt{\ln \frac{1}{\epsilon^2}}}_{\text{call this constant } C}$$ We can now express this in a more familiar form. In particular, given $X$ = \{$P$ | $P$ lies in the interval $\hat{p} \pm C \sqrt{\frac{\hat{p}(1 - \hat{p})}{N}}$ \}, then we have the hypothesis test that $\hat{p}$ is ``too ridiculous'' to have come from $X$ if it lies in the rejection region \{ $\frac{|\hat{p} - p|}{ \sqrt{\frac{\hat{p}(1 - \hat{p})}{N}}} > C$ \}. 
+
+\subsubsection{Connection 2}
 
 \newpage
 \section*{Appendix A---Quotes}
@@ -337,5 +339,6 @@ From the definition of KL divergence, we can write $D[\text{Bernoulli}(p_1) || \
 \item (Looking at $\Sigma$) That's a backwards $\xi$! (Steven)
 \item ``What's a binomial distribution?'' (Dr. Aiyer) \\ ``$a + bx$'' (Shaya)
 \item ``An approximation of $\ln(1-x)$ is $1 + x + x^2 + x^3 + \dots$'' (Misha Ivkov)
+\item ``Where does $\epsilon$ go to get a haircut?'' \\ ``The epSALON'' (Shaya)
 \end{itemize}
 \end{document}
