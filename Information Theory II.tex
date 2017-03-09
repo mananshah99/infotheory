@@ -339,6 +339,69 @@ In this case, we have $Q(y|x) \rightarrow Q_{\xi_1}(y) \sim \text{Binomial}(p_1)
 
 To identify the confidence interval, consider two tangents $y - x = C_1$ and $y - x = C_2$. We need to find $C_2 - C_1$. Consider the equation of an ellipse $$\frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1$$Implicitly differentiating both sides yields $$\frac{dy}{dx} = -\frac{b^2}{a^2} \left( \frac{x-h}{y-k} \right)$$which we can equate to 1 to obtain $$x-h = \pm \sqrt{\frac{a^4}{b^2 + a^2}}$$Plugging this into the ellipse equation yields $$y - k = \mp \frac{b^2}{a^2} (x-h)$$We therefore have two pairs of $x$ and $y$ (one where $x$ is $+$ and $y$ is $-$, and vice-versa). We can then subtract these two to obtain $C_1 - C_2 = 2 \sqrt{a^2 + b^2}$. Expressing this int terms of proportions yields the confidence interval $$(\hat{p_1} - \hat{p_2}) \pm C \sqrt{ \frac{\hat{p_1} ( 1 - \hat{p_1})}{N_1} + \frac{\hat{p_2} (1 - \hat{p_2})}{N_2}}$$
 
+\section{Unit 3: Kolmogorov Complexity}
+
+So far we have talked about descriptive complexity and related information theory to pdfs. Kolmogorov Complexity is a measure of algorithmic complexity, which consists of a set of subjective statements that a human or a compiler interprets. Kolmogorov Complexity is independent of compiler choice. 
+
+\subsection{Turing Machine}
+
+A Turing machine is a device that converts input to output using a set of predefined rules. An example of a basic Turing machine is an FSM which receives input one bit at a time, and given its current state and input, writes something to the output or write something in its "work tape," or internal memory. The only stipulation is that the input has to be processed sequentially (right to left). 
+
+\subsection{Definitions}
+
+\begin{align*}
+	x: \text{finite length binary string} \\
+	U: \text{universal computer} \\
+	l(x): \text{length of string } x \\
+	U(p): \text{output of computer} U \text{when presented with program } p 
+\end{align*}
+
+\definition{Kolmogorov Complexity} Kolmogorov complexity $K_u(x)$ of a string $x$ with respect to $U$ is $K_U(x) = \min_{p: U(p)=x} l(p)$, that is, the length of the shortest program which produces output $x$ when fed into universal computer $U$.
+
+\subsection{Examples}
+
+\example The description of string $010101010101...01$ is simply an alternating pattern of 0s and 1s.
+\example The description of string $0110101000001001111001101100...00001000$ is the binary expansion of $\sqrt{2}-1$
+\example Describing pseudo-random string $110111100111010111110110111110...100111011$ is slightly more complex. Let $k$ be the number of 1s in the sequence. A table with all possible sequences with $k$ 1s can be precomputed and stored in the universal computer. The index of the particular sequence can be precomputed and passed as the input of the program. Using this strategy, the minimum program length is $log n + n H\frac{k}{n}$.
+
+\subsection{A Theorem}
+
+\theorem{Universality of K.C.} If $U$ is a universal computer, then for any other computer, $A$, 
+\begin{align*}
+	K_u(x) = K_A(x) + C_A
+\end{align*}
+
+for all strings $x \in {0, 1}$ where $C_A$ does not depend on $x$.
+
+\subsubsection{Proof}
+
+Assume we have $P_A$ for computer $A$ to print $x$.
+\begin{itemize}
+	\item $A(P_A) = x$
+	\item precede this program by a simulation program $S_A$ which tells $U$ to simulate $A$.
+	\item computer $U$ will then interpret instructions in the program for $A$, perform calc., print $x$.
+	\item program for $U: p=S_Ap_A$ with length $l(p)=l(S_A)+l(p_A)=C_A+l(p_A)$
+	\item $K_U(x)=\min{l(p)} = \min_{A(p)=x}{l(p_A)+C_A}=K_A(x)+C_A$
+	\item When the program size is large, the constant is deemed irrelevant, and from now on, we'll assume the Turing machine is universal.
+\end{itemize}
+
+\subsection{Another Theorem}
+
+\theorem{} $K(x|l(x)) \leq l(x) + c$ \\
+
+The reasoning is that if we know $l(x)$, the end of the program is clearly defined. A program for printing $x$ is "Print the following $l$-bit sequence: $x_1x_2x_3x_{l(x)}$.
+
+If $l(x)$ is not known, we need to find a way to let the Turing machine know that we have reached the end of the program. A simple way to do this is to add an additional symbol so that $K(x) \leq K(x|l(x))+2\log{l(x)}+c$.
+
+\subsubsection{Proof}
+
+Assume we have a Turing machine that accepts $01$ as a comma. Let $l(x)$ be $n$. To describe $l(x)$ repeat every bit of $n$ twice, then end with $01$. If the length is 5, we pass $11001101$. The length of the description of $l(x)$ using this method is $2\log{n}+2$ bits. Another way to do this would be using recursion.
+
+\subsection{Yet Another Theorem}
+\theorem{} Number of strings $x$ with complexity $K(x) < k$ satisfies $|{x \in {0, 1}^*: K(x) < k}| < 2^k$.
+\subsubsection{Yet Another Proof}
+There are $2^k-1 < 2^k$ sequences with length $< k$.
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
