@@ -402,6 +402,49 @@ Assume we have a Turing machine that accepts $01$ as a comma. Let $l(x)$ be $n$.
 \subsubsection{Yet Another Proof}
 There are $2^k-1 < 2^k$ sequences with length $< k$.
 
+\subsection{3/13/2017 (Rajiv)}
+
+\subsubsection{Some Entropy Notation}
+
+Let's start by introducing some "new" definitions for entropy. We know that $H(p)$ is given by $$H_0(p) = -p\log p - (1-p)\log(1-p).$$ Along the same lines, let's write the entropy of a mean of values $x_i$ as follows: $$H_0\left(\frac{1}{n}\sum x_i\right) = -\overline{x}_n \log \overline{x}_n - (1-\overline{x}_n)\log(1-\overline{x}_n).$$ This shouldn't be confused with the entropy of $\overline{x}$ across many trials; it's the entropy of $\operatorname{Bern}(p = \overline{x}_n)$.
+
+\subsubsection{Lemma}
+
+As an intermediate step in another proof, we'd like to show that $$\binom{n}{k} \le 2^{nH_0(\frac{k}{n})}.$$ Stirling's approximation formula will help here: $$n! = \sqrt{2\pi n} \left(\frac{n}{e}\right)^n.$$
+
+\textbf{Proof.} We'll write $\binom{n}{k} = \frac{n!}{k!(n-k)!}$ and use Stirling's approximation:
+\begin{align*}
+\ln \binom{n}{k} &= \frac{1}{2} \ln (2\pi) + \frac{1}{2} \ln n + n \ln n - n \\
+&-\left[ \frac12 \ln(2\pi) + \frac12 \ln k + k \ln k - k \right] \\
+&-\left[\frac12 \ln(2\pi) + \frac12 \ln(n-k) + (n-k)\ln(n-k) - (n-k)\right] \\
+\frac 1n \ln \binom nk &= \frac{1}{2n}\left(\ln\left[\frac{n}{k(n-k)}\right]\right) + \ln n - \left(\frac kn\right) \ln k - \left(\frac{n-k}{n}\right) \ln(n-k) - \frac{1}{2n}\ln(2\pi) \\
+&= -\frac{k}{n}\ln\left(\frac kn\right) - \left(1 - \frac kn\right) \ln \left(1 - \frac kn\right) \\
+&= H_0\left(\frac kn\right).
+%\frac12\ln\left(\frac{n}{k(n-k)}\right) - n\left[\left(\frac kn\right) \ln \left(\frac kn\right) - \left(\frac{n-k}{n}\right)\ln\left(\frac{n-k}{n}\right)\right] - \ln(2\pi).
+\end{align*}
+
+This above derivation isn't perfect, but the idea is that we're using Stirling's approximation to show this Lemma -- nbd if the algebra above doesn't \textit{entirely} work out.
+
+\subsubsection{Basic Kolmogorov Complexity Examples}
+
+Let's look at some concrete examples of $K_U(x)$. For a string of repeating zeros, the number of bits in the program is constant. Same for some other repeating pattern.
+
+\example The Mandelbrot set is a particular set of complex numbers that produces nice looking fractal boundaries. Turns out that the Kolmogorov complexity of this is also constant, very close to zero, showing how theoretical or visual complexity does not necessarily correlate with $K_U(x)$.
+
+\example If we have an integer $n$, $K(n) \le \log n + c$, since it requires $\log n$ bits to represent the integer.
+
+\example Sequence of $n$ bits where $k$ of the bits are ones. Here, $k$ can go from $0$ to $n$, and another counter index $i$ can go from $0$ to $\binom nk$. So the length of the program is $\ell(p) = \log k + \log \binom nk + c$. Then, we can apply our previous Lemma for a new theorem!
+
+\theorem $K(x_1,x_2,\dots,x_n \mid n) \le nH_0\left(\frac kn\right) + \log k + c$.
+\\ \\
+\noindent Note: we can discuss the Kolmogorov complexity of integers in the same way of binary strings, because of example 11. For some integer $n$, $$K(n) = \min_{p : U(p) > n} \ell(p).$$
+
+\subsubsection{Kolmogorov Complexity and Entropy}
+
+The expected value of a random sequence is close to Shannon entropy. Specifically, we'll prove that it satisfies a similar bound to Huffman. Just as we used the Kraft inequality to prove Huffman, we'll use the Kraft inequality to prove this.
+
+\theorem For any computer $U$, $$\sum_{p : U(p) \text{ halts}} 2^{-\ell(p)} \le 1.$$
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
