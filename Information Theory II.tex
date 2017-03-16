@@ -401,14 +401,11 @@ Assume we have a Turing machine that accepts $01$ as a comma. Let $l(x)$ be $n$.
 \theorem{} Number of strings $x$ with complexity $K(x) < k$ satisfies $|{x \in {0, 1}^*: K(x) < k}| < 2^k$.
 \subsubsection{Yet Another Proof}
 There are $2^k-1 < 2^k$ sequences with length $< k$.
-
-\subsection{3/13/2017 (Rajiv)}
-
-\subsubsection{Some Entropy Notation}
+\subsection{Some Entropy Notation}
 
 Let's start by introducing some "new" definitions for entropy. We know that $H(p)$ is given by $$H_0(p) = -p\log p - (1-p)\log(1-p).$$ Along the same lines, let's write the entropy of a mean of values $x_i$ as follows: $$H_0\left(\frac{1}{n}\sum x_i\right) = -\overline{x}_n \log \overline{x}_n - (1-\overline{x}_n)\log(1-\overline{x}_n).$$ This shouldn't be confused with the entropy of $\overline{x}$ across many trials; it's the entropy of $\operatorname{Bern}(p = \overline{x}_n)$.
 
-\subsubsection{Lemma}
+\subsection{Lemma}
 
 As an intermediate step in another proof, we'd like to show that $$\binom{n}{k} \le 2^{nH_0(\frac{k}{n})}.$$ Stirling's approximation formula will help here: $$n! = \sqrt{2\pi n} \left(\frac{n}{e}\right)^n.$$
 
@@ -425,7 +422,7 @@ As an intermediate step in another proof, we'd like to show that $$\binom{n}{k} 
 
 This above derivation isn't perfect, but the idea is that we're using Stirling's approximation to show this Lemma -- nbd if the algebra above doesn't \textit{entirely} work out.
 
-\subsubsection{Basic Kolmogorov Complexity Examples}
+\subsection{Basic Kolmogorov Complexity Examples}
 
 Let's look at some concrete examples of $K_U(x)$. For a string of repeating zeros, the number of bits in the program is constant. Same for some other repeating pattern.
 
@@ -433,17 +430,48 @@ Let's look at some concrete examples of $K_U(x)$. For a string of repeating zero
 
 \example If we have an integer $n$, $K(n) \le \log n + c$, since it requires $\log n$ bits to represent the integer.
 
-\example Sequence of $n$ bits where $k$ of the bits are ones. Here, $k$ can go from $0$ to $n$, and another counter index $i$ can go from $0$ to $\binom nk$. So the length of the program is $\ell(p) = \log k + \log \binom nk + c$. Then, we can apply our previous Lemma for a new theorem!
+\example Sequence of $n$ bits where $k$ of the bits are ones. Here, $k$ can go from $0$ to $n$, and another counter index $i$ can go from $0$ to $\binom nk$. So the length of the program is $\ell(p) = 2 \log k + \log \binom nk + c$. Then, we can apply our previous Lemma for a new theorem!
 
-\theorem $K(x_1,x_2,\dots,x_n \mid n) \le nH_0\left(\frac kn\right) + \log k + c$.
+\theorem $K(x_1,x_2,\dots,x_n \mid n) \le nH_0\left(\frac 1n \sum x_i \right) + 2 \log k + c$.
 \\ \\
 \noindent Note: we can discuss the Kolmogorov complexity of integers in the same way of binary strings, because of example 11. For some integer $n$, $$K(n) = \min_{p : U(p) > n} \ell(p).$$
 
-\subsubsection{Kolmogorov Complexity and Entropy}
+\subsection{Kolmogorov Complexity and Entropy}
 
 The expected value of a random sequence is close to Shannon entropy. Specifically, we'll prove that it satisfies a similar bound to Huffman. Just as we used the Kraft inequality to prove Huffman, we'll use the Kraft inequality to prove this.
 
 \theorem For any computer $U$, $$\sum_{p : U(p) \text{ halts}} 2^{-\ell(p)} \le 1.$$
+This can be trivially proved once we realize that the set of all halting program forms a prefix free set. 
+\theorem Let $x_i$ be drawn i.i.d. according to a probability mass function $f(x)$ where $x \in X$ and $X$ is a finite alphabet.  
+$$f(x^n) = \prod_{i = 1}^{n} f(x_i)$$
+Then there exists a constant $c$ such that
+$$H(X) \leq \frac 1n \sum_{x^n} f(x^n) K(x^n|n) \leq H(X) + \frac{|x|\log{n}}{n} + \frac{c}{n}$$
+In other words, for an $n$-length string drawn from an alphabet $X$, the average complexity of the string times the probability of seeing it is bounded by the entropy of the source and the entropy of a source plus some constant.\\
+\proof For the lower bound: All allowed programs satisfy the prefix-free property and thus their lengths satisfy the Kraft inequality. For each $x^n$, the shortest program $p$ is assigned such that $U(p, n) = x^n$.  By the source coding theorem:
+$$\sum_{x^n} f(x^n) K(x^n|n) \geq H(x_1, x_2, \dots, x_n) = n H(X)$$
+Since $x_1, x_2, \dots, x_n$ are independent.\\
+For the upper bound:  Look at a binary RV, $X$. Thus, $x_1, x_2, \dots, x_n$ are i.i.d. $\sim \mathrm{Bernoulli}(Q)$
+$$K(x_1, x_2, \dots, x_n | n) \leq n H_0 (\frac 1n \sum x_i) + 2 \log n + c$$
+\begin{align*}
+E[K(x_1, x_2, \dots, x_n | n)] 	&\leq n E[H_0 (\frac 1n \sum x_i)] + 2 \log n + c\\
+					 	&\leq n H_0(\frac 1n \sum E[x_i]) + 2 \log n + c\\
+						&\leq n H_0(\theta) + 2 \log n + c
+\end{align*}
+Note that this is not a sufficient proof for the general case of any random variable $X$; however, the general proof is beyond the scope of this course.
+
+\example Let $x, y \in \{0, 1\}$. Argue that $K(x, y) \leq K(x) + K(y) + c$. \\
+This is trivially true as the worst case of a program that outputs $x$ and $y$ is simply a program that outputs $x$ followed by a program that outputs $y$. In the best case, if $x$ and $y$ are the same, then the program will simply output $x$ twice. 
+
+\example Argue that $K(n) \leq \log{n} + 2 \log{\log{n}} + c$.\\
+To represent an integer, $n$, one needs $\log n$ bits to describe it. However, just describing the integer is not enough to uniquely decode the number. Instead, we need to transmit the number and the length of the number twice in order to to make it uniquely decodable. Take 30. In binary, this is 11110. We need to first append the length of the string "doubled up" along with some terminating sequence that delineates the length of the integer from the integer itself. The length of 30 is $\lceil{\log{30}}\rceil = 5$. The length of 5 is $\lceil{\log{5}}\rceil = 3$ Instead of representing this 5 using these three bits as 011, we will use six bits and instead write it as 001111. To show that the length part has stopped and the description of the number itself has begun, we will add a "01" between the length and number to mark the transition. Therefore, 30 would be described as {\it001111}{\bf 01}11110. The italic portion represents the length of the string, the bolded is the divider, and the normal font text is the number itself. 
+
+\example Argue that $K(n_1 + n_2) \leq K(n_1) + K(n_2) + c$\\
+Given that the longer of the two strings $n_1$ and $n_2$ is $k$ bits long, the addition operation cannot produce a string more that $k + 1$ bits long. The worst case of sending $n_1$ and then $n_2$ is send a $2k$ bit string while sending the result of the addition is $k + 1$ bits thus the sending the addition is necessarily smaller than sending the concatenation. 
+
+\example Consider an $n$ x $n$ array $x$ of 0's and 1's such that $x$ has $n^2$ bits. Find $K(x|n)$ to the first order if you wish to transmit a horizontal line of $x$.\\
+All you must do is transmit the row number, which at first order takes $K(x|n) \leq \log n + c$.
+\example Now we wish to transmit a a small square subregion of the array. What is the complexity?
+You must transmit the row number and column number of the top-left corner of the square along with the square length so the complexity will be:  $K \leq 3(\log{n} + 2 \log{\log{n}}) + c$.
 
 \newpage
 \section*{Appendix A---Quotes}
