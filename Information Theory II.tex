@@ -472,7 +472,50 @@ Given that the longer of the two strings $n_1$ and $n_2$ is $k$ bits long, the a
 All you must do is transmit the row number, which at first order takes $K(x|n) \leq \log n + c$.
 \example Now we wish to transmit a a small square subregion of the array. What is the complexity?
 You must transmit the row number and column number of the top-left corner of the square along with the square length so the complexity will be:  $K \leq 3(\log{n} + 2 \log{\log{n}}) + c$.
+\example Transmitting the union of two lines either horizontal or vertical: We must transmit the row/column number of each line so $K \leq 2 \log{n} + c$.
 
+\subsection{Incompressible Sequences}
+We now come to the problem of how easy or difficult it is to describe a number. Long sequences and large integers (such as the first $n$ digits of $\pi$ or the result of $2^{2^{2^2}}$), while perhaps long or unwieldy are relatively simple to calculate; therefore, they are easy to compress as well. From this, we conclude that the probability that a sequence can be compressed by more than $k$ bits is no greater than $2^{-k}$.
+
+\theorem Given that $X_1, X_2, \dots, X_n \sim \mathrm{Bernoulli}(\frac 12)$, $P(K(X_1, X_2, \dots, X_k | n) < n - k) < 2^{-k}$
+\proof 
+
+\begin{align*}
+	P(K(X_1, X_2, \dots, X_k | n) < n - k)\\
+	&= \sum_{x_1, x_2, \dots, x_n : K(x_1, x_2,\dots, x_n | n) < n - k} P(x_1, x_2, \dots, x_n)\\
+	&= \sum_{x_1, x_2, \dots, x_n : K(x_1, x_2,\dots, x_n | n) < n - k} 2^{-n}\\
+	&= |\{x_1, x_2, \dots, x_n : K(x_1, x_2,\dots, x_n | n) < n - k\}| 2^{-n}\\
+	&< 2^{n-k} \times 2^{-n}\\
+	&= 2^{-k}
+\end{align*}
+From this theorem we gather that most sequences have a complexity close to their length.
+\example Given a sequence of length $n$, the probability that the complexity of that string is $n - 5$ is $\frac{1}{32}$.
+\definition A sequence $x_1, x_2, \dots, x_n$ is said to be random if $K(x_1,\dots, x_n | n) \geq n$.
+\definition An infinite string $x$ is incompressible if $\displaystyle \lim_{n \to \infty} \frac{K(x_1, x_2,\dots, x_n|n)}{n} = 1$
+
+\subsection{Occam's Razor}
+\subsubsection{Laplace's Method}
+Laplace was curious about the question of whether or not the sun will rise the next morning given that it has risen every morning for the all of recorded history. Ignoring the physics of this, we can say that the random variable of "rising", $X$ can be written as 
+$$X \sim \mathrm{Bernoulli}(\theta)$$ 
+We'll assume that $\theta$ is uniformly distributed on the unit interval.
+$$P(X_{n+1} = 1 | X_1  = 1, X_2 = 1, \dots, X_n = 1) = \frac{P(X_{n+1} = 1, X_1  = 1, X_2 = 1, \dots, X_n = 1)}{P(X_1  = 1, X_2 = 1, \dots, X_n = 1)}$$
+
+We will assume each $X_k$ to be i.i.d. and now sum over all $\theta$ yielding:
+$$\frac{\displaystyle \int_0^1 \theta^{n + 1} \mathrm{d}\theta}{\displaystyle \int_0^1 \theta^{n} \mathrm{d}\theta} = \frac{n+1}{n+2}$$
+You'll note that as $n$ approaches infinity, this probability approaches 1.
+\subsubsection{Kolmogorov's Method}
+Now let's look at this from a computing standpoint. What's the probability of seeing a 1 after $n$ 1's? As before, this is 
+$$\frac{P(\mathrm{All \, sequences \, with \, } 1^n \, \& \, \mathrm{next \, bit \, 1})}{P(\mathrm{All \, sequences \, with \, } 1^n)}$$
+We'll note that the simplest program that produces the desired output is one that just prints 1's forever.\\
+Now let's look at the situation where we have the sequence $1^n 0\dots$.
+The complexity of this sequence is roughly
+$$K(n) \approx \log{n} + \mathcal{O}(\log \log n)$$
+But now let us consider the probability of seeing any sequence $1^n \, 0 \, y$ where $y$ is some arbitrary binary string. The probability of seeing any of these string is 
+$$\sum_y P(1^n \, 0 \, y) \approx P(1^n 0) = 2^{-\log n}  = \frac{1}{n}$$
+Substituting that into our original equation:
+$$P(0 | 1^n) = \frac{P(1^n \, 0)}{P(1^n \, 0) + P(1^{n + 1})} = \frac{\frac 1n}{\frac 1n + c} = \frac{1}{cn + 1}$$
+Clearly, as $n$ approaches infinity, $P(0 | 1^n)$ approaches zero. As we'd expect, the more times the sun rises, the less likely it is that it won't!\\
+This is a toy example of Occam's Razor. The fundamental principle of the concept is that of two propositions, one of which is more likely than the other (i.e. the sun rising the next versus the sun not rising), we should accept the more probable explanation and can furthermore prove that in future experiments the more probable explanation will occur. 
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -491,5 +534,6 @@ You must transmit the row number and column number of the top-left corner of the
 \item ``We're going to try to finish this today (Ha!)'' (Dr. Aiyer)
 \item ``Why are we using a $\times$ for multiplication in 2017?'' \\ ``I thought we were at the age where we didn't have to use anything...'' (Rajiv Movva)
 \item ``Why do we discuss confidence intervals instead of regions in statistics?'' (Dr. Aiyer) \\ ``We approximate the ellipse to a square'' (Shaya)
+\item ``Hey, hey, Rajiv has allrajivs" (Vedaad) \\ 	``I thought about that, but I figured it was too bad to say" (Shaya) \\ ``You should never Shayaway from a pun" (Misha).
 \end{itemize}
 \end{document}
