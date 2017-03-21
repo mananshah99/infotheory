@@ -516,6 +516,34 @@ Substituting that into our original equation:
 $$P(0 | 1^n) = \frac{P(1^n \, 0)}{P(1^n \, 0) + P(1^{n + 1})} = \frac{\frac 1n}{\frac 1n + c} = \frac{1}{cn + 1}$$
 Clearly, as $n$ approaches infinity, $P(0 | 1^n)$ approaches zero. As we'd expect, the more times the sun rises, the less likely it is that it won't!\\
 This is a toy example of Occam's Razor. The fundamental principle of the concept is that of two propositions, one of which is more likely than the other (i.e. the sun rising the next versus the sun not rising), we should accept the more probable explanation and can furthermore prove that in future experiments the more probable explanation will occur. 
+\subsection{Universal Probability}
+There is a well known and often cited problem. Given an infinite number of monkeys with an infinite number of typewriters, what is the probability that one of those monkeys will randomly type up one of Shakespeare's sonnets? This speaks to the challenge of Universal Probability, which can be applied to computation theory. 
+
+\definition The universal probability that a program randomly drawn as a sequence of fair coin flips from $p_1, p_2, \dots$ will print out a string $x$ is
+$$P_U (x) = \sum_{p: \, U(p) = x} 2^{-l(p)}$$
+We note that simpler strings are more probable than complicated ones because on average more shorter length programs are able to output a simpler rather than a more complicated string. We can relate this to the Kolmogorov Complexity stating that 
+\theorem Kolmogorov and Universal Probability: 
+$$2^{-K(x)} \leq P_U (x) \leq c 2^{-K(x)}$$
+We can further rewrite this by taking the logarithm and saying 
+$$K(x) - c' \leq \log {\frac{1}{P_U (x)}} \leq K(x)$$
+We can see then that $\log {\frac{1}{P_U (x)}}$ appears a natural notion to describe algorithmic complexity as well as probabilistic discussion, since it takes a form very similar to that of Shannon surprisal and entropy.
+\subsection{G\"odel, Chaitin, and the Halting Problem}
+We start by stating G\"odel's Incompleteness Theorem: 
+\theorem Given a logical system, there are true statements that cannot be proved within that system. 
+Consider the following two sets of logical statements:\\
+This statement is false.\\
+And:
+The next statement is false.\\
+The previous statement is true.\\
+
+Clearly while the first set of statements poses no errors the second would seem to be a logical paradox. Thus, under boolean logic as we know it there are sets of statements that cannot be resolved. 
+Similar is the Halting Problem which states that: 
+\theorem No general algorithm can decide whether a program will halt or not.
+\subsubsection {Chaitin's Number}
+We define Chaintin's Number, $\Omega$ as
+\definition $\displaystyle \Omega = \sum_{p \, : \, U(p) \, \mathrm{halts}} 2^{-l(p)} = \mathrm{Pr}(U(p) \, \mathrm{halts})$
+The question becomes is Chaitin's Number computable? As it has not yet been written out, it's reasonable to assume the answer is no. It is clear that this constant relates in some way to the Halting Problem. Imagine a scheme where we list out all possible programs as binary strings: 0, 1, 00, 01, 10, 11, $\dots$
+We could have a super program that checks which programs have already halted and keeps track of the total number of them. Given Chaitin's number, the program could reasonably determine which of the programs that have not halted will eventually halt. However, this scheme would require a program that could run all programs for longer and longer periods which would take an infinite amount of time, and thus the Halting Problem is not violated. 
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -534,7 +562,7 @@ This is a toy example of Occam's Razor. The fundamental principle of the concept
 \item ``We're going to try to finish this today (Ha!)'' (Dr. Aiyer)
 \item ``Why are we using a $\times$ for multiplication in 2017?'' \\ ``I thought we were at the age where we didn't have to use anything...'' (Rajiv Movva)
 \item ``Why do we discuss confidence intervals instead of regions in statistics?'' (Dr. Aiyer) \\ ``We approximate the ellipse to a square'' (Shaya)
-\item ``Hey, hey, Rajiv has allrajivs" (Vedaad) \\ 	``I thought about that, but I figured it was too bad to say" (Shaya) \\ ``You should never Shayaway from a pun" (Misha).
+\item ``Hey, hey, Rajiv has allrajivs (allergies)" (Vedaad) \\ 	``I thought about that, but I figured it was too bad to say" (Shaya) \\ ``You should never Shayaway (shy away) from a pun" (Misha).
 \item Tuesday, March 21, 2017 -- Vedaad came to class \textit{early}.
 \end{itemize}
 \end{document}
