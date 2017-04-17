@@ -544,6 +544,70 @@ We define Chaintin's Number, $\Omega$ as
 \definition $\displaystyle \Omega = \sum_{p \, : \, U(p) \, \mathrm{halts}} 2^{-l(p)} = \mathrm{Pr}(U(p) \, \mathrm{halts})$
 The question becomes is Chaitin's Number computable? As it has not yet been written out, it's reasonable to assume the answer is no. It is clear that this constant relates in some way to the Halting Problem. Imagine a scheme where we list out all possible programs as binary strings: 0, 1, 00, 01, 10, 11, $\dots$
 We could have a super program that checks which programs have already halted and keeps track of the total number of them. Given Chaitin's number, the program could reasonably determine which of the programs that have not halted will eventually halt. However, this scheme would require a program that could run all programs for longer and longer periods which would take an infinite amount of time, and thus the Halting Problem is not violated. 
+\section{Thermodynamics}
+Variables describe systems, and we must know the initial conditions to ``mathematize'' the change. We then describe the system for all timesteps $t$. 
+
+\subsection{Lotka-Volterra Equations (Predator-Prey Models)}
+Consider a population of rabbits and another of foxes. The food supply of the predator depends on the prey population. The set of differential equations is characterized by 
+\begin{align*}
+\frac{dr}{dt} &= \alpha r - \beta r f \\
+\frac{df}{dt} &= \delta r f - \gamma f
+\end{align*}
+The solution to these two equations is periodic in nature and looks like a set of sine curves with the horizontal axis of time and vertical axis of population (with one shifted with a certain time delay). 
+
+\subsection{Van der Pol Oscillator}
+This is characterized by 
+\begin{align*}
+\dot{x} &= \mu (x - x^3/3 - y) \\
+\dot{y} &= (1/\mu)x
+\end{align*}
+This system has a phase plot that shows that all of the solutions converge to a line. 
+
+\subsection{Lorenz System}
+This is characterized by 
+\begin{align*}
+\dot{x} &= \sigma(y-x) \\
+\dot{y} &= x(\rho - z) - y \\
+\dot{x} &= xy - \beta z
+\end{align*}
+A lorenz attractor is the solution to this equation -- and the solution represents a figure eight (or butterfly). This resembles \textit{chaos}. \\
+
+\noindent Consider a pendulum where $\theta$ is the angle and $\omega$ is the angular velocity. We have that 
+\begin{align*}
+\frac{d \theta}{dt} &= \dot{\theta} = \omega \\
+\frac{d \omega}{dt} &= \dot{\omega} = -(g \sin \theta)/l
+\end{align*}
+Draw the phase plot of this.
+
+\subsection{Newtonian Machines}
+
+Given two sates $x$ and $p$, $\dot{x} = p/m$ and $\dot{p} = - dV(x)/dx$. The potential energy at $x$ is defined as $V(x)$. The energy $$E(x, p) = \underbrace{V(x)}_{PE(X)} + \underbrace{p^2/2m}_{{KE(p)}}$$ We can prove that energy is conserved by differentiating $E$ such that $$\dot{E} = \partial E / \partial x \times \dot{x} + \partial E / \partial p \times \dot{p}$$Which yields $$dV(x)/dx \times p/m + (-dV(x)/dx) \times (2p)/(2m)$$ such that $\dot{E}= 0$. For relativistic mechanics, we have the relationships $\dot{x} = p/(\sqrt{m_0^2 + p^2/c^2})$ and $\dot{p} = -dV(x)/dx$. Defining the total energy as the potential energy + the kinetic energy and taking the derivatives again, we have $\dot{E} = 0$; so energy is still conserved in the relativistic sense. Furthermore, if we define $$m(p) = \sqrt{m_0^2 + p^2/c^2}$$ then the Kinetic Energy is $m(p)c^2$. In general, a Hamiltonian system is built such that $\dot{x} = \partial H(x, p) / \partial p$ and $\dot{p} = - \partial H(x, p)/\partial x$, and the energy is $H(x, p)$. We can prove that energy is conserved within such systems. 
+
+\subsection{Statistical Mechanics} 
+
+Consider two energy contours on a six dimensional space (three dimensions from $x$, three dimensions from $p$, and times $n$ given $n$ particles) labeled $E_0$ and $E'$. We know that $E' = E_0 + \Delta E_0$. If we fix a $\Delta$ volume in a 5 dimensional space for a pillar between the two contours, we can count the number of pillars it will take to cover the volumetric difference between the two blobs. The entropy is then defined as $S(E_0) = \ln(\text{number of pillars})$. If we consider a point between the two energy sheets and we let the point evolve over a couple of days, we can assume that the point is uniformly distributed in any number of pillars. If we define our random variable as the pillar chosen, $H(RV) = \sum p_i \log 1/p_i$ where all $p_i$ are the same. The entropy of the random H(RV) = $\log$(\# of pillars). We can generalize the definition of S(U) = ln(\# of pillars) where $U$ is used instead of $E$ for energy to S(U, V) where $V$ is an exogenous variable (for example, volume). 
+
+\subsubsection{First Law of Thermodynamics}
+
+$\partial S/ \partial U = 1/T$ and $\partial S / \partial V = -P/T$ where $T$ is the temperature and $P$ is the pressure. Then, $\Delta U = P \Delta V + T \Delta S$
+
+\subsubsection{Second Law of Thermodynamics}
+
+The entropy of a closed system always increases. Imagine that points are initially clumped in a particular position. Over time, they spread out -- the entropy increases with a maximum entropy in a uniform distribution. For example, consider 2 chambers of gases separated by a wall. Consider cases (a) The wall is rigid (V1 and V2 can't change) and (b) the wall is insulatory (U1 and U2 can't change). \\
+
+(a) S$_{initial} = f(U_1, V_1) + f(U_2, V_2)$ and S$_{final} = f(\alpha_1, V_1) + f(\alpha_2, V_2)$ where $\alpha_1 + \alpha_2 = U_1 + U_2$. Find $\alpha_1 + \alpha_2$ so as to maximize $f(\alpha_1, V_1) + f(\alpha_2, V_2)$ such that $\alpha_1 + \alpha_2 = U_1 + U_2$. We can set up a Lagrange such that $$\mathcal{L}(\alpha_1, \alpha_2, \lambda) = f(\alpha_1, V_1) + f(\alpha_2, V_2) + \lambda[(\alpha_1 + \alpha_2) - (U_1 + U_2)]$$We require that $\partial L / \partial \alpha_1 = \partial L / \partial \alpha_2 = \partial L / \partial \lambda = 0$, and since we have that $$\partial f / \partial \alpha_1 + \lambda = 0 \implies 1/T_1 + \lambda = 0$$ and $$\partial f / \partial \alpha_2 + \lambda = 0 \implies 1/T_2 + \lambda = 0$$we can conclude that the temperatures end up being equal. \\
+
+(b) If you released the rigidity of the wall, the final state will be such that the P/T of both chambers will be equal; the proof of this is the same setup as before but you get the derivative with respect to $V$. 
+
+\subsection{Legendre Transforms}
+
+\example $f(x) = cx^2$ and the $y$-intercept is some function of the slope $g(m)$. We have that $f'(x) = 2cx = m$, and $x = m/2c$. We also have that $y = m^2/4c$. Using $y - y_0 = m(x-x_0)$, we can write $m^2/4c = y_{int} - m(m/2c)$ and so $-y_{int} = m^2/4c$. 
+
+In general, if we consider any line with slope $m$, the amount we need to drop down the line to approximate a point in the function is $f^*(m) = \max_x [mx - f(x)]$. For our particular case, $f^*(m) = m^2/4c$ for $f(x) = cx^2$. 
+
+\example[General Form] $f(x) = e^x$. For the argmax, we set $m - e^x = 0$ to obtain the maximum. Then, $x = \ln m$ and $f^*(m) = m \ln m - m$. 
+
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
@@ -564,5 +628,8 @@ We could have a super program that checks which programs have already halted and
 \item ``Why do we discuss confidence intervals instead of regions in statistics?'' (Dr. Aiyer) \\ ``We approximate the ellipse to a square'' (Shaya)
 \item ``Hey, hey, Rajiv has allrajivs (allergies)" (Vedaad) \\ 	``I thought about that, but I figured it was too bad to say" (Shaya) \\ ``You should never Shayaway (shy away) from a pun" (Misha).
 \item Tuesday, March 21, 2017 -- Vedaad came to class \textit{early}.
+\item ``We're not in geometry! We don't worry about how to actually do stuff; we just talk about it.'' (Rajiv)
+\item Steven: ``Is this a law? (referring to the 2nd law of thermodynamics)'' \\ Rajiv: ``So what's the penalty if you break the law?''
+\item (During period 1) Jerry: ``It's been a rough day.'' 
 \end{itemize}
 \end{document}
