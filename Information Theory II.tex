@@ -544,7 +544,7 @@ We define Chaintin's Number, $\Omega$ as
 \definition $\displaystyle \Omega = \sum_{p \, : \, U(p) \, \mathrm{halts}} 2^{-l(p)} = \mathrm{Pr}(U(p) \, \mathrm{halts})$
 The question becomes is Chaitin's Number computable? As it has not yet been written out, it's reasonable to assume the answer is no. It is clear that this constant relates in some way to the Halting Problem. Imagine a scheme where we list out all possible programs as binary strings: 0, 1, 00, 01, 10, 11, $\dots$
 We could have a super program that checks which programs have already halted and keeps track of the total number of them. Given Chaitin's number, the program could reasonably determine which of the programs that have not halted will eventually halt. However, this scheme would require a program that could run all programs for longer and longer periods which would take an infinite amount of time, and thus the Halting Problem is not violated. 
-\section{Thermodynamics}
+\section{Unit 4: Thermodynamics}
 Variables describe systems, and we must know the initial conditions to ``mathematize'' the change. We then describe the system for all timesteps $t$. 
 
 \subsection{Lotka-Volterra Equations (Predator-Prey Models)}
@@ -605,8 +605,22 @@ The entropy of a closed system always increases. Imagine that points are initial
 
 In general, if we consider any line with slope $m$, the amount we need to drop down the line to approximate a point in the function is $f^*(m) = \max_x [mx - f(x)]$. For our particular case, $f^*(m) = m^2/4c$ for $f(x) = cx^2$. 
 
-\example[General Form] $f(x) = e^x$. For the argmax, we set $m - e^x = 0$ to obtain the maximum. Then, $x = \ln m$ and $f^*(m) = m \ln m - m$. 
+\example[General Form] $f(x) = e^x$. For the argmax, we set $m - e^x = 0$ to obtain the maximum. Then, $x = \ln m$ and $f^*(m) = m \ln m - m$.  More generally, the Legendre transform is $$f^*(m) = \max_x [mx - f(x)]$$
 
+\example $f(x) = x^2$ for $2 < x < 3$, and $f(x)$ outside this range is $\infty$. We can immediately arrive at $f^*(m) = m^2 / 4$ for $4 \leq m \leq 6$. For values of $x$, outside this range, we need to consider the endpoints $m <4$ and $m > 6$, and find the maximum value of $mx - f(x)$ at these points. So we have that $f^*(m) = 2m-4$ for $m < 4$ and $f^*(m) = 3m-9$ for $m > 6$. \\
+
+\noindent A couple important properties of the Legendre transform are that
+\begin{enumerate}
+\item $f^{**} = f$. This means that the Legendre transform of $f^*$ is $f$
+\item If $f$ and $g$ are Legendre transforms of one another, then $f'$ and $g'$ are inverses of one another. Another way to write this is $$(f^*)' =(f')^{-1}$$
+\item Consider a Legendre transform of a vector $y = f(\vec{x})$. We have that $$f^*(\vec{m}) = \max_{\vec{x}} (\vec{m} \cdot \vec{x} - f(\vec{x}))$$
+\end{enumerate}
+
+\subsection{Legendre Transforms and Thermodynamics}
+
+We initially had $S : S(U, V)$ where we had the relations $$\partial S(U, V)/ \partial U = \frac{1}{T(U, V)}$$ and $$\partial S(U, V) / \partial V = \frac{-P(U, V)}{T(U, V)}$$By mathemagic\footnote{Seriously, we have no idea what happened here}, we can get to $$\partial U(S, V) / \partial S = T(S, V)$$ and $$\partial U(S, V) / \partial V = -P(S, V)$$If we take the negative Legendre transform with respect to $S$, we obtain $$F(T, V) = -\max_S [TS - U(S, V)]$$ because $T$ functions analogously to $m$ and $S$ functions analogously to $x$. We can then simplify this to obtain $$\min_S [U(S, V) - TS]$$ which is the Helmholtz free energy. The special part of this derivation is that we can start from a simple definition of energy and apply the Legendre transform to obtain a whole another set of relations that are important to thermodynamics (Helmholtz free energy, Enthalpy (with respect to $V$) and Gibbs Free Energy (with respect to $S$ and $V$). 
+
+\section{Unit 5: Portfolio Theory}
 
 \newpage
 \section*{Appendix A---Quotes}
@@ -631,5 +645,7 @@ In general, if we consider any line with slope $m$, the amount we need to drop d
 \item ``We're not in geometry! We don't worry about how to actually do stuff; we just talk about it.'' (Rajiv)
 \item Steven: ``Is this a law? (referring to the 2nd law of thermodynamics)'' \\ Rajiv: ``So what's the penalty if you break the law?''
 \item (During period 1) Jerry: ``It's been a rough day.'' 
+\item ($m^2/4$ is the answer). Manan: ``I got $m^2/2 - m^2/4$...what am I doing wrong?''
+\item ``Using good markers changes the lives of students'' (Rajiv)
 \end{itemize}
 \end{document}
