@@ -624,6 +624,35 @@ We initially had $S : S(U, V)$ where we had the relations $$\partial S(U, V)/ \p
 Here, the asset return (or the amount of money made on assets) is our random variable. While we had repeated investments in gambling, we'll only be looking at a single period here. There are multiple ways to conduct portfolio theory analysis: (1) mean-variance analysis, (2) utility functions, and (3) arbitrage (comparison). \\
 
 \noindent We'll define $R$ as the random variable for return. $E[R] = \bar{r}$ and $V[R] = E[(r - \bar{r})^2] = \sigma^2$. This is true for the rate of return for one asset. For $n$ assets with returns $R_1 \dots R_n$, we have $E[R_n] = \bar{r_n}$ and $V[R_n] = \sigma_n^2$
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lll@{}}
+\toprule
+      & Umbrella Manufacturer & Resort Owner \\ \midrule
+Rainy & 0.5                   & -0.25        \\
+Sunny & -0.25                 & 0.5          \\ \bottomrule
+\end{tabular}
+\end{table}
+
+Note that the $\sigma_{\text {umbrella manufacturer}} = \sigma_{ro} = 0.7$. So, the average rate of return if you only give money to the ub. mfr. is $0.125$ with $\sigma = 0.7$ and if you only give money to the R.O. the average rate of return is $0.125$ with $\sigma = 0.7$. The average rate of return assuming equally likely rain/sun and 50 cents to each manufacturer is $\bar{r} = 0.125$ which comes from $(0.5)(.50) + (-0.25)(.50)$ with $\sigma = 0$. However, we don't have enough information to conclude that $\sigma = 0$; for this, we need to know how the two investments are related to one another. In order to make this term precise, we'll need to understand what covariance is.
+
+\subsection{Covariance}
+
+\definition[Covariance] Let $X_1$ and $X_2$ be two random variables with $E[X_1] = \bar{x_1}$ and $E[X_2] = \bar{x_2}$. $$Cov(X_1, X_2) = E[(X_1 - \bar{x_1})(X_2 - \bar{x_2})]$$Some properties of the covariance: 
+\begin{itemize}
+\item $Cov(X_1, X_2) = \sigma_{12}$
+\item $Cov(X_2, X_1) = \sigma_{21} = \sigma_{12}$
+\item $Cov(X_1, X_2) = E[X_1X_2] - \bar{x_1} \bar{x_2}$
+\item $Cov(X_1, X_1) = \sigma_{11} = \sigma_1^2$
+\item $\sigma_{12}^2 \leq \sigma_{11} \sigma_{22}$ (Cauchy-Schwartz)
+\end{itemize}
+If one is investing in a portfolio with $n$ assets with $\omega_i$ assigned as the weight to each asset, $E[R_p]$ (the total expected rate og return) = $\omega_1 \bar{r_1} +\omega_2 \bar{r_2} + \dots + \omega_n \bar{r_n}$. In the expression for variance, $$\sigma_p^2 = E[(R_p - \bar{r_p})^2] = E \left[ \left( \sum_i w_i r_i - \sum_i w_i \bar{r}_i \right)^2 \right]$$we can expand the square part of the sum by writing $$E \left[ \left( \sum_i w_i (r_i - \bar{r}_i) \right) \left( \sum_j w_j (r_j - \bar{r}_j) \right) \right] = E \left[ \sum_i \sum_j w_i w_j (r_i - \bar{r_i})(r_j - \bar{r_j}) \right] = \boxed{\sum_i \sum_j w_i w_j \sigma_{ij}}$$
+We can also define Pearson's $r$ as $\rho = \sigma_{12} / \sigma_1 \sigma_2$, and we can bound $|\rho| \leq 1$ because of the last property of covariance. 
+
+\subsection{How to Choose a Portfolio}
+
+We require the minimum risk for a given return and the maximum return for a given risk. The goal then is to minimize $$\sigma_p^2 \sum \sum w_i w_j \sigma_{ij}$$such that $\sum w_i \bar{r}_i = \bar{r}_p$ and $\sigma w_i = 1$. [Include two examples from pictures here.] We can conclude that \textit{diversification reduces risk.} Suppose, therefore, that we have $n$ assets that are mutually uncorrelated and with equal weights assumed for each case. We therefore have $$\bar{r_p} = \frac{1}{n} \sum_i \bar{r_i}$$ and $$\sigma_p^2 = \frac{1}{n^2} \sum \sigma_i^2$$As $n$ grows very large, the $\sigma_p^2$ goes to zero and we can obtain very little risk. If we have $n$ assets that are correlated such that $Cor(r_i, r_j) = 0.3 \sigma^2$, we have $$Var(R_p) = \frac{1}{n^2} \sum \sigma_i^2 = 0.3 \sigma^2 \times \left( \frac{n^2 - n}{n^2} \right)$$which tends to ` as $n$ grows large (so we can't diversity all risk). The second term comes from the bottom of the covariance matrix which has $(n^2 - n)/n^2$ nonzero elements. 
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
