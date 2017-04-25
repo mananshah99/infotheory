@@ -664,8 +664,31 @@ We note that as $n \to \infty$, the ``avg var" term  approaches 0 while the ``av
 We can create our portfolio as a vector of weights of how to divide our money. Every given weight vector will have an associated risk, $\sigma_p$ and rate of return $\bar{r}_p$. We can visualize this with the following graph:
 \begin{figure}
 \centering
-\includegraphics[scale=.5]{figures/stocks.png}
+\includegraphics[width=5in, height=2in]{figures/stocks.png}
 \end{figure}
+
+We then covered two more things -- the triangle plot and the efficient frontier graph. These should probably be included in the notes at some point. The essential idea is that, as more stocks are included, you decrease the risk and increase the reward. 
+
+\subsection{Markowitz Model}
+The Markowitz model can be defined as a functional in which we attempt to minimize $\sigma_{ij}$ by defining $w_i$ and $w_j$ such that
+$$\mathcal{L} = \sum \sum w_i w_j \sigma_{ij} - \lambda(\sum w_i \bar{r}_i - \bar{r}_p) - \mu (\sum w_i - 1)$$
+Note that in this case we aren't allowing shorting -- that's why we have a $\mu$ coefficient. We can start small by solving the Lagrangian with only two weights, $w_1$ and $w_2$. We have that $$2w_1 \sigma_1^2 + 2 \sigma_{12}w_2 - \lambda \bar{r}_1 - \mu = 0$$ and $$2 \sigma_{21} w_1 + 2\sigma_2^2 w_2 - \lambda \bar{r}_2 - \mu = 0$$subject to the constraints $w_1 \bar{r}_1 + w_2 \bar{r}_2 = 1$ and $w_1 + w_2 = 1$. Solving these equations yields $w_1 = - (r_2 - r_p) / (r_1 - r_2)$ and $w_2 = - (r_p - r_1) / (r_1 - r_2)$. 
+\example Given three stocks in which $\sigma_i^2 = 1$ and each stock is uncorrelated with the rest (the $\sigma$ term between the stocks is 0), and $r_i = i$, find $r_p$ and $\sigma_p$ of the portfolio. We're again optimizing the same functional, and taking the individual derivatives yields 
+\begin{align*}
+2w_1 - \lambda - \mu &= 0 \\
+2w_2 - \lambda - \mu &= 0 \\
+2w_3 - \lambda - \mu &= 0 \\
+w_1 + 2w_2 + 3w_3 &= r_p \\
+w_1 + w_2 + w_3 &= 1
+\end{align*}
+which resolves to $r_p = 2+\lambda$, $w_1 = 2+\lambda$, $w_2 = 1/3$, $w_3 = 1/3 + \lambda/2$, and $\mu = 2/3 - 2\lambda$. We've therefore solved for $r_p$; our next task is to find $\sigma_p$. We can do this by noting that $\sigma_p^2 =w_1^2 + w_2^2 + w_3^2$ (as $\sigma_p$ is the square root of the covariance term). If we replace $\lambda = r - 2$, this resolves to $\sigma_p = \sqrt{7/3 - 2r + r^2/2}$. At the vertex ($-b/2a$ for a quadratic), we have $r = 2$ and $\sigma_p = 1/\sqrt{3}$.   
+\subsection{Two Fund Theorem}
+We know our $\sigma$ versus $\bar{r}$ graph for $n$ stocks looks like the graph depicted above. If we have two points (defining the two funds), we can characterize Fund 1 by $w^1 : (w_1', w_2', \dots w_n')$ with $\lambda^1, \mu^1$, and $r^1$. and Fund 2 by $w^2 : (w_1', w_2', \dots w_n')$ with $\lambda^2, \mu^2$, and $r^2$. We can form a combination of these two funds $$\bar{r} = \alpha w^1+ (1-\alpha)w^2$$where $\alpha$ is any number. This defines all of the points on the efficient frontier; so if we have two optimal funds all we have to do is invest in those two funds with a varying $\alpha$. More formally, two efficient funds can be established so that any efficient portfolio can be duplicated in terms of the mean-variance as a combination of these two. All investors seeking efficient portfolios need only invest in a combination of two funds. 
+
+\subsection{Inclusion of a Risk-Free Asset}
+
+A risk-free asset has a fixed return and $\sigma = 0$. We can define our return as as $\bar{r} = \alpha r_f + (1-\alpha) \bar{r}_p$ (where $r_f$ is the risk-free asset return and $\bar{r}_p$ is the return of the $n$ risky assets), and $\sigma = \alpha \sigma_f + (1-\alpha) \sigma_p$. It turns out that, with a risk free asset, our frontier is a line with a $y$-intercept at $r_f$ (because $r_f$ has no risk) that is tangent to the risky asset frontier. The single-fund theorem states that, given $F$ is a single fund of risky assets, any efficient portfolio can be constructed as a combination of the fund $F$ and the risk free asset. 
+
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
