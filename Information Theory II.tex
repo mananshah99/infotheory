@@ -689,6 +689,61 @@ We know our $\sigma$ versus $\bar{r}$ graph for $n$ stocks looks like the graph 
 
 A risk-free asset has a fixed return and $\sigma = 0$. We can define our return as as $\bar{r} = \alpha r_f + (1-\alpha) \bar{r}_p$ (where $r_f$ is the risk-free asset return and $\bar{r}_p$ is the return of the $n$ risky assets), and $\sigma = \alpha \sigma_f + (1-\alpha) \sigma_p$. It turns out that, with a risk free asset, our frontier is a line with a $y$-intercept at $r_f$ (because $r_f$ has no risk) that is tangent to the risky asset frontier. The single-fund theorem states that, given $F$ is a single fund of risky assets, any efficient portfolio can be constructed as a combination of the fund $F$ and the risk free asset. 
 
+\subsection{One Fund Theorem}
+Say we have a combination of risky assets and a risk free bond: what is our efficient frontier for investments between the two? We start by drawing the efficient frontier for an imaginary "extra" stock that is some linear combination of investments in all possible risky stocks. We then draw a line from the rate of the risk free asset, $r_f$, to a point tangent on the risky efficient frontier that maximizes the angle $\theta$ between the line and the horizontal called $F$. A straight line between the point $r_f$ on the risk-free asset and the tangent on the risky frontier becomes our new efficient frontier for the combination of the risky and risk free assets.
+
+\proof Suppose we have $n$ risky assets and weights $w_1, w_2, \dots w_n$ such that $\sum w_i = 1$. We note that at point $F$, zero weight is put on the risk free $r_f$. Note the following definitions:
+$$r_p = \sum w_i R_i$$
+$$\bar{r}_p = \sum w_i \bar{r}_i$$
+$$r_f = \sum w_i r_f$$
+\begin{align*}
+	\tan{\theta} 	&= \frac{\bar{r}_p - r_f}{\sigma_p}\\
+				&= \frac{\sum w_i(\bar{r}_i - r_f)}{(\sum \sum \sigma_{ij} w_i w_j)^{\frac{1}{2}}}
+\end{align*}
+We can set up the following inequality through Lagrangian optimization of the angle $\theta$ subject to the weights summing to one, yielding
+$$\sum \sigma_{ki} \lambda w_i = \bar{r}_k - r_f$$
+We define a new quantity $v_i$ to be $\lambda w_i$. Rewriting the equation yields that
+$$\sum_i \sigma_{ki} v_i = \bar{r}_k - r_f$$
+$$w_i = \frac{v_i}{\displaystyle \sum_k v_k}$$ 
+
+\subsection{CAPM}
+Markowitz had two primary tenets in his theory: how should one invest one's money and how much is a security really worth? Under the former part, one attempts to minimize risk for a given rate of return using quantities like random variables, means, standard deviations, and covariances. Under the second portion, new theory is required:
+We can rewrite the expected rate as
+$$r_i = \frac{Q_i}{P_i} - 1$$
+where $P_i$ is the current stock price and $Q_i$ is the stock price a year from now. While $P_i$ is a constant, $Q_i$ is a random variable. We can also define return and risk as of a security as
+\begin{align*}
+\bar{r}_i &= \frac{\mathrm{E}[Q_i]}{P_i} - 1\\
+\sigma_i &= \frac{\mathrm{SD}[Q_i]}{P_i}
+\end{align*}
+But what if instead of one Markowitzian investor we had $m$ of them. What would the new equilibrium price of the stock become? We'll need to use the basic economic laws of supply and demand. On the demand side, each investor has a budget $B_j$ ($j = 1, 2, \dots m$).  Given $P_i$ ($i = 1, 2, \dots m$), the investor will find their optimal mixed portfolio and issue orders to buy and sell. On the supply side, the number of shares is a fixed $K_i$ ($i=1,2,\dots, m$). If someone wants to buy a stock, someone else must be willing to sell one.
+
+Assume we have some "magic stock" $M$, which acts as a point on the efficient frontier mixed with a risk free security $r_f$. If $M$ is efficient, then the expected return $r_i$ of any asset $i$ satisfies 
+$$\bar{r}_i - r_f = \frac{\sigma_{iM}}{\sigma_{M}^2}(\bar{r}_M - r_f)$$
+
+\proof Consider a portfolio with $\alpha$ invested in asset $i$ and 1 - $\alpha$ invested in $M$.
+Consider the following definitions:
+\begin{align*}
+\displaystyle \bar{r}_\alpha &= \alpha \bar{r}_i + (1 - \alpha) \bar{r}_M\\
+\displaystyle \sigma_\alpha &= \sqrt{\alpha^2 \sigma_i^2 + 2\alpha(1-\alpha)\sigma_{iM} + (1 - \alpha)^2 \sigma_M^2}
+\end{align*}
+
+$\alpha$ being equal to zero is equivalent to investing entirely in M.
+
+\begin{align*}
+\frac{\mathrm{d}\bar{r}_\alpha}{\mathrm{d}\alpha} &=  \bar{r}_i - \bar{r}_M\\
+\frac{\mathrm{d}\bar{\sigma}_\alpha}{\mathrm{d}\alpha} &= \frac{\alpha \sigma_i^2 + (1 - 2\alpha)\sigma_{iM} + (\alpha - 1)\sigma_M^2}{\sigma_\alpha}\\
+\frac{\mathrm{d}\bar{\sigma}_\alpha}{\mathrm{d}\alpha}\biggr\rvert_{\alpha = 0} &= \frac{\sigma_{iM} - \sigma{M}^2}{\sigma_M}\\
+\frac{\mathrm{d}\bar{r}_\alpha}{\mathrm{d}\sigma_\alpha} &= \frac{(\bar{r}_i - \bar{r}_M)\sigma_M}{\sigma_{iM}-\sigma_M^2}\\
+ \frac{(\bar{r}_i - \bar{r}_M)\sigma_M}{\sigma_{iM}-\sigma_M^2} &= \frac{\bar{r}_M - r_f}{\sigma_M}
+\end{align*}
+Solving for $\bar{r}_i$ yields that $\bar{r}_i = r_f + \frac{\bar{r}_M - r_f}{\sigma_M^2} \sigma_{iM}$
+\begin{align*}
+r_i &= \frac{Q_i}{P_i} - 1\\
+\frac{\mathrm{E}[Q_i]}{P_i} - 1&= r_f + \frac{\sigma_{iM}}{\sigma_M^2}(\bar{r}_M - r_f)\\
+P_i &= \frac{\mathrm{E}[Q_i]}{1 + r_f + \frac{\sigma_{iM}}{\sigma_M^2}(\bar{r}_M - r_f)}\\
+\frac{\sigma_{iM}}{\sigma_M^2} 	&= \frac{\mathrm{Cov}[(\frac{Q_i}{P_i} - 1), r_M]}{\sigma_M^2}\\
+							&= \frac{\mathrm{Cov}[(Q_i, r_M]}{P_i \sigma_M^2}
+\end{align*}
 \newpage
 \section*{Appendix A---Quotes}
 \begin{itemize}
